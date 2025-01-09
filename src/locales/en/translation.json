@@ -1,0 +1,13 @@
+{
+    "schoolManagementSystem":"School Management System",
+    "dashboard":"Dashboard",
+    "home":"Home",
+    "teachers":"Teachers",
+    "students":"Students",
+    "finance":"Finance",
+    "employees":"Employees",
+    "classes":"Classes",
+    "subjects":"Subjects",
+    "timetables":"Timetables",
+    "exams":"Exams"
+}

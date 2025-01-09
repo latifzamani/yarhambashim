@@ -1,0 +1,17 @@
+{
+    "schoolManagementSystem":"سیستم مدیریت مکتب",
+    "dashboard":"صفحه اصلی",
+    "home":"عمومی",
+    "teachers":"استادان",
+    "students":"شاگردان",
+    "finance":"حسابات مالی",
+    "employees":"کارمندان",
+    "classes":"صنوف",
+    "subjects":"مضامین",
+    "timetables":"تقسیم اوقات ها",
+    "exams":"امتحانات",
+    "setting":"تنظیمات",
+    "users":"کاربران",
+    "profile":"پروفایل",
+    "logout":"خارج شدن"
+}
