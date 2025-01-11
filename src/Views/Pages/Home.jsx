@@ -6,6 +6,8 @@ import { ArrowCircleLeft, ArrowCircleRight, ArrowRightRounded, DateRange, EventN
 import { useState } from "react";
 import Events from "../Components/Events";
 import BigImage2 from "../Components/BigImage2";
+import Supporters from "../Components/Supporters";
+import { PieChart } from "@mui/x-charts";
 // import video1 from '../../assets/images/23.jpeg';
 function Home() {
   const [playVideo, setPlayVideo] = useState(false);
@@ -13,13 +15,13 @@ function Home() {
 
 
 
-  const supporters=[image1,image1,image1,image1,];
-  const projects=[
-    {img:image1,title:'Weekly Excursions',subtitle:'This Weekly ecvursions is the most important...',url:'/'},
-    {img:image1,title:'Weekly Excursions',subtitle:'This Weekly ecvursions is the most important...',url:'/'},
-    {img:image1,title:'Weekly Excursions',subtitle:'This Weekly ecvursions is the most important...',url:'/'},
+  const projects = [
+    { img: image1, title: 'Weekly Excursions', subtitle: 'This Weekly ecvursions is the most important...', url: '/' },
+    { img: image1, title: 'Weekly Excursions', subtitle: 'This Weekly ecvursions is the most important...', url: '/' },
+    { img: image1, title: 'Weekly Excursions', subtitle: 'This Weekly ecvursions is the most important...', url: '/' },
   ]
-  
+
+  const valueFormatter = (item) => `${item.value}%`;
 
   const handlePlayVideo = () => {
     setPlayVideo(!playVideo);
@@ -85,96 +87,122 @@ function Home() {
             )}
           </Box>
         </Box>
-        <Box sx={{display:'flex',justifyContent:'start'}}>
-          <Typography variant="p" sx={{display:'inline'}}>OUR SUPPORTERS</Typography>
-          <Box sx={{display:'',width:'80%',height:'0.5vh',marginTop:'3vh',marginLeft:'3vh',backgroundColor:'black'}}></Box>  
-        </Box>
-        <Box sx={{display:'flex',marginTop:'3vh',justifyContent:'space-around'}}>
-            {supporters.map((item,index)=>(
-              <img key={index} src={item} style={{width:'20vh',height:'10vh',borderRadius:'10%'}}/>
-            ))
-            }
-        </Box>
+        <Supporters />
       </Box>
       {/* Part 3 */}
 
-        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: 4, width: '100%', height: 'auto', backgroundColor: 'rgb(252,237,198)', position: '', padding: '5vh' }}>
-          <Box sx={{ width: '60%', backgroundColor: '' }}>
-            <Typography variant="h6" sx={{ display: 'inline' }}>__________</Typography>
-            <Typography variant="body1" sx={{ display: 'inline', marginX: '2vh', backgroundColor: '' }}> WHAT WE DO</Typography>
-            <Box sx={{ marginLeft: '12vh' }}>
-              <Typography variant="h6">Some services we provide for our children</Typography>
-              <Typography variant="body1">We provide a better place for children this is a descriptio  better place for children this is a descriptio We provide a better place for children this is a </Typography>
-              <Box sx={{display:'flex',margin:'2vh',flexDirection:'column'}}>
-                <Typography variant="h6">
-                  <HomeSharp/> Family Support
-                </Typography>
-                <Typography sx={{marginLeft:'4vh'}}>
-                  This is the subtitle for this part of the page...
-                </Typography>
-                <Typography variant="h6">
-                  <LocalHospital/> Health benefits
-                </Typography>
-                <Typography sx={{marginLeft:'4vh'}}>
-                  This is the subtitle for this part of the page...
-                </Typography>
-                <Typography variant="h6">
-                  <SchoolSharp/> Scholarships
-                </Typography>
-                <Typography sx={{marginLeft:'4vh'}}>
-                  This is the subtitle for this part of the page...
-                </Typography>
-                <Typography variant="h6">
-                  <Medication/> Therapy
-                </Typography>
-                <Typography sx={{marginLeft:'4vh'}}>
-                  This is the subtitle for this part of the page...
-                </Typography>
-              </Box>
-
+      <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: 4, width: '100%', height: 'auto', backgroundColor: 'rgb(252,237,198)', position: '', padding: '5vh' }}>
+        <Box sx={{ width: '60%', backgroundColor: '' }}>
+          <Typography variant="h6" sx={{ display: 'inline' }}>__________</Typography>
+          <Typography variant="body1" sx={{ display: 'inline', marginX: '2vh', backgroundColor: '' }}> WHAT WE DO</Typography>
+          <Box sx={{ marginLeft: '12vh' }}>
+            <Typography variant="h6">Some services we provide for our children</Typography>
+            <Typography variant="body1">We provide a better place for children this is a descriptio  better place for children this is a descriptio We provide a better place for children this is a </Typography>
+            <Box sx={{ display: 'flex', margin: '2vh', flexDirection: 'column' }}>
+              <Typography variant="h6">
+                <HomeSharp /> Family Support
+              </Typography>
+              <Typography sx={{ marginLeft: '4vh' }}>
+                This is the subtitle for this part of the page...
+              </Typography>
+              <Typography variant="h6">
+                <LocalHospital /> Health benefits
+              </Typography>
+              <Typography sx={{ marginLeft: '4vh' }}>
+                This is the subtitle for this part of the page...
+              </Typography>
+              <Typography variant="h6">
+                <SchoolSharp /> Scholarships
+              </Typography>
+              <Typography sx={{ marginLeft: '4vh' }}>
+                This is the subtitle for this part of the page...
+              </Typography>
+              <Typography variant="h6">
+                <Medication /> Therapy
+              </Typography>
+              <Typography sx={{ marginLeft: '4vh' }}>
+                This is the subtitle for this part of the page...
+              </Typography>
             </Box>
-          </Box>
-          <Box sx={{ backgroundColor: '', width: '40%', height: '60vh',}}>
-                  <img src={image1} style={{width:'100%',height:'100%',borderRadius: '2%'}}/>
+
           </Box>
         </Box>
+        <Box sx={{ backgroundColor: '', width: '40%', height: '60vh', }}>
+          <img src={image1} style={{ width: '100%', height: '100%', borderRadius: '2%' }} />
+        </Box>
+      </Box>
       {/* Part 4 */}
       <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 4, width: '100%', height: 'auto', backgroundColor: '', position: '', marginTop: '5vh', padding: '5vh' }}>
-          <Box sx={{ width: '60%', backgroundColor: '' }}>
-            <Typography variant="h6" sx={{ display: 'inline' }}>__________</Typography>
-            <Typography variant="body1" sx={{ display: 'inline', marginX: '2vh', backgroundColor: '' }}>PROJECTS WE HAVE DONE</Typography>
-            <Box sx={{ marginLeft: '12vh' }}>
-              <Typography variant="h6">We are creating a place where children with special needs can thrive</Typography>
-            </Box>
+        <Box sx={{ width: '60%', backgroundColor: '' }}>
+          <Typography variant="h6" sx={{ display: 'inline' }}>__________</Typography>
+          <Typography variant="body1" sx={{ display: 'inline', marginX: '2vh', backgroundColor: '' }}>PROJECTS WE HAVE DONE</Typography>
+          <Box sx={{ marginLeft: '12vh' }}>
+            <Typography variant="h6">We are creating a place where children with special needs can thrive</Typography>
           </Box>
-          <Box sx={{display:'flex',gap:3,justifyContent:'space-around'}}>
-            {projects.map((item,index)=>(
-            <Box key={index} sx={{width:'30vh',padding:'3vh',height:'30vh',backgroundImage:`url(${item.img})`,borderRadius:'10%'}}>
+        </Box>
+        <Box sx={{ display: 'flex', gap: 3, justifyContent: 'space-around' }}>
+          {projects.map((item, index) => (
+            <Box key={index} sx={{ width: '30vh', padding: '3vh', height: '30vh', backgroundImage: `url(${item.img})`, borderRadius: '10%' }}>
               <Typography variant="h6">{item.title}</Typography>
-              <Typography variant="" sx={{fontSize:'12px'}}>{item.subtitle}</Typography>
+              <Typography variant="" sx={{ fontSize: '12px' }}>{item.subtitle}</Typography>
               <Button variant="contained" size="small" sx={{ backgroundColor: 'white', marginY: '5vh' }}>
                 <Link to={item.url} style={{ textDecorationLine: 'none', color: 'black' }}>
                   Learn More
                 </Link>
               </Button>
             </Box>
-            ))}
-          </Box>
+          ))}
+        </Box>
       </Box>
       {/* Part 5 */}
-      <Box sx={{backgroundColor:'black',height:'50vh',padding:'4vh',marginTop:'7vh'}}>
-            <Typography sx={{color:'white',fontSize:'20px'}}>How we spend your donation</Typography>
-            <Typography sx={{color:'white',fontSize:'14px'}}>This description about How we spend your donation and how to solve it ...</Typography>
+      <Box sx={{ backgroundColor: 'black', display: 'flex',justifyContent:'space-between',gap:4, height: '50vh', paddingX: '10vh',paddingY:'4vh', marginTop: '7vh' }}>
+        <Box>
+          <Typography sx={{ color: 'white', fontSize: '20px' }}>How we spend your donation</Typography>
+          <Typography sx={{ color: 'white', fontSize: '14px' }}>This description about How we spend your donation and how to solve it ...</Typography>
+        </Box>
+        <Box sx={{ backgroundColor: '', }}>
+          <PieChart
+            series={[
+              {
+                data: [
+                  { id: 0, value: 10, label: 'Kabul', color: 'green' },
+                  { id: 1, value: 30, label: 'Herat' },
+                  { id: 2, value: 30, label: 'Mazar' },
+                  { id: 3, value: 30, label: 'Kandar' },
+                ],
+                highlightScope: { fade: 'global', highlight: 'item' },
+                faded: { innerRadius: 30, additionalRadius: -30, color: 'gray' },
+                valueFormatter,
+              }
+            ]}
+            width={500} height={300}
+            slotProps={{
+              legend: { 
+                hidden: false,position:{vertical:'middle',horizontal:'left'}, 
+                direction:'column',
+                padding:-20,
+                itemMarkHeight:22,
+                markGap:-40,
+                labelStyle: {
+                  fontSize: 20,
+                  fill: 'white',
+                },
+              }  // Using slotProps to hide the legend
+            }}
+            p
+          />
+        </Box>
+
       </Box>
       {/* Part 6 */}
-      <BigImage2/>
+      <BigImage2 />
 
       {/* Part 7 */}
-        <Events/>
+      <Events />
 
     </Box>
 
-    
+
   )
 }
 

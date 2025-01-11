@@ -6,6 +6,9 @@ import { lazy } from "react";
 // const Home=lazy(()=>import('../views/Home'));
 const Home=lazy(()=>import('../Pages/Home'))
 const Media=lazy(()=>import('../Pages/Media'))
+const AboutUs=lazy(()=>import('../Pages/AboutUs'))
+const ContactUs=lazy(()=>import('../Pages/ContactUs'))
+
 
 const Router=createBrowserRouter([
     {
@@ -17,8 +20,16 @@ const Router=createBrowserRouter([
                 element:<Home/>
             },
             {
-                path:'/media',
+                path:'media',
                 element:<Media/>
+            },
+            {
+                path:'aboutUs',
+                element:<AboutUs/>
+            },
+            {
+                path:'contact',
+                element:<ContactUs/>
             }
         ]
     },
