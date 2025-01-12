@@ -8,6 +8,10 @@ const Home=lazy(()=>import('../Pages/Home'))
 const Media=lazy(()=>import('../Pages/Media'))
 const AboutUs=lazy(()=>import('../Pages/AboutUs'))
 const ContactUs=lazy(()=>import('../Pages/ContactUs'))
+const Donation=lazy(()=>import('../Pages/Donation'))
+const EventReadMore=lazy(()=>import('../Pages/EventReadMore'))
+const ProjectReadMore=lazy(()=>import('../Pages/ProjectReadMore'))
+const WhatWD=lazy(()=>import('../Pages/WhatWD'))
 
 
 const Router=createBrowserRouter([
@@ -30,6 +34,22 @@ const Router=createBrowserRouter([
             {
                 path:'contact',
                 element:<ContactUs/>
+            },
+            {
+                path:'donation',
+                element:<Donation/>
+            },
+            {
+                path:'eventreadmore',
+                element:<EventReadMore/>
+            },
+            {
+                path:'/projectreadmore',
+                element:<ProjectReadMore/>
+            },
+            {
+                path:'/whatwd',
+                element:<WhatWD/>
             }
         ]
     },
