@@ -13,13 +13,13 @@ const mainContext=createContext({
 
 export default function ContextApi({children}){
     const [currentUser,setCurrentUser]=useState({});
-    const [accessToken,setAccessToken]=useState(localStorage.getItem('SMSTOKEN'));
+    const [accessToken,setAccessToken]=useState(localStorage.getItem('YHTOKEN'));
 
     const setToken=(token)=>{
         if(token){
-            localStorage.setItem('SMSTOKEN',token);
+            localStorage.setItem('YHTOKEN',token);
         }else{
-            localStorage.removeItem('SMSTOKEN');
+            localStorage.removeItem('YHTOKEN');
             Navigate('/login');
         };
         setAccessToken(token);

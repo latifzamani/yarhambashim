@@ -1,31 +1,38 @@
-import axios from 'axios'
-import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-const AxiosAPI=axios.create({
-    baseURL:`${import.meta.env.VITE_API_BASE_URL}/api`,
-    // withCredentials:true //important for sanctum
+const AxiosAPI = axios.create({
+    baseURL: `${import.meta.env.VITE_API_BASE_URL}/api`,
+    // Remove `withCredentials` as it's more relevant to session-based auth
+    // withCredentials: true
 });
 
-//Add CSRF Token and AUthorization headers
-
-AxiosAPI.interceptors.request.use((config)=>{
-    const csrfToken=document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-    if (csrfToken){
-        config.headers['X-CSRF-TOKEN']=csrfToken;
+// Add Authorization header and handle token logic
+AxiosAPI.interceptors.request.use((config) => {
+    // Attach the token from localStorage to the Authorization header
+    const token = localStorage.getItem('YHTOKEN');
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
     }
-    config.headers.Authorization=`Bearer ${localStorage.getItem('SMSTOKEN')}`;
     return config;
 });
 
 AxiosAPI.interceptors.response.use(
-    (response)=>response,
-    (error)=>{
-        const navigate=useNavigate();
-        if(error.response && error.response.status==401){
-            navigate('/login');
-            return error;
+    (response) => response,
+    (error) => {
+        if (error.response && error.response.status === 429) {
+            return Promise.reject({
+                status: 429,
+                message: 'Too many login attempts. Please try again later.'
+            });
+        } else if (error.response && error.response.status === 401 || error.response.status === 422) {
+            localStorage.removeItem('YHTOKEN');
+            // window.location.href('/login');
+            return Promise.reject({
+                status: 401,
+                message: 'Invalid email or password.'
+            });
         }
-        throw error;
+        return Promise.reject(error);
     }
 );
 

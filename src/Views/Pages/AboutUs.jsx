@@ -23,19 +23,19 @@ function AboutUs() {
         setPlayVideo2(!playVideo2);
     }
     return (
-        <Box sx={{ padding: '5vh', marginBottom: '10vh', height: '400vh',backgroundColor: 'rgb(251,236,198)'}}>
+        <Box sx={{ padding: '5vh', marginBottom: '0vh', height: { xs:'520vh',sm:'400vh',md:'400vh'},backgroundColor: 'rgb(251,236,198)'}}>
             <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: '', gap: 1, width: '100%', height: '100vh', backgroundColor: '', position: '', marginTop: '0vh', marginBottom: '0vh' }}>
-                <Box sx={{ display: 'flex', padding: '5vh', marginBottom: '10vh', flexDirection: 'column', justifyContent: 'space-between', gap: 4, width: '100%', height: 'auto', backgroundColor: '', position: '', marginTop: '0vh' }}>
-                    <Box sx={{ width: '80%', backgroundColor: '' }}>
+                <Box sx={{ display: 'flex', padding: { xs:'0vh',sm:'5vh',md:'5vh'}, marginBottom: { xs:'0vh',sm:'10vh',md:'10vh'}, flexDirection: 'column', justifyContent: 'space-between', gap: 4, width: '100%', height: 'auto', backgroundColor: '', position: '', marginTop: '0vh' }}>
+                    <Box sx={{ width: { xs:'100%',sm:'80%',md:'80%'}, backgroundColor: '' }}>
                         <Typography variant="h6" sx={{ display: 'inline' }}>__________</Typography>
                         <Typography variant="body1" sx={{ display: 'inline', marginX: '2vh', backgroundColor: '' }}> KNOW ABOUT US</Typography>
-                        <Box sx={{ marginLeft: '12vh', display: '',justifyContent:'space-between', gap: 4, marginTop: '3vh' }}>
+                        <Box sx={{ marginLeft: { xs:'2vh',sm:'12vh',md:'12vh'}, display: '',justifyContent:'space-between', gap: 4, marginTop: '3vh' }}>
                             <Typography variant="h6">We provide a better place for children</Typography>
                             <Typography variant="body1">We provide a better place for children this is a descriptio We provide a better place for children this is a descriptio We provide a better place for children this is a descriptio We provide a better place for children this is a descriptio We provide a better place for children</Typography>
                         </Box>
                     </Box>
                     {/* Video */}
-                    <Box sx={{ backgroundColor: '', width: '90%',paddingX:'10vh', height: '50vh', backgroundImage: 'url()', position: 'relative' }} onClick={handlePlayVideo2}>
+                    <Box sx={{ backgroundColor: '', width: '90%',paddingX:{ xs:'1vh',sm:'10vh',md:'10vh'}, height: '50vh', backgroundImage: 'url()', position: 'relative' }} onClick={handlePlayVideo2}>
                         <video controls={playVideo2} autoPlay={playVideo2} style={{ position: 'absolute', width: '100%', height: '100%', zIndex: 1, objectFit: 'cover', borderRadius: '1%' }}>
                             <source src={video1} type="video/mp4" />
                         </video>
@@ -52,13 +52,13 @@ function AboutUs() {
                     </Box>
                 </Box>
                 <Box sx={{ marginY: '2vh',paddingY:'4vh',paddingX:'2vh', backgroundColor: 'rgb(251,236,198)', borderRadius: '1%' }}>
-                    <Box sx={{ display: 'flex', backgroundColor: 'rgb(251,236,198)', padding: '3vh', borderRadius: '1%', marginTop: '4vh', justifyContent: 'center', gap: 5 }}>
-                        <Box sx={{ width: '40%' }}>
+                    <Box sx={{ display: 'flex',flexDirection:{ xs:'column',sm:'row',md:'row'} ,backgroundColor: 'rgb(251,236,198)', padding: '3vh', borderRadius: '1%', marginTop: '4vh', justifyContent: 'center', gap: 5 }}>
+                        <Box sx={{ width: { xs:'100%',sm:'40%',md:'40%'} }}>
                             <Typography variant="h6">OUR MISSION</Typography>
                             <Typography variant="h6">We make sure to provide inclusive care for children with special needs</Typography>
                             <Typography sx={{ fontSize: '14px' }}>This is a description about how We make sure to provide inclusive care for children with special needs</Typography>
                         </Box>
-                        <Box sx={{ width: '40%' }}>
+                        <Box sx={{ width: { xs:'100%',sm:'40%',md:'40%'} }}>
                             <Typography variant="h6">OUR MISSION</Typography>
                             <Typography variant="h6">We make sure to provide inclusive care for children with special needs</Typography>
                             <Typography sx={{ fontSize: '14px' }}>This is a description about how We make sure to provide inclusive care for children with special needs</Typography>
@@ -69,8 +69,8 @@ function AboutUs() {
                 </Box>
                 {/* Our Journey */}
                 <Box sx={{ width: '100%',height:'auto', padding: '4vh', backgroundColor: 'rgb(242,200,75)',borderRadius:'1%' }}>
-                    <Box sx={{ display: 'flex', gap:4,justifyContent:'space-between' }}>
-                        <Box sx={{ marginLeft: '4vh', width: '50%' }}>
+                    <Box sx={{ display: 'flex',flexDirection:{ xs:'column',sm:'row',md:'row'}, gap:4,justifyContent:'space-between' }}>
+                        <Box sx={{ marginLeft: { xs:'0vh',sm:'4vh',md:'4vh'}, width: { xs:'100%',sm:'50%',md:'50%'} }}>
                             <Typography variant="h6">OUR JOURNEY</Typography>
                             <Typography variant="h6">How We Raised 34M</Typography>
                             <Typography variant="body1">How We Raised 34M is a journey of years ised 34M is a journey ofised 34M is of years ised 34M is a journey ofised 34M is a journey of of years ised 34M is a journey ofised 34M is</Typography>
@@ -89,7 +89,7 @@ function AboutUs() {
                             </Typography>
                             </Box>
                         </Box>
-                        <Box sx={{ width: '50%' }}>
+                        <Box sx={{ width: { xs:'100%',sm:'50%',md:'50%'} }}>
                             <img src={image1} style={{ width: '100%', height: '80%',borderRadius:'2%' }} />
                         </Box>
                     </Box>
@@ -103,7 +103,7 @@ function AboutUs() {
                             {team.map((member,index)=>(
                             <Grid key={index} item xs={12} sm={6} md={3}>
                                 <Card sx={{width:'30vh'}}>
-                                    <CardMedia component="img" image={member.image} sx={{height:'30vh',}}/>
+                                    <CardMedia component="img" image={member.image} sx={{height:{ xs:'20vh',sm:'30vh',md:'30vh'},}}/>
                                     <CardContent>
                                         <Typography variant="h6" sx={{textAlign:'center'}}>{member.Fname}</Typography>
                                         <Typography variant="body1" sx={{textAlign:'center'}}>{member.position}</Typography>

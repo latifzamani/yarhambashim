@@ -2,7 +2,7 @@ import { Box, Button, TextField, Typography } from '@mui/material'
 
 function SendMessage() {
   return (
-    <Box sx={{paddingX:'10vh'}}>
+    <Box sx={{paddingX:{ xs: '0vh', sm: '10vh', md: '10vh' }}}>
     <form>
         <Box sx={{display:'flex',justifyContent:'space-between',gap:4}}>
         <TextField type="text" variant="standard" label="First Name" sx={{width:'50%'}}/>

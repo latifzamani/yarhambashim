@@ -16,7 +16,7 @@ function Home() {
 
 
 
-  
+
 
   const valueFormatter = (item) => `${item.value}%`;
 
@@ -28,20 +28,21 @@ function Home() {
     setPlayVideo2(!playVideo2);
   }
   return (
-    <Box sx={{ padding: '5vh' }}>
+    <>
       {/* Part 1 Video1*/}
-      <Box sx={{ backgroundColor: '', width: '100%', height: '80vh', backgroundImage: 'url()', position: 'relative' }} onClick={handlePlayVideo}>
-        <video controls={playVideo} autoPlay={playVideo} style={{ position: 'absolute', width: '100%', height: '100%', zIndex: 1, objectFit: 'cover', borderRadius: '1%' }}>
+
+      <Box sx={{ backgroundColor: '', width: '100%', height:{ xs:'40vh',sm:'80vh',md:'80vh'}, backgroundImage: 'url()', position: 'relative' }} onClick={handlePlayVideo}>
+        <video controls={playVideo} autoPlay={playVideo} style={{ position: 'absolute', width: '100%', height: '100%', zIndex: 1, objectFit: 'cover', borderRadius: '0%' }}>
           <source src={video1} type="video/mp4" />
         </video>
         {!playVideo && (
-          <Box sx={{ zIndex: 2, paddingY: '20vh', paddingX: '10vh' }}>
+          <Box sx={{ zIndex: 2, paddingY: { xs:'5vh',sm:'20vh',md:'20vh'}, paddingX: '10vh' }}>
             <Typography sx={{ zIndex: 2, position: 'relative', backdropFilter: 'blur(20px)', padding: '20px', marginBottom: '3vh', fontSize: { xs: '20px', sm: '40px', md: '40px' } }}>
               Inclusive Care for Children With Special Needs...
             </Typography>
             <Typography sx={{ zIndex: 2, position: 'relative', display: 'flex', gap: 4, flexDirection: 'row' }}>
               <Button variant="contained" sx={{ backgroundColor: 'green' }}>
-                <Link to='/' style={{ textDecorationLine: 'none', color: 'white' }}>What We Do</Link>
+                <Link to='/whatwd' style={{ textDecorationLine: 'none', color: 'white' }}>What We Do</Link>
               </Button>
               <Button variant="outlined" onClick={handlePlayVideo} startIcon={<PlayCircle sx={{ color: 'white' }} />} sx={{ color: "white" }}>
                 Play Video
@@ -51,48 +52,52 @@ function Home() {
         )}
       </Box>
       {/* Part 2  Know About us*/}
+      <Box sx={{ padding: { xs:'5vh',sm:'10vh',md:'10vh'} }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: '', gap: 1, width: '100%', height: { xs:'110vh',sm:'100vh',md:'100vh'}, backgroundColor: '', position: '', marginY: '10vh' }}>
+          <Box sx={{ display: 'flex', padding: '0vh', flexDirection: { xs:'column',sm:'row',md:'row'}, justifyContent: 'space-between', gap: 4, width: '100%', height: '70vh', backgroundColor: '', position: 'relative', marginTop: '0vh' }}>
+            <Box sx={{ width: { xs:'100%',sm:'60%',md:'60%'}, backgroundColor: '' }}>
+              <Typography variant="h6" sx={{ display: 'inline' }}>__________</Typography>
+              <Typography variant="body1" sx={{ display: 'inline', marginX: '2vh', backgroundColor: '' }}> KNOW ABOUT US</Typography>
+              <Box sx={{ marginLeft: { xs:'2vh',sm:'12vh',md:'12vh'} }}>
+                <Typography variant="h6">We provide a better place for children</Typography>
+                <Typography variant="body1">We provide a better place for children this is a descriptio We provide a better place for children this is a descriptio We provide a better place for children this is a descriptio We provide a better place for children this is a descriptio We provide a better place for children</Typography>
+                <Button variant="contained" sx={{ backgroundColor: 'rgb(242,200,75)', marginY: '5vh' }}>
+                  <Link to='/aboutUs' style={{ textDecorationLine: 'none', color: 'black' }}>
+                    Learn More
+                  </Link>
+                </Button>
 
-      <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: '', gap: 1, width: '100%', height: '100vh', backgroundColor: '', position: '', marginY: '10vh' }}>
-        <Box sx={{ display: 'flex', padding: '5vh', flexDirection: 'row', justifyContent: 'space-between', gap: 4, width: '100%', height: '70vh', backgroundColor: '', position: 'relative', marginTop: '0vh' }}>
-          <Box sx={{ width: '60%', backgroundColor: '' }}>
-            <Typography variant="h6" sx={{ display: 'inline' }}>__________</Typography>
-            <Typography variant="body1" sx={{ display: 'inline', marginX: '2vh', backgroundColor: '' }}> KNOW ABOUT US</Typography>
-            <Box sx={{ marginLeft: '12vh' }}>
-              <Typography variant="h6">We provide a better place for children</Typography>
-              <Typography variant="body1">We provide a better place for children this is a descriptio We provide a better place for children this is a descriptio We provide a better place for children this is a descriptio We provide a better place for children this is a descriptio We provide a better place for children</Typography>
-              <Button variant="contained" sx={{ backgroundColor: 'rgb(242,200,75)', marginY: '5vh' }}>
-                <Link to='/' style={{ textDecorationLine: 'none', color: 'black' }}>
-                  Learn More
-                </Link>
-              </Button>
+              </Box>
+            </Box>
+            <Box sx={{ backgroundColor: '', width: { xs:'100%',sm:'40%',md:'40%'}, height: '60vh', backgroundImage: 'url()', position: 'relative' }} onClick={handlePlayVideo2}>
+              <video controls={playVideo2} autoPlay={playVideo2} style={{ position: 'absolute', width: '100%', height: '100%', zIndex: 1, objectFit: 'cover', borderRadius: '1%' }}>
+                <source src={video1} type="video/mp4" />
+              </video>
+              {!playVideo2 && (
+                <Box sx={{ zIndex: 2, paddingY: '20vh', paddingX: '10vh' }}>
 
+                  <Typography sx={{ zIndex: 2, position: 'relative', display: 'flex', gap: 4, flexDirection: 'row' }}>
+                    <IconButton variant="outlined" onClick={handlePlayVideo2} sx={{ color: "white" }}>
+                      <PlayCircle fontSize="large" sx={{ color: 'white' }} />
+                    </IconButton>
+                  </Typography>
+                </Box>
+              )}
             </Box>
           </Box>
-          <Box sx={{ backgroundColor: '', width: '40%', height: '60vh', backgroundImage: 'url()', position: 'relative' }} onClick={handlePlayVideo2}>
-            <video controls={playVideo2} autoPlay={playVideo2} style={{ position: 'absolute', width: '100%', height: '100%', zIndex: 1, objectFit: 'cover', borderRadius: '1%' }}>
-              <source src={video1} type="video/mp4" />
-            </video>
-            {!playVideo2 && (
-              <Box sx={{ zIndex: 2, paddingY: '20vh', paddingX: '10vh' }}>
-
-                <Typography sx={{ zIndex: 2, position: 'relative', display: 'flex', gap: 4, flexDirection: 'row' }}>
-                  <IconButton variant="outlined" onClick={handlePlayVideo2} sx={{ color: "white" }}>
-                    <PlayCircle fontSize="large" sx={{ color: 'white' }} />
-                  </IconButton>
-                </Typography>
-              </Box>
-            )}
+          {/* Supporters */}
+          <Box sx={{marginTop:{xs:'25vh',sm:'0vh',md:'0vh'}}}>
+          <Supporters />
           </Box>
         </Box>
-        <Supporters />
       </Box>
       {/* Part 3 What we do*/}
 
-      <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: 4, width: '100%', height: 'auto', backgroundColor: 'rgb(252,237,198)', position: '', padding: '5vh' }}>
-        <Box sx={{ width: '60%', backgroundColor: '' }}>
+      <Box sx={{ display: 'flex', flexDirection:{ xs:'column',sm:'row',md:'row'}, justifyContent: 'space-between', gap: 4, width: '100%', height: 'auto', backgroundColor: 'rgb(252,237,198)', position: '', padding: '5vh' }}>
+        <Box sx={{ width:{ xs:'100%',sm:'60%',md:'60%'}, backgroundColor: '' }}>
           <Typography variant="h6" sx={{ display: 'inline' }}>__________</Typography>
           <Typography variant="body1" sx={{ display: 'inline', marginX: '2vh', backgroundColor: '' }}> WHAT WE DO</Typography>
-          <Box sx={{ marginLeft: '12vh' }}>
+          <Box sx={{ marginLeft: { xs:'2vh',sm:'12vh',md:'12vh'} }}>
             <Typography variant="h6">Some services we provide for our children</Typography>
             <Typography variant="body1">We provide a better place for children this is a descriptio  better place for children this is a descriptio We provide a better place for children this is a </Typography>
             <Box sx={{ display: 'flex', margin: '2vh', flexDirection: 'column' }}>
@@ -124,14 +129,17 @@ function Home() {
 
           </Box>
         </Box>
-        <Box sx={{ backgroundColor: '', width: '40%', height: '60vh', }}>
+        <Box sx={{ backgroundColor: '', width: { xs:'100%',sm:'40%',md:'40%'}, height: { xs:'30vh',sm:'60vh',md:'60vh'}, }}>
           <img src={image1} style={{ width: '100%', height: '100%', borderRadius: '2%' }} />
         </Box>
       </Box>
+      <Box sx={{ padding: { xs:'0vh',sm:'10vh',md:'10vh'} }}>
       {/* Part 4 PROJECTS WE HAVE DONE*/}
-      <ProjectsDone/>
+      <ProjectsDone />
+      </Box>
       {/* Part 5 Chart*/}
-      <Box sx={{ backgroundColor: 'black', display: 'flex',justifyContent:'space-between',gap:4, height: '50vh', paddingX: '10vh',paddingY:'4vh', marginTop: '7vh' }}>
+
+      <Box sx={{ backgroundColor: 'black', display: 'flex',flexDirection:{ xs:'column',sm:'row',md:'row'}, justifyContent: 'space-between', gap: 4, height: '50vh', paddingX: { xs:'2vh',sm:'10vh',md:'10vh'}, paddingY: '4vh', marginTop: '7vh' }}>
         <Box>
           <Typography sx={{ color: 'white', fontSize: '20px' }}>How we spend your donation</Typography>
           <Typography sx={{ color: 'white', fontSize: '14px' }}>This description about How we spend your donation and how to solve it ...</Typography>
@@ -151,16 +159,16 @@ function Home() {
                 valueFormatter,
               }
             ]}
-            width={500} height={300}
+            width={400} height={300}
             slotProps={{
-              legend: { 
-                hidden: false,position:{vertical:'middle',horizontal:'left'}, 
-                direction:'column',
-                padding:-20,
-                itemMarkHeight:22,
-                markGap:-40,
+              legend: {
+                hidden: false, position: { vertical: 'middle', horizontal: 'left' },
+                direction: 'column',
+                padding: 1,
+                itemMarkHeight: 22,
+                markGap: -40,
                 labelStyle: {
-                  fontSize: 20,
+                  fontSize: 15,
                   fill: 'white',
                 },
               }  // Using slotProps to hide the legend
@@ -170,14 +178,16 @@ function Home() {
         </Box>
 
       </Box>
-      {/* Part 6 Doantion Image*/}
-      <BigImage2 />
+      
+      <Box sx={{ padding: { xs:'5vh',sm:'10vh',md:'10vh'} }}> 
+        {/* Part 6 Doantion Image*/}
+        <BigImage2 />
 
-      {/* Part 7  Events*/}
-      <Events />
+        {/* Part 7  Events*/}
+        <Events />
 
-    </Box>
-
+      </Box>
+    </>
 
   )
 }

@@ -11,7 +11,7 @@ function BigImage2() {
     setOpenDialog(!openDialog);
   }
   return (
-    <Box sx={{ backgroundImage: `url(${image1})`, borderRadius: '1%', padding: '10vh', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', width: '100%', height: '40vh', marginTop: '7vh' }}>
+    <Box sx={{ backgroundImage: `url(${image1})`, borderRadius: '1%', padding: { xs:'2vh',sm:'10vh',md:'10vh'}, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', width: '100%', height: '40vh', marginTop: '7vh' }}>
       <Typography sx={{ color: 'white', fontSize: '1.5rem', textAlign: 'center' }}>You can contribute to provide a place for children with special needs!</Typography>
       <Box sx={{ display: 'flex', gap: 4, justifyContent: 'center' }}>
         <Button onClick={handleDailog} variant="contained" size="small" sx={{ backgroundColor: 'rgb(242,200,75)', color: 'black', marginY: '5vh', width: '25vh' }}>
@@ -25,6 +25,7 @@ function BigImage2() {
       </Box>
       {/* Dialog */}
       <Dialog
+        sx={{marginBottom:{xs:'40%',sm:'0%',md:'0%'},padding:'0'}}
         open={openDialog}
         onClose={handleDailog}
       >
