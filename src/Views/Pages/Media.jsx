@@ -3,15 +3,29 @@ import BigImage2 from "../Components/BigImage2"
 import Events from "../Components/Events"
 import image1 from '../../assets/images/23.jpeg';
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import AxiosAPI from "../Components/axios";
 
 
 function Media() {
 
-  const events = [
-    { img: image1, title: 'Autism Care Day', date: '2024/3/3', subtitle: 'Autism Care Day information shortly...' },
-    { img: image1, title: 'Autism Care Day', date: '2024/3/3', subtitle: 'Autism Care Day information shortly...' },
-    { img: image1, title: 'Autism Care Day', date: '2024/3/3', subtitle: 'Autism Care Day information shortly...' },
-  ]
+    const[projects,setProjects]=useState([]);
+
+    const FetchData=()=>{
+    AxiosAPI.get('/projects/show').then((data)=>{
+        setProjects(data.data);
+        console.log(data.data);
+
+    }).catch((error)=>{
+        console.log(error);
+
+    })
+}
+
+    useEffect(()=>{
+        FetchData();
+    },[]);
+
   return (
     <Box sx={{ padding: {xs:'1vh',sm:'5vh',md:'5vh'} }}>
       <Box sx={{ display: 'flex', flexDirection: {xs:'column',sm:'row',md:'row'}, justifyContent: 'space-between', gap: 4, width: '100%', height: 'auto', backgroundColor: 'rgb(252,237,198)', position: '', padding: '1vh' }}>
@@ -30,9 +44,9 @@ function Media() {
           </Box>
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3, padding: '2vh', backgroundColor: 'white', width: {xs:'100%',sm:'40%',md:'40%'}, height: {xs:'45vh',sm:'60vh',md:'60vh'}, overflowY: 'scroll', scrollbarWidth: 'none' }}>
-          {events.map((item, index) => (
+          {projects.map((item, index) => (
             <Box key={index} sx={{ display: 'flex', justifyContent: 'space-between' ,gap:1}}>
-              <img src={item.img} style={{ width: '40%', height: '100%', borderRadius: '2%' }} />
+              <img src={`${import.meta.env.VITE_API_BASE_URL}/storage/${item.photo1}`} style={{ width: '40%', height: '100%', borderRadius: '2%' }} />
               <Box>
                 <Typography variant="h6">{item.title}</Typography>
                 <Typography variant="p" sx={{ color: 'gray' }}>{item.date}</Typography>

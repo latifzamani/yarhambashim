@@ -20,7 +20,7 @@ const Register=lazy(()=>import('../Pages/Register'));
 const DMedia=lazy(()=>import('../Dashboard/pages/Media'));
 const Info=lazy(()=>import('../Dashboard/pages/Info'));
 const Users=lazy(()=>import('../Dashboard/pages/Users'));
-
+const AddProject=lazy(()=>import('../Dashboard/pages/AddProject'));
 
 
 const Router=createBrowserRouter([
@@ -49,11 +49,15 @@ const Router=createBrowserRouter([
                 element:<Donation/>
             },
             {
-                path:'eventreadmore',
+                path:'eventreadmore/:id',
                 element:<EventReadMore/>
             },
             {
                 path:'/projectreadmore',
+                element:<ProjectReadMore/>
+            },
+            {
+                path:'/projectreadmore/:id',
                 element:<ProjectReadMore/>
             },
             {
@@ -69,6 +73,14 @@ const Router=createBrowserRouter([
             {
                 path:'/dashboard',
                 element:<Dashboard/>
+            },
+            {
+                path:'/dashboard/addProject',
+                element:<AddProject/>
+            },
+            {
+                path:'/dashboard/editProject/:id',
+                element:<AddProject/>
             },
             {
                 path:'/dashboard/register',

@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { Link, Link as RouterLink } from 'react-router-dom';
 import rtlPlugin from 'stylis-plugin-rtl';
 import i18n from '../../i18n';
+import Footer from './Footer';
 
 const drawerWidth = 240;
 // Emotion cache for RTL or LTR
@@ -96,11 +97,13 @@ function Layout({ children, window }) {
               <Typography variant='h6' sx={{ my: 2 }}>YarHamBashim</Typography>
               <hr />
               <List sx={{ textDecorationLine: 'none', color: 'black' }}>
+                <Box sx={{ display:'flex',flexDirection:'column',alignItems:'flex-start',paddingX:'5vh',backgroundColor:'' }}>
                 {navItems.map((item, index) => (
                   <RouterLink key={index} to={item.url}>
                     <Button variant='text' startIcon={item.icon} sx={{ width: '100%', }}>{item.name}</Button>
                   </RouterLink>
                 ))}
+                </Box>
               </List>
             </Box>
           </Drawer>
@@ -111,41 +114,7 @@ function Layout({ children, window }) {
           {children}
         </Box>
         {/* Footer */}
-        <Box component="footer" sx={{ backgroundColor: 'black', color: 'white', py: 2, mt: 'auto', marginBottom: { xs: '20vh', sm: '0', md: '0' } }}>
-          <Container maxWidth='lg' sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', flexDirection: 'row', paddingTop: '16px' }}>
-            <Box>
-              <Typography variant='h5' sx={{ fontSize: { xs: '1rem', sm: '2rem', md: '2rem' } }}>YarHamBashim</Typography>
-            </Box>
-            <Box >
-              <RouterLink to='/' style={{ color: 'white', textDecorationLine: 'none' }}>
-                <Typography variant='h5' underline='none' sx={{ fontSize: { textDecorationSkipInk: 'none', xs: '1rem', sm: '1.5rem', md: '1.5rem' } }}>
-                  Home
-                </Typography>
-              </RouterLink>
-              <RouterLink to='/' style={{ color: 'gray', textDecorationLine: 'none' }}><Typography variant='h5' sx={{ fontSize: { xs: '0.8rem', sm: '1rem', md: '1rem' } }}>About</Typography></RouterLink>
-              <RouterLink to='/' style={{ color: 'gray', textDecorationLine: 'none' }}><Typography variant='h5' sx={{ fontSize: { xs: '0.8rem', sm: '1rem', md: '1rem' } }}>Team</Typography></RouterLink>
-              <RouterLink to='/' style={{ color: 'gray', textDecorationLine: 'none' }}><Typography variant='h5' sx={{ fontSize: { xs: '0.8rem', sm: '1rem', md: '1rem' } }}>What we do</Typography></RouterLink>
-              <RouterLink to='/' style={{ color: 'gray', textDecorationLine: 'none' }}><Typography variant='h5' sx={{ fontSize: { xs: '0.8rem', sm: '1rem', md: '1rem' } }}>Contact</Typography></RouterLink>
-            </Box>
-            <Box>
-              <RouterLink to='/' style={{ color: 'white', textDecorationLine: 'none' }}> <Typography variant='h5' sx={{ fontSize: { xs: '1rem', sm: '1.5rem', md: '1.5rem' } }}>More</Typography></RouterLink>
-              <RouterLink to='/' style={{ color: 'gray', textDecorationLine: 'none' }}> <Typography variant='h5' sx={{ fontSize: { xs: '0.8rem', sm: '1rem', md: '1rem' } }}>About</Typography></RouterLink>
-              <RouterLink to='/' style={{ color: 'gray', textDecorationLine: 'none' }}> <Typography variant='h5' sx={{ fontSize: { xs: '0.8rem', sm: '1rem', md: '1rem' } }}>Team</Typography></RouterLink>
-              <RouterLink to='/' style={{ color: 'gray', textDecorationLine: 'none' }}> <Typography variant='h5' sx={{ fontSize: { xs: '0.8rem', sm: '1rem', md: '1rem' } }}>What we do</Typography></RouterLink>
-              <RouterLink to='/' style={{ color: 'gray', textDecorationLine: 'none' }}><Typography variant='h5' sx={{ fontSize: { xs: '0.8rem', sm: '1rem', md: '1rem' } }}>Contact</Typography></RouterLink>
-            </Box>
-            <Box>
-              <RouterLink to='/' style={{ color: 'white', textDecorationLine: 'none' }}><Typography variant='h5' sx={{ fontSize: { xs: '1rem', sm: '1.5rem', md: '1.5rem' } }}>Connect</Typography></RouterLink>
-              <RouterLink to='/' style={{ color: 'gray', textDecorationLine: 'none' }}><Typography variant='h5' sx={{ fontSize: { xs: '0.8rem', sm: '1rem', md: '1rem' } }}>About</Typography></RouterLink>
-              <RouterLink to='/' style={{ color: 'gray', textDecorationLine: 'none' }}><Typography variant='h5' sx={{ fontSize: { xs: '0.8rem', sm: '1rem', md: '1rem' } }}>Team</Typography></RouterLink>
-              <RouterLink to='/' style={{ color: 'gray', textDecorationLine: 'none' }}><Typography variant='h5' sx={{ fontSize: { xs: '0.8rem', sm: '1rem', md: '1rem' } }}>What we do</Typography></RouterLink>
-              <RouterLink to='/' style={{ color: 'gray', textDecorationLine: 'none' }}><Typography variant='h5' sx={{ fontSize: { xs: '0.8rem', sm: '1rem', md: '1rem' } }}>Contact</Typography></RouterLink>
-            </Box>
-          </Container>
-          <Typography align='center' variant='body2' sx={{ margin: { xs: '6vh', sm: '2vh', md: '2vh' } }}>
-            ©{new Date().getFullYear()} YarHamBashim. All rights reserved.
-          </Typography>
-        </Box>
+        <Footer/>
       </Box>
     </CacheProvider>
   );

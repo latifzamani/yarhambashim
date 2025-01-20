@@ -1,4 +1,4 @@
-import { StrictMode } from "react";
+import { StrictMode, Suspense } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import { ThemeProvider } from "@mui/material/styles";
@@ -11,6 +11,7 @@ import { RouterProvider } from "react-router-dom";
 import Router from "./Views/Components/Routes.jsx";
 import './i18n.js'
 import ContextApi from "./Views/Components/ContextApi.jsx";
+import LazyLoading from "./Views/Components/LazyLoading.jsx";
 
 // Create RTL cache
 const cacheRtl = createCache({
@@ -24,6 +25,7 @@ createRoot(document.getElementById("root")).render(
       <CacheProvider value={cacheRtl}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
+          <Suspense fallback={<LazyLoading/>}></Suspense>
           <RouterProvider router={Router} />
         </ThemeProvider>
       </CacheProvider>

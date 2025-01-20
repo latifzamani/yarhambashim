@@ -18,6 +18,9 @@ function Media() {
             <br />
             {/* Supporters */}
             <SupportersDailog/>
+            <br/>
+            <br/>
+            <br/>
         </Box>
     )
 }

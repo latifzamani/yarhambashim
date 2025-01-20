@@ -1,17 +1,24 @@
-import { Box, Button, Tab, Typography } from "@mui/material"
+import { Box, Button, Dialog, DialogContent, DialogContentText, DialogTitle, IconButton, Tab, Typography } from "@mui/material"
 import image1 from '../../assets/images/23.jpeg';
 import { Link } from "react-router-dom";
 import BigImage2 from "../Components/BigImage2";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { useState } from "react";
+import { Close } from "@mui/icons-material";
+import SendMessage from "../Components/SendMessage";
 
 // import TabContext from '@mui/lab';
 function Donation() {
 
     const [tabValue, setTabValue] = useState(1);
+    const [openDialog,setOpenDialog]=useState(false);
     const handleTabValue = (e, newValue) => {
         setTabValue(newValue);
     }
+    const handleDailog=()=>{
+        setOpenDialog(!openDialog);
+    }
+
     return (
         <>
             <Box sx={{ padding: '0vh' }}>
@@ -22,11 +29,11 @@ function Donation() {
                         <Box sx={{ marginLeft:{xs:'2vh',sm:'12vh',md:'12vh'} }}>
                             <Typography variant="h6">Making a donation for our children</Typography>
                             <Typography variant="body1">We provide a better place for children this is a descriptio  better place for children this is a descriptio We provide a better place for children this is a </Typography>
-                            <Link to=''>
-                                <Button variant="contained" sx={{ backgroundColor: 'rgb(242,200,15)', textDecorationLine: 'none', color: 'black', marginTop: '5vh' }}>
+                            {/* <Link to=''> */}
+                                <Button variant="contained" onClick={handleDailog} sx={{ backgroundColor: 'rgb(242,200,15)', textDecorationLine: 'none', color: 'black', marginTop: '5vh' }}>
                                     Donate now
                                 </Button>
-                            </Link>
+                            {/* </Link> */}
 
                         </Box>
                     </Box>
@@ -52,7 +59,7 @@ function Donation() {
                             </Box>
                             <TabPanel value={1} sx={{backgroundColor:''}}>
                                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in
-                                eros elemenstae tum tristique. Duierat. 
+                                eros elemenstae tum tristique. Duierat.
                             </TabPanel>
                             <TabPanel value={2}>
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in
@@ -75,6 +82,26 @@ function Donation() {
                 </Box>
                 <BigImage2 />
             </Box>
+            {/* Dialog */}
+      <Dialog
+        sx={{marginBottom:{xs:'40%',sm:'0%',md:'0%'},padding:'0'}}
+        open={openDialog}
+        onClose={handleDailog}
+      >
+        <DialogContentText>
+          <IconButton onClick={handleDailog} sx={{float:'right',padding:'3vh'}}>
+            <Close sx={{color:'red'}}/>
+          </IconButton>
+        </DialogContentText>
+        <DialogTitle>
+          <Typography variant="h6" sx={{textAlign:'center'}}>Help A Child With Donation</Typography>
+          <Typography variant="body1" sx={{textAlign:'center'}}>Please Send Us A Message For Donation</Typography>
+        </DialogTitle>
+        <DialogContent>
+          {/* Sending Message Component */}
+            <SendMessage/>
+        </DialogContent>
+      </Dialog>
         </>
     )
 }

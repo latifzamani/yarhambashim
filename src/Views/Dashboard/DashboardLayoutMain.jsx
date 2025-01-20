@@ -38,6 +38,9 @@ function DashboardLayoutMain({ children, window }) {
         setOpenDrawer(!openDrawer);
     }
     const handleLogout=()=>{
+        if(!localStorage.getItem('YHTOKEN')){
+            navigate('/login');
+        }
         AxiosAPI.get('/logout').then((res)=>{
             console.log(res);
             navigate('/login');
@@ -60,6 +63,11 @@ function DashboardLayoutMain({ children, window }) {
     useEffect(() => {
         document.body.setAttribute('dir', direction); // Update body dir attribute
     }, [direction]);
+    useEffect(()=>{
+        if(!localStorage.getItem('YHTOKEN')){
+            navigate('/login');
+        }
+    },[]);
     const container = window !== undefined ? () => window().document.body : undefined;
     return (
         <CacheProvider value={createEmotionCache(direction)}>
@@ -96,13 +104,15 @@ function DashboardLayoutMain({ children, window }) {
                             <Typography variant="h6" sx={{ my: 2 }}>YarHamBashim</Typography>
                             <hr />
                             <List sx={{ textDecorationLine: 'none', color: 'black' }}>
+                            <Box sx={{ display:'flex',flexDirection:'column',alignItems:'flex-start',paddingX:'5vh',backgroundColor:'' }}>
                                 {navitems.map((item, index) => (
                                     <RouterLink key={index} to={item.url}>
                                         <Button variant="text" startIcon={item.icon} sx={{ width: '100%' }}>{item.name}</Button>
                                     </RouterLink>
                                 ))}
-                                <Button variant="text" startIcon={<SecurityOutlined/>} onClick={handleEmailVerify} sx={{ width: '100%' }}>VerifyEmail</Button>
-                                <Button variant="text" startIcon={<Logout/>} onClick={handleLogout} sx={{ width: '100%' }}>Logout</Button>
+                                <Button variant="text" startIcon={<SecurityOutlined/>} onClick={handleEmailVerify} sx={{ width: '100%',justifyContent:'start' }}>VerifyEmail</Button>
+                                <Button variant="text" startIcon={<Logout/>} onClick={handleLogout} sx={{ width: '100%',justifyContent:'start' }}>Logout</Button>
+                            </Box>
                             </List>
                         </Box>
                     </Drawer>

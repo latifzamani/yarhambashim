@@ -5,22 +5,36 @@ import Slider from "react-slick";
 // Import required slick carousel CSS files
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useEffect, useState } from "react";
+import AxiosAPI from "./axios";
 // import '../../Styles/SlickStyle.css';
 
 
 function Supporters() {
-    const supporters=[image1,image1,image1,image1,];
+
+    const [supporters,setSupporters]=useState([]);
+    const FetchData=()=>{
+        AxiosAPI.get('/supporters/show').then((data)=>{
+            setSupporters(data.data);
+            console.log(data.data);
+
+        }).catch((error)=>{
+            console.log(error);
+
+        })
+    }
+    // const supporters=[image1,image1,image1,image1,];
 
     const isMediumScreen = useMediaQuery((theme) => theme.breakpoints.up('md'));
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
   const S = isSmallScreen ? 1 : isMediumScreen ? 2 : 2;
-  // const FTrue=(projects.length() <2) ? false :true ;
+  const FTrue=(supporters.length<2) ? false :true ;
   const settings = {
     autoplay: true,
     autoplaySpeed:500,
     className: 'center',
     centerMode: true,
-    infinite: true,
+    infinite: FTrue,
     speed: 2000,
     slidesToShow: S,
     slidesToScroll: 1,
@@ -29,18 +43,21 @@ function Supporters() {
     dots: true,
     cssEase: 'linear'
   };
-  
+
+  useEffect(()=>{
+    FetchData();
+  },[])
   return (
     <>
     <Box sx={{display:'flex',justifyContent:'start'}}>
           <Typography variant="p" sx={{display:'inline'}}>OUR SUPPORTERS</Typography>
-          <Box sx={{display:'',width:'80%',height:'0.5vh',marginTop:'3vh',marginLeft:'3vh',backgroundColor:'black'}}></Box>  
+          <Box sx={{display:'',width:'80%',height:'0.5vh',marginTop:'3vh',marginLeft:'3vh',backgroundColor:'black'}}></Box>
         </Box>
         <Box className="slider-container" sx={{display:'',position:'relative',marginTop:'3vh',justifyContent:'space-around'}}>
           <Slider {...settings}>
             {supporters.map((item,index)=>(
               <>
-              <img key={index} src={item} style={{width:'20vh',height:'10vh',borderRadius:'10%'}}/>
+              <img key={index} src={`${import.meta.env.VITE_API_BASE_URL}/storage/${item.logo}`} style={{width:'20vh',height:'10vh',borderRadius:'10%'}}/>
               <br/>
               </>
             ))

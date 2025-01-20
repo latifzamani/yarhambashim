@@ -18,7 +18,7 @@ function BigImage2() {
           Join as a volunteer
         </Button>
         <Button variant="contained" size="small" sx={{ backgroundColor: 'white', marginY: '5vh' }}>
-          <Link to='/' style={{ textDecorationLine: 'none', color: 'black', textTransform: 'none' }}>
+          <Link to={`${import.meta.env.VITE_API_FRONT_URL}/donation`} style={{ textDecorationLine: 'none', color: 'black', textTransform: 'none' }}>
             Donate
           </Link>
         </Button>

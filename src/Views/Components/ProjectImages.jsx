@@ -10,13 +10,13 @@ import "slick-carousel/slick/slick-theme.css";
 import '../../Styles/SlickStyle.css';
 import { useEffect, useState } from "react";
 import AxiosAPI from "./axios";
-function ProjectsDone() {
+function ProjectImages({id}) {
 
-    const[projects,setProjects]=useState([]);
+    const[images,setImages]=useState([]);
 
     const FetchData=()=>{
-    AxiosAPI.get('/projects/show').then((data)=>{
-        setProjects(data.data);
+    AxiosAPI.get(`/projectImages/${id}/show`).then((data)=>{
+        setImages(data.data);
         console.log(data.data);
 
     }).catch((error)=>{
@@ -29,7 +29,7 @@ function ProjectsDone() {
   const isMediumScreen = useMediaQuery((theme) => theme.breakpoints.up('md'));
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
   const S = isSmallScreen ? 1 : isMediumScreen ? 2 : 3;
-  const FTrue=(projects.length<2) ? false :true ;
+  const FTrue=(images.length<2) ? false :true ;
   const setting = {
     className: 'center',
     centerMode: true,
@@ -47,24 +47,16 @@ function ProjectsDone() {
     <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 4, width: '100%', height: 'auto', backgroundColor: '', position: '', marginTop: '5vh', padding: '5vh' }}>
       <Box sx={{ width: { xs:'100%',sm:'60%',md:'60%'}, backgroundColor: '' }}>
         <Typography variant="h6" sx={{ display: 'inline' }}>__________</Typography>
-        <Typography variant="body1" sx={{ display: 'inline', marginX: '2vh', backgroundColor: '' }}>PROJECTS WE HAVE DONE</Typography>
+        <Typography variant="body1" sx={{ display: 'inline', marginX: '2vh', backgroundColor: '' }}>PROJECTS IMAGES</Typography>
         <Box sx={{ marginLeft: { xs:'2vh',sm:'12vh',md:'12vh'} }}>
           <Typography variant="h6">We are creating a place where children with special needs can thrive</Typography>
         </Box>
       </Box>
       <Box className="slider-container" sx={{ position: 'relative', display: '', gap: 3, justifyContent: 'space-around' }}>
         <Slider {...setting}>
-          {projects.map((item, index) => (
+          {images.map((item, index) => (
             <>
-            <Box key={index} sx={{ width: { xs:'20vh',sm:'30vh',md:'30vh'}, padding: '3vh', height: '30vh', backgroundImage: `url(${import.meta.env.VITE_API_BASE_URL}/storage/${item.photo1})`, borderRadius: '10%',backgroundSize:'cover' }}>
-              <Typography variant="h6">{item.title}</Typography>
-              <Typography variant="" sx={{ fontSize: '12px' }}>{item.subtitle}</Typography>
-              <Button variant="contained" size="small" sx={{ backgroundColor: 'white', marginY: '5vh' }}>
-                <Link to={`/projectreadmore/${item.id}`} style={{ textDecorationLine: 'none', color: 'black' }}>
-                  Learn More
-                </Link>
-              </Button>
-            </Box>
+            <Box key={index} sx={{ width: { xs:'20vh',sm:'30vh',md:'30vh'}, padding: '3vh', height: '30vh', backgroundImage: `url(${import.meta.env.VITE_API_BASE_URL}/storage/${item.photo})`, borderRadius: '10%',backgroundSize:'cover' }}/>
             <br/>
             </>
           ))}
@@ -74,4 +66,4 @@ function ProjectsDone() {
   )
 }
 
-export default ProjectsDone
+export default ProjectImages;

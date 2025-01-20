@@ -3,8 +3,28 @@ import image1 from '../../assets/images/23.jpeg';
 import { GraphicEqOutlined, MonetizationOn, MonetizationOnOutlined, PendingActions, PeopleAltOutlined } from "@mui/icons-material";
 import ProjectsDone from "../Components/ProjectsDone";
 import BigImage2 from "../Components/BigImage2";
+import AxiosAPI from "../Components/axios";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import ProjectImages from "../Components/ProjectImages";
 
 function ProjectReadMore() {
+    const[project,setProject]=useState([]);
+    const {id}=useParams();
+    const FetchData=()=>{
+    AxiosAPI.get(`/projects/${id}/show`).then((data)=>{
+        setProject(data.data);
+        console.log(data.data);
+
+    }).catch((error)=>{
+        console.log(error);
+
+    })
+}
+
+    useEffect(()=>{
+        FetchData();
+    },[])
     return (
         <>
             <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 4, width: '100%', height: 'auto', backgroundColor: '', position: '', paddingX: { xs: '5vh', sm: '10vh', md: '40vh' }, paddingY: '5vh' }}>
@@ -12,33 +32,31 @@ function ProjectReadMore() {
                     <Typography variant="h6" sx={{ display: 'inline' }}>__________</Typography>
                     <Typography variant="body1" sx={{ display: 'inline', marginX: '2vh', backgroundColor: '' }}> OUR PROJECTS</Typography>
                     <Box sx={{ marginLeft: '12vh' }}>
-                        <Typography variant="h6">Mission Smile 1k: Outdoor charity outreach</Typography>
-                        <Typography variant="body1">Et morbi vitae lobortis nam odio. Faucibus vitae vel neque nullam in in lorem platea mattis. Euismod aenean rhoncus
-                            scelerisque amet tincidunt scelerisque aliquam. Luctus porttitor elit vel sapien, accumsan et id ut est. Posuere
-                            molestie in turpis quam. Scelerisque in viverra mi ut quisque. In sollicitudin sapien, vel nulla quisque vitae.
-                            Scelerisque eget accumsan, non in. Posuere magna erat bibendum amet, nisi eu id.
-
-
-                            Viverra at diam nunc non ornare. Sed ultricies pulvinar nunc, lacus sem. Tellus aliquam ut euismod cursus dui lectus.
-                            Ut amet, cras volutpat dui. A bibendum viverra eu cras.
-
-                            Mauris morbi sed dignissim a in nec aliquam fringilla et. Mattis elit dignissim nibh sit. Donec arcu sed elit scelerisque
-                            tempor ornare tristique. Integer faucibus duis praesent tempor feugiat ornare in. Erat libero egestas porttitor nunc
-                            pellentesque mauris et pulvinar eget.
-
-
-                            Consectetur feugiat quis hac enim nullam in enim. Tellus nisi dapibus libero rutrum vitae nisl, cursus in sed. Egestas
-                            mi ultricies et consectetur vel non. Augue enim enim, eget ut sit purus, justo nisl pharetra. Tincidunt leo aenean dui,
-                            varius metus, vel. Maecenas eu rhoncus, est nunc nisi volutpat, amet venenatis faucibus. Enim, vel nunc purus feugiat
-                            purus tincidunt neque. Massa ultricies faucibus pellentesque risus duis est.</Typography>
+                        <Typography variant="h6">{project.title}</Typography>
+                        <br/>
+                        <Typography variant="body1">{project.paragraph1}</Typography>
+                        <br/>
+                        <Typography variant="body1">{project.paragraph2}</Typography>
+                        <br/>
+                        <Typography variant="body1">{project.paragraph3}</Typography>
 
 
                     </Box>
                 </Box>
                 <Box sx={{ backgroundColor: '', width: '100%', height: '40vh', paddingX: { xs: '', sm: '10vh', md: '20vh' } }}>
-                    <img src={image1} style={{ width: '100%', height: '100%', borderRadius: '2%' }} />
+                    <img src={`${import.meta.env.VITE_API_BASE_URL}/storage/${project.photo2}`} style={{ width: '100%', height: '100%', borderRadius: '2%' }} />
                 </Box>
+                <Box sx={{ marginLeft: '12vh' }}>
+                        <Typography variant="body1">{project.paragraph3}</Typography>
+                 </Box>
+                        <Typography variant="body1" sx={{color:'gray',textAlign:'end'}}>{project.date}</Typography>
             </Box>
+            {/* Project Images */}
+            <Box sx={{ padding: { xs:'0vh',sm:'10vh',md:'10vh'} }}>
+                <ProjectImages id={id}/>
+            </Box>
+            {/* Project Images */}
+
             <Box sx={{ backgroundColor: 'rgb(252,237,198)', paddingY: '8vh',paddingX: { xs: '', sm: '10vh', md: '20vh' } }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 5 }}>
                     <Box sx={{ width: '50%' }}>
@@ -75,7 +93,9 @@ function ProjectReadMore() {
                 </Box>
             </Box>
             {/* Projects Done */}
+            <Box sx={{ padding: { xs:'0vh',sm:'10vh',md:'10vh'} }}>
             <ProjectsDone/>
+            </Box>
             {/* Donation Image */}
             <Box sx={{marginX:'10vh',marginBottom:'5vh'}}>
             <BigImage2/>

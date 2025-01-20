@@ -111,25 +111,25 @@ function LinksDialog() {
         <DialogTitle>
             <Typography variant="h6" sx={{ textAlign:'center' }}>Video Form</Typography>
         </DialogTitle>
-        <DialogContent>
+        <DialogContent >
             {/* Form */}
             <form method="post" onSubmit={handleSubmit(submit)}>
-                <Box sx={{display:'flex',justifyContent:'space-between',gap:4}}>
+                <Box sx={{display:'flex',justifyContent:'space-between', flexDirection: { xs: 'column', sm: 'row', md: 'row' },gap:4}}>
                 <TextField type="text" defaultValue={selectedItem.facebook} variant="standard" {...register('facebook')} label='Facebook'/>
                 <TextField type="text" defaultValue={selectedItem.instagram} variant="standard" {...register('instagram')} label='Instagram'/>
                 </Box>
                 <br/>
-                <Box sx={{display:'flex',justifyContent:'space-between',gap:4}}>
+                <Box sx={{display:'flex',justifyContent:'space-between', flexDirection: { xs: 'column', sm: 'row', md: 'row' },gap:4}}>
                 <TextField type="text" defaultValue={selectedItem.telegram} variant="standard"{...register('telegram')} label='Telegram'/>
                 <TextField type="text" defaultValue={selectedItem.x} variant="standard"{...register('x')} label='X'/>
                 </Box>
                 <br/>
-                <Box sx={{display:'flex',justifyContent:'space-between',gap:4}}>
+                <Box sx={{display:'flex',justifyContent:'space-between', flexDirection: { xs: 'column', sm: 'row', md: 'row' },gap:4}}>
                 <TextField type="text" defaultValue={selectedItem.linkedin} variant="standard"{...register('linkedin')} label='Linkedin'/>
                 <TextField type="text" defaultValue={selectedItem.youtube} variant="standard"{...register('youtube')} label='Youtube'/>
                 </Box>
                 <br/>
-                <Box sx={{display:'flex',justifyContent:'space-between',gap:4}}>
+                <Box sx={{display:'flex',justifyContent:'space-between', flexDirection: { xs: 'column', sm: 'row', md: 'row' },gap:4}}>
                 <TextField type="text" defaultValue={selectedItem.whatsapp} variant="standard"{...register('whatsapp')} label='Whatsapp'/>
                 <TextField type="text" defaultValue={selectedItem.address} variant="standard"{...register('address')} label='Address'/>
                 </Box>
