@@ -4,10 +4,12 @@ import { Box, Button, Dialog, DialogContent, DialogContentText, DialogTitle, Ico
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form";
 import AxiosAPI from "../../Components/axios";
+import LazyLoading from "../../Components/LazyLoading";
 
 function ChartsDialog() {
     const [openDialog, setOpenDialog] = useState(false);
     const [selectedItem,setSelectedItem]=useState({});
+    const [loading, setLoading] = useState(true);
     const [chartData,setChartData]=useState([]);
     const {handleSubmit,register,formState:{errors}}=useForm();
 
@@ -15,10 +17,10 @@ function ChartsDialog() {
         AxiosAPI.get('/chart/show').then((data)=>{
             setChartData(data.data);
             console.log(data.data);
-
+            setLoading(false);
         }).catch((error)=>{
             console.log(error);
-
+            setLoading(false);
         })
     }
     const handleEdit=(event)=>{
@@ -68,6 +70,12 @@ function ChartsDialog() {
     let updateMode=Object.keys(selectedItem).length>0;
     return (
         <>
+        {loading ?
+            (
+                <LazyLoading />
+            ) :
+             (
+                <>
             <Typography sx={{ textAlign: 'center', marginY: '5vh' }}>Chart Percentages</Typography>
             <Button variant='outlined' onClick={handleDialog} color='success' sx={{ float: 'right', marginX: '5vh' }} startIcon={<AddOutlined />}>Percentage</Button>
             <TableContainer component={Paper} sx={{ maxHeight: '60vh', overflowY: 'scroll', scrollbarWidth: 'thin' }}>
@@ -97,6 +105,8 @@ function ChartsDialog() {
                     </TableBody>
                 </Table>
             </TableContainer>
+            </>
+             )}
             {/* Dialog */}
             <Dialog
                 sx={{ marginBottom: { xs: '40%', sm: '0%', md: '0%' }, padding: '0' }}
@@ -118,11 +128,11 @@ function ChartsDialog() {
                         <Box sx={{ display:'flex',justifyContent:'space-between',gap:4 }}>
                         <TextField type="text" defaultValue={selectedItem.value} variant="standard" label="Value" {...register('value',updateMode ?'':{required:'Value is required !'})}/>
                         {errors.value && (
-                            <small style={{ color:'red' }}>{errors.value}</small>
+                            <small style={{ color:'red' }}>{errors.value.message}</small>
                         )}
                         <TextField type="text" defaultValue={selectedItem.label} variant="standard" label="Label" {...register('label',updateMode ?'':{required:'Label is required !'})}/>
                         {errors.label && (
-                            <small style={{ color:'red' }}>{errors.label}</small>
+                            <small style={{ color:'red' }}>{errors.label.message}</small>
                         )}
                         </Box>
 

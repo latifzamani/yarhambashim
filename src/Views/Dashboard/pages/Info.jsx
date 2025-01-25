@@ -8,7 +8,6 @@ function Info() {
 
     return (
         <Box sx={{ margin: '3vh' }}>
-            {/* Team,charts,Events */}
             {/* Team Members */}
             <TeamDialog/>
             <br />

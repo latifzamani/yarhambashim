@@ -1,6 +1,6 @@
 import { Box, Button, Dialog, DialogContent, DialogContentText, DialogTitle, IconButton, Typography } from "@mui/material"
 import { Link } from "react-router-dom"
-import image1 from '../../assets/images/23.jpeg';
+import image1 from '../../assets/images/y2.jpg';
 import { useState } from "react";
 import SendMessage from "./SendMessage";
 import { Close } from "@mui/icons-material";

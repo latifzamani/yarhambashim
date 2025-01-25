@@ -1,6 +1,6 @@
 import { Box, Button, Container, IconButton, Typography } from "@mui/material"
 import video1 from '../../assets/videos/1.mp4';
-import image1 from '../../assets/images/23.jpeg';
+import image1 from '../../assets/images/y3.jpg';
 import { Link } from "react-router-dom";
 import { ArrowCircleLeft, ArrowCircleRight, ArrowRightRounded, DateRange, EventNote, HomeMaxOutlined, HomeOutlined, HomeSharp, LocalHospital, Medication, PlayCircle, SchoolSharp, TitleSharp, VideoLabel } from "@mui/icons-material";
 import { useEffect, useState } from "react";
@@ -12,11 +12,13 @@ import ProjectsDone from "../Components/ProjectsDone";
 import Chart from "../Components/Chart";
 import AxiosAPI from "../Components/axios";
 import LazyLoading from "../Components/LazyLoading";
+import Toastify from "../Components/Toastify";
 // import video1 from '../../assets/images/23.jpeg';
 function Home() {
     const [playVideo, setPlayVideo] = useState(false);
     const [playVideo2, setPlayVideo2] = useState(false);
-
+    const [Stoast,setStoast]=useState(false);
+    const [Ftoast,setFtoast]=useState(false);
     const [loading, setLoading] = useState(true);
     const [videos, setVideos] = useState([]);
     const FetchData = () => {
@@ -24,10 +26,12 @@ function Home() {
             setVideos(data.data[0]);
             console.log(data.data[0]);
             setLoading(false);
+            setStoast(true);
         }).catch((error) => {
             console.log(error);
 
         })
+        setStoast(false);
     }
 
 
@@ -48,7 +52,8 @@ function Home() {
     }, [])
     return (
         <>
-
+            {Stoast && (<Toastify message="Page Loaded Successfully" alertType="success"/>)}
+            {Ftoast && (<Toastify message="Loading Failed" alertType="error"/>)}
             {loading ?
             (
                 <LazyLoading />

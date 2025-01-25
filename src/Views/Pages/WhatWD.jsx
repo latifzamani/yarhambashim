@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material"
-import image1 from '../../assets/images/23.jpeg';
+import image1 from '../../assets/images/y5.jpg';
 import { GraphicEqOutlined, MonetizationOnOutlined, PendingActions, PeopleAltOutlined } from "@mui/icons-material";
 import ProjectsDone from "../Components/ProjectsDone";
 import BigImage2 from "../Components/BigImage2";

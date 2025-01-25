@@ -8,6 +8,7 @@ import { Link, Link as RouterLink } from 'react-router-dom';
 import rtlPlugin from 'stylis-plugin-rtl';
 import i18n from '../../i18n';
 import Footer from './Footer';
+import { useMainContext } from './ContextApi';
 
 const drawerWidth = 240;
 // Emotion cache for RTL or LTR
@@ -23,7 +24,6 @@ const navItems = [
   { url: '/whatwd', name: 'What We Do',icon:<People/> },
   { url: '/media', name: 'Media',icon:<PhotoAlbumOutlined/> },
   { url: '/contact', name: 'Contact',icon:<MessageOutlined/> },
-  { url: '/dashboard', name: 'Dashboard',icon:<MenuOutlined/> },
 ]
 
 
@@ -32,6 +32,7 @@ function Layout({ children, window }) {
   const [openDrawer, setOpenDrawer] = useState(false);
   const direction = language === 'en' ? 'ltr' : 'rtl';
   const [tabvalue, setTabvalue] = useState();
+  const {currentUser}=useMainContext();
 
   const handleDrawerToggle = () => {
     setOpenDrawer(!openDrawer);
@@ -46,6 +47,7 @@ function Layout({ children, window }) {
   }, [direction]);
 
   const container = window !== undefined ? () => window().document.body : undefined;
+  let token=localStorage.getItem('YHTOKEN');
   return (
     <CacheProvider value={createEmotionCache(direction)}>
       <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
@@ -56,9 +58,17 @@ function Layout({ children, window }) {
             <IconButton color="default" edge='start' onClick={handleDrawerToggle} sx={{ mr: 2, display: { md: 'none' } }}>
               <Menu />
             </IconButton>
+            {token ? (
+                <Typography variant='h6' component="div" sx={{ display: { xs: 'none', sm: 'block', md: 'block' }, color: 'black' }}>
+                YarHamBashim
+              </Typography>
+            ):(
+            <Link to='/login'>
             <Typography variant='h6' component="div" sx={{ display: { xs: 'none', sm: 'block', md: 'block' }, color: 'black' }}>
               YarHamBashim
             </Typography>
+            </Link>
+            )}
             {/* Tabs */}
             <Box sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }}>
               <Tabs value={tabvalue} onChange={handleTabs} centered sx={{}}>
@@ -67,6 +77,11 @@ function Layout({ children, window }) {
                     <Tab key={index} sx={{ color: 'black', textTransform: 'none' }} label={item.name} />
                   </RouterLink>
                 ))}
+                {token && (
+                <RouterLink to='/dashboard' style={{}}>
+                    <Tab sx={{ color: 'black', textTransform: 'none' }} label='Dashboard' />
+                </RouterLink>
+                )}
               </Tabs>
             </Box>
             {/* Donat */}
@@ -103,6 +118,11 @@ function Layout({ children, window }) {
                     <Button variant='text' startIcon={item.icon} sx={{ width: '100%', }}>{item.name}</Button>
                   </RouterLink>
                 ))}
+                {token && (
+                  <RouterLink  to='/dashboard'>
+                    <Button variant='text' startIcon={<MenuOutlined/>} sx={{ width: '100%', }}>Dashboard</Button>
+                  </RouterLink>
+                )}
                 </Box>
               </List>
             </Box>

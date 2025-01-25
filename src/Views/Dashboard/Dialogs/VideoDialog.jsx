@@ -3,12 +3,15 @@ import { Button, Dialog, DialogContent, DialogContentText, DialogTitle, IconButt
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form";
 import AxiosAPI from "../../Components/axios";
+import LazyLoading from "../../Components/LazyLoading";
 
 function VideoDialog() {
     const [openDialog,setOpenDialog]=useState(false);
     const [selectedItem,setSelectedItem]=useState({});
     const [videos,setVideos]=useState([]);
     const {handleSubmit,setValue}=useForm();
+    const [loading, setLoading] = useState(true);
+
 
     const handleFileChange1= (e, field) => {
         const file = e.target.files[0];  // Get the first file from the FileList
@@ -24,12 +27,15 @@ function VideoDialog() {
 
 
     const FetchData=()=>{
+        setLoading(true);
         AxiosAPI.get('/videos/show')
         .then((data)=>{
             console.log(data.data[0]);
             setVideos(data.data[0])
+            setLoading(false);
         }).catch((error)=>{
             console.log(error);
+            setLoading(false);
         })
     }
 
@@ -75,6 +81,12 @@ function VideoDialog() {
 
   return (
     <>
+    {loading ?
+            (
+                <LazyLoading />
+            ) :
+             (
+                <>
     <Typography sx={{ textAlign: 'center', marginY: '5vh' }}>Videos</Typography>
             <TableContainer component={Paper}>
                 {/* {JSON.stringify(selectedItem)} */}
@@ -104,6 +116,8 @@ function VideoDialog() {
                     </TableBody>
                 </Table>
             </TableContainer>
+            </>
+             )}
             {/* Dialog */}
          <Dialog
         sx={{ marginBottom:{xs:'40%',sm:'0%',md:'0%'},padding:'0' }}

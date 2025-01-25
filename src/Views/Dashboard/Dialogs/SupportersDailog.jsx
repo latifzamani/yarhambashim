@@ -3,24 +3,27 @@ import { Button, Dialog, DialogContent, DialogContentText, DialogTitle, IconButt
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form";
 import AxiosAPI from "../../Components/axios";
+import LazyLoading from "../../Components/LazyLoading";
 
 function SupportersDailog() {
     const [openDialog, setOpenDialog] = useState(false);
     const [selectedItem,setSelectedItem]=useState({});
     const [supporters,setSupporters]=useState([]);
+    const [loading, setLoading] = useState(true);
     const {handleSubmit,setValue,register,formState:{errors}}=useForm();
     const handleFileChange=(e)=>{
         setValue('logo',e.target.files[0]);
     }
 
     const FetchData=()=>{
+        setLoading(true);
         AxiosAPI.get('/supporters/show').then((data)=>{
             setSupporters(data.data);
             console.log(data.data);
-
+            setLoading(false);
         }).catch((error)=>{
             console.log(error);
-
+            setLoading(false);
         })
     }
     const handleEdit=(supporter)=>{
@@ -76,6 +79,12 @@ function SupportersDailog() {
     },[])
     return (
         <>
+        {loading ?
+            (
+                <LazyLoading />
+            ) :
+             (
+                <>
             <Typography sx={{ textAlign: 'center', marginY: '5vh' }}>Supporters</Typography>
             <Button variant='outlined' onClick={handleDialog} color='success' sx={{ float: 'right', marginX: '5vh' }} startIcon={<AddOutlined />}>Supporter</Button>
             <TableContainer component={Paper} sx={{ maxHeight: '60vh', backgroundColor: '', overflowY: 'scroll', scrollbarWidth: 'thin' }}>
@@ -104,6 +113,8 @@ function SupportersDailog() {
                     ))}
                 </TableBody>
             </TableContainer>
+            </>
+             )}
             {/* Dialog */}
             <Dialog
                 sx={{ marginBottom: { xs: '40%', sm: '0%', md: '0%' }, padding: '0' }}

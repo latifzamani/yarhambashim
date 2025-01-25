@@ -31,7 +31,7 @@ function DashboardLayoutMain({ children, window }) {
     const [language, setLanguage] = useState('en');
     const [openDrawer, setOpenDrawer] = useState(false);
     const direction = language === 'en' ? 'ltr' : 'rtl';
-    const {setToken,setCurrentUser}=useMainContext();
+    const {setToken,setCurrentUser,currentUser}=useMainContext();
     const navigate=useNavigate();
 
     const handleDrawerToggle = () => {
@@ -67,6 +67,15 @@ function DashboardLayoutMain({ children, window }) {
         if(!localStorage.getItem('YHTOKEN')){
             navigate('/login');
         }
+        AxiosAPI.get('/user/auth/show')
+        .then((data)=>{
+            setCurrentUser(data.data);
+            console.log(data);
+
+        }).catch((error)=>{
+            console.log(error);
+
+        })
     },[]);
     const container = window !== undefined ? () => window().document.body : undefined;
     return (
@@ -82,6 +91,9 @@ function DashboardLayoutMain({ children, window }) {
                         <Box sx={{display:'flex',justifyContent:'space-between',width:'100%'}}>
                         <Typography variant="h6" sx={{color:'black'}}>
                             Dashboard
+                        </Typography>
+                        <Typography variant="p" sx={{color:'gray'}}>
+                            {currentUser.name}_{currentUser.lastName}
                         </Typography>
                         {/* Language */}
                         <Select value={language} size='small' onChange={(e) => { setLanguage(e.target.value); i18n.changeLanguage(e.target.value) }}>
@@ -110,7 +122,9 @@ function DashboardLayoutMain({ children, window }) {
                                         <Button variant="text" startIcon={item.icon} sx={{ width: '100%' }}>{item.name}</Button>
                                     </RouterLink>
                                 ))}
+                                {!currentUser.email_verified_at &&(
                                 <Button variant="text" startIcon={<SecurityOutlined/>} onClick={handleEmailVerify} sx={{ width: '100%',justifyContent:'start' }}>VerifyEmail</Button>
+                                )}
                                 <Button variant="text" startIcon={<Logout/>} onClick={handleLogout} sx={{ width: '100%',justifyContent:'start' }}>Logout</Button>
                             </Box>
                             </List>
@@ -119,6 +133,15 @@ function DashboardLayoutMain({ children, window }) {
                 </nav>
                 <Box component="main">
                     <Toolbar />
+                    {!currentUser.email_verified_at && (
+                        <Box sx={{ marginY:'5vh' }}>
+                            <Typography variant='h6' sx={{ color:'red', textAlign:'center' }}>Your E-Mail Is Not Verified</Typography>
+                            <Typography sx={{ color:'red',fontSize:'12px', textAlign:'center' }}>Please verify for full access</Typography>
+                            <Typography sx={{ color:'red',fontSize:'12px', textAlign:'center' }}>1:Click on VERIFYEMAIL button</Typography>
+                            <Typography sx={{ color:'red',fontSize:'12px', textAlign:'center' }}>2:An E-Mail will be sended to your E-Mail address</Typography>
+                            <Typography sx={{ color:'red',fontSize:'12px', textAlign:'center' }}>3:Check your E-Mail and get verified</Typography>
+                        </Box>
+                    )}
                     {children}
                 </Box>
             </Box>

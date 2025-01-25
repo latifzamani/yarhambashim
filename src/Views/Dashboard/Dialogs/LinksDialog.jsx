@@ -5,10 +5,12 @@ import { Box, Button, Dialog, DialogContent, DialogContentText, DialogTitle, Ico
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form";
 import AxiosAPI from "../../Components/axios";
+import LazyLoading from "../../Components/LazyLoading";
 
 function LinksDialog() {
     const [openDialog,setOpenDialog]=useState(false);
     const [selectedItem,setSelectedItem]=useState({});
+    const [loading, setLoading] = useState(true);
     const [links,setLinks]=useState([]);
     const {handleSubmit,register}=useForm();
 
@@ -16,12 +18,15 @@ function LinksDialog() {
 
 
     const FetchData=()=>{
+        setLoading(true);
         AxiosAPI.get('/links/show')
         .then((data)=>{
             console.log(data.data[0]);
             setLinks(data.data[0])
+            setLoading(false);
         }).catch((error)=>{
             console.log(error);
+            setLoading(false);
         })
     }
 
@@ -60,6 +65,12 @@ function LinksDialog() {
 
   return (
     <>
+    {loading ?
+            (
+                <LazyLoading />
+            ) :
+             (
+                <>
     <Typography sx={{ textAlign: 'center', marginY: '5vh' }}>Links</Typography>
             <TableContainer component={Paper} sx={{ scrollbarWidth: 'thin' }}>
                 <Table>
@@ -97,6 +108,8 @@ function LinksDialog() {
                     </TableBody>
                 </Table>
             </TableContainer>
+            </>
+             )}
             {/* Dialog */}
          <Dialog
         sx={{ marginBottom:{xs:'40%',sm:'0%',md:'0%'},padding:'0' }}

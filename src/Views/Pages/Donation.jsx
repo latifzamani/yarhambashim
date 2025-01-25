@@ -1,5 +1,5 @@
 import { Box, Button, Dialog, DialogContent, DialogContentText, DialogTitle, IconButton, Tab, Typography } from "@mui/material"
-import image1 from '../../assets/images/23.jpeg';
+import image1 from '../../assets/images/y4.jpg';
 import { Link } from "react-router-dom";
 import BigImage2 from "../Components/BigImage2";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
@@ -37,8 +37,8 @@ function Donation() {
 
                         </Box>
                     </Box>
-                    <Box sx={{ backgroundColor: '', width: {xs:'100%',sm:'40%',md:'40%'}, height: {xs:'30vh',sm:'60vh',md:'60vh'}, }}>
-                        <img src={image1} style={{ width: '100%', height: '100%', borderRadius: '2%' }} />
+                    <Box sx={{ backgroundColor: '', width: {xs:'100%',sm:'40%',md:'40%'}, height: {xs:'30vh',sm:'60vh',md:'60vh'},backgroundImage:`url(${image1})`,backgroundSize:'cover',backgroundRepeat:'no-repeat' }}>
+                        {/* <img src={image1} style={{ width: '100%', height: '100%', borderRadius: '2%' }} /> */}
                     </Box>
                 </Box>
             </Box>

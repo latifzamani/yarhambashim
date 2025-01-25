@@ -1,8 +1,9 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import App from "../../App";
 import { lazy } from "react";
 import DashboardLayoutInt from "../Dashboard/DashboardLayoutInt";
 import VerifyEmail from "./VerifyEmail";
+import NotFound from "../Dashboard/pages/NotFound";
 
 
 // const Home=lazy(()=>import('../views/Home'));
@@ -22,7 +23,7 @@ const Info=lazy(()=>import('../Dashboard/pages/Info'));
 const Users=lazy(()=>import('../Dashboard/pages/Users'));
 const AddProject=lazy(()=>import('../Dashboard/pages/AddProject'));
 
-
+    const token=localStorage.getItem('YHTOKEN');
 const Router=createBrowserRouter([
     {
         path:'/',
@@ -68,35 +69,39 @@ const Router=createBrowserRouter([
     },
     {
         path:'/dashboard',
-        element:<DashboardLayoutInt/>,
+        element: token ? <DashboardLayoutInt/> :<Navigate to='/login' replace/>,
         children:[
             {
                 path:'/dashboard',
-                element:<Dashboard/>
+                element:token ? <Dashboard/> :<NotFound/>
             },
             {
                 path:'/dashboard/addProject',
-                element:<AddProject/>
+                element:token ? <AddProject/>:<NotFound/>
             },
             {
                 path:'/dashboard/editProject/:id',
-                element:<AddProject/>
+                element:token ? <AddProject/>:<NotFound/>
             },
             {
                 path:'/dashboard/register',
-                element:<Register/>
+                element:token ? <Register/>:<NotFound/>
+            },
+            {
+                path:'/dashboard/:id/editUser',
+                element:token ? <Register/>:<NotFound/>
             },
             {
                 path:'/dashboard/media',
-                element:<DMedia/>
+                element:token ? <DMedia/>:<NotFound/>
             },
             {
                 path:'/dashboard/info',
-                element:<Info/>
+                element:token ?<Info/> :<NotFound/>
             },
             {
                 path:'/dashboard/users',
-                element:<Users/>
+                element:token ?<Users/> :<NotFound/>
             }
         ]
     },
@@ -107,6 +112,10 @@ const Router=createBrowserRouter([
     {
         path:'/verifyemail',
         element:<VerifyEmail/>
+    },
+    {
+        path:'*',
+        element:<NotFound/>
     }
 ])
 

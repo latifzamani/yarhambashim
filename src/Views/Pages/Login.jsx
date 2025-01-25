@@ -1,5 +1,5 @@
-import { LoginOutlined, Person } from "@mui/icons-material"
-import { Box, Button, Paper, TextField, Typography } from "@mui/material"
+import { LoginOutlined, Person, Visibility, VisibilityOff } from "@mui/icons-material"
+import { Box, Button, IconButton, InputAdornment, Paper, TextField, Typography } from "@mui/material"
 import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router-dom";
 import AxiosAPI from "../Components/axios";
@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import createCache from '@emotion/cache';
 import rtlPlugin from 'stylis-plugin-rtl';
 import { CacheProvider } from "@emotion/react";
+import ForgotPassword from "../ForgotPassword";
 
 
 // Emotion cache for RTL/LTR
@@ -17,6 +18,7 @@ const createEmotionCache = (direction) =>
         stylisPlugins: direction === 'rtl' ? [rtlPlugin] : [],
     });
 function Login() {
+    const [openDialog,setOpenDialog]=useState(false);
     const navigate = useNavigate();
     const { register, handleSubmit, formState: { errors } } = useForm();
     const { setToken, setCurrentUser } = useMainContext();
@@ -24,7 +26,11 @@ function Login() {
     const [timer, setTimer] = useState(null);
     const [language, setLanguage] = useState('en');
     const direction = language === 'en' ? 'ltr' : 'rtl';
+    const [showPassword,setShowPassword]=useState(false);
 
+    const handleShowPassword=()=>{
+        setShowPassword(!showPassword);
+    }
     const onSubmit = (data) => {
 
         AxiosAPI.post('/login', { ...data })
@@ -96,19 +102,37 @@ function Login() {
                                 <Typography variant="p" color="error" sx={{ fontSize: '10px', marginBottom: '10px' }}>{errors.email.message}</Typography>
                             )}
 
-                            <TextField type="password" color="error" sx={{ fontSize: '10px', marginBottom: '10px' }} label="Password" variant="outlined" {...register('password', { required: "Password is required" })} />
+                            <TextField type={showPassword ?'text':'password'} color="error" sx={{ fontSize: '10px', marginBottom: '10px' }} label="Password" variant="outlined" {...register('password', { required: "Password is required" })}
+                                slotProps={{
+                                    input:{
+                                    endAdornment:(
+                                        <InputAdornment position="end">
+                                            <IconButton onClick={handleShowPassword}>
+                                                {showPassword ? <VisibilityOff/>:<Visibility/>}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    )}
+                                 }}
+                            />
                             {errors.password && (
                                 <Typography variant="p" color="error" sx={{ fontSize: '10px', marginBottom: '10px' }}>{errors.password.message}</Typography>
                             )}
                             <Button type="submit" disabled={timer != null} variant="contained" sx={{ width: '50%', marginLeft: '20%' }} color="success" startIcon={<LoginOutlined />}>Login</Button>
                         </form>
-                        <Typography variant="h6" sx={{ paddingBottom: '20px' }} align="center">
+                        <Typography align="center">
+                        <Button variant="text" onClick={()=>setOpenDialog(!openDialog)} sx={{ paddingBottom: '20px' }} align="center">
                             Forgot the password ?
+                        </Button>
                         </Typography>
                         {error && <div className="error">{error}</div>}
                         {timer !== null && <div>Try again in {timer} seconds.</div>}
                     </Paper>
                 </Box>
+
+                {/* Dialog */}
+                {openDialog &&(
+                    <ForgotPassword openDialog1={openDialog}/>
+                )}
             </Box>
         </CacheProvider>
     )

@@ -4,11 +4,13 @@ import { Box, Button, Dialog, DialogContent, DialogContentText, DialogTitle, Ico
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form";
 import AxiosAPI from "../../Components/axios";
+import LazyLoading from "../../Components/LazyLoading";
 
 function EventDialog() {
     const [openDialog, setOpenDialog] = useState(false);
     const [selectedItem,setSelectedItem]=useState({});
     const [events,setEvents]=useState([]);
+    const [loading, setLoading] = useState(true);
     const {handleSubmit,setValue,register,formState:{errors}}=useForm();
     const handleFileChange=(e)=>{
         setValue('photo',e.target.files[0]);
@@ -18,10 +20,10 @@ function EventDialog() {
         AxiosAPI.get('/events/show').then((data)=>{
             setEvents(data.data);
             console.log(data.data);
-
+            setLoading(false);
         }).catch((error)=>{
             console.log(error);
-
+            setLoading(false);
         })
     }
     const handleEdit=(event)=>{
@@ -84,6 +86,12 @@ function EventDialog() {
     let updateMode=Object.keys(selectedItem).length>0;
     return (
         <>
+        {loading ?
+            (
+                <LazyLoading />
+            ) :
+             (
+                <>
             <Typography sx={{ textAlign: 'center', marginY: '5vh' }}>Events</Typography>
             <Button variant='outlined' onClick={handleDialog} color='success' sx={{ float: 'right', marginX: '5vh' }} startIcon={<AddOutlined />}>Event</Button>
             <TableContainer component={Paper} sx={{ maxHeight: '60vh', overflowY: 'scroll', scrollbarWidth: 'thin' }}>
@@ -123,6 +131,8 @@ function EventDialog() {
                     </TableBody>
                 </Table>
             </TableContainer>
+            </>
+             )}
             {/* Dialog */}
             <Dialog
                 sx={{ marginBottom: { xs: '40%', sm: '0%', md: '0%' }, padding: '0' }}

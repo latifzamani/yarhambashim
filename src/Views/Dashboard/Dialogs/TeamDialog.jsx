@@ -4,10 +4,12 @@ import { Box, Button, Dialog, DialogContent, DialogContentText, DialogTitle, Ico
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form";
 import AxiosAPI from "../../Components/axios";
+import LazyLoading from "../../Components/LazyLoading";
 
 function TeamDialog() {
     const [openDialog, setOpenDialog] = useState(false);
     const [selectedItem,setSelectedItem]=useState({});
+    const [loading, setLoading] = useState(true);
     const [members,setMembers]=useState([]);
     const {handleSubmit,setValue,register,formState:{errors}}=useForm();
     const handleFileChange=(e)=>{
@@ -18,10 +20,11 @@ function TeamDialog() {
         AxiosAPI.get('/members/show').then((data)=>{
             setMembers(data.data);
             console.log(data.data);
+            setLoading(false);
 
         }).catch((error)=>{
             console.log(error);
-
+            setLoading(false);
         })
     }
     const handleEdit=(member)=>{
@@ -84,6 +87,12 @@ function TeamDialog() {
     let updateMode=Object.keys(selectedItem).length>0;
     return (
         <>
+        {loading ?
+            (
+                <LazyLoading />
+            ) :
+             (
+                <>
             <Typography sx={{ textAlign: 'center', marginY: '5vh' }}>Team Members</Typography>
             <Button variant='outlined' onClick={handleDialog} color='success' sx={{ float: 'right', marginX: '5vh' }} startIcon={<AddOutlined />}>Member</Button>
             <TableContainer component={Paper} sx={{ maxHeight: '60vh', overflowY: 'scroll', scrollbarWidth: 'thin' }}>
@@ -123,6 +132,8 @@ function TeamDialog() {
                     </TableBody>
                 </Table>
             </TableContainer>
+            </>
+             )}
             {/* Dialog */}
             <Dialog
                 sx={{ marginBottom: { xs: '40%', sm: '0%', md: '0%' }, padding: '0' }}

@@ -5,17 +5,20 @@ import { AddOutlined, DeleteOutline, EditOutlined } from "@mui/icons-material";
 import AxiosAPI from "../../Components/axios";
 import { useEffect, useState } from "react";
 import ProjectImagesDailog from "../Dialogs/ProjectImagesDialog";
+import LazyLoading from "../../Components/LazyLoading";
 
 function Dashboard() {
     const [projects, setProjects] = useState([]);
+    const [loading, setLoading] = useState(true);
+
     const FetchData = () => {
         AxiosAPI.get('/projects/show').then((data) => {
             setProjects(data.data);
             console.log(data.data);
-
+            setLoading(false);
         }).catch((error) => {
             console.log(error);
-
+            setLoading(false);
         })
     }
     const handleDelete = (id) => {
@@ -34,6 +37,10 @@ function Dashboard() {
     }, []);
     return (
         <>
+            {loading ?
+                (
+                    <LazyLoading />
+                ) : (
         <Box sx={{ margin: '3vh' }}>
             <Typography sx={{ textAlign: 'center', marginY: '5vh' }}>Projects</Typography>
             <Link to='/dashboard/addProject'>
@@ -97,14 +104,20 @@ function Dashboard() {
                 </Table>
             </TableContainer>
         </Box>
+    )}
         <br/>
         {/* Project Images */}
-        <Box sx={{margin:'3vh'}}>
-            <ProjectImagesDailog/>
-        </Box>
-        <br/>
-        <br/>
-        <br/>
+        {loading ?
+                (
+                    <LazyLoading />
+                ) : (
+            <Box sx={{ margin: '3vh' }}>
+                <ProjectImagesDailog />
+            </Box>
+              )}
+            <br />
+            <br />
+            <br />
         </>
     )
 }

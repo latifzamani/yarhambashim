@@ -3,7 +3,7 @@ import video1 from '../../assets/videos/1.mp4';
 import { useEffect, useState } from "react";
 import { Facebook, Instagram, PlayCircle, X } from "@mui/icons-material";
 import Supporters from "../Components/Supporters";
-import image1 from '../../assets/images/23.jpeg';
+import image1 from '../../assets/images/y1.jpg';
 import BigImage2 from "../Components/BigImage2";
 import Events from "../Components/Events";
 import { Link } from "react-router-dom";

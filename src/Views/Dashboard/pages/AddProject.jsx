@@ -3,10 +3,14 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form"
 import AxiosAPI from "../../Components/axios";
 import { useNavigate, useParams } from "react-router-dom";
+import Toastify from "../../Components/Toastify";
 
 function AddProject() {
-    const { handleSubmit, register, setValue, formState: { errors } } = useForm();
+    const { handleSubmit, register,reset, setValue, formState: { errors } } = useForm();
     const [project, setProject] = useState([]);
+    const [Stoast,setStoast]=useState(false);
+    const [Ftoast,setFtoast]=useState(false);
+    const [sendMode,setSendMode]=useState(false);
     const { id } = useParams();
     const navigate = useNavigate();
 
@@ -20,14 +24,7 @@ function AddProject() {
     const FetchData = () => {
         AxiosAPI.get(`/projects/${id}/show`).then((data) => {
             setProject(data.data);
-            // Set form values dynamically
-            setValue('title', data.data.title);
-            setValue('subtitle', data.data.subtitle);
-            setValue('paragraph1', data.data.paragraph1);
-            setValue('paragraph2', data.data.paragraph2);
-            setValue('paragraph3', data.data.paragraph3);
-            setValue('paragraph4', data.data.paragraph4);
-            setValue('date', data.data.date);
+                reset(data.data);
             console.log(data.data);
 
         }).catch((error) => {
@@ -48,14 +45,16 @@ function AddProject() {
         data.append('photo1', Data.photo1);
         data.append('photo2', Data.photo2);
 
-        let result = '';
+        let result = [];
         if (id) {
+            setSendMode(true);
             result = AxiosAPI.post(`/projects/${id}/update`, data, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 }
             })
         } else {
+            setSendMode(true);
             result = AxiosAPI.post('/projects/store', data, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -64,10 +63,16 @@ function AddProject() {
         }
 
         result.then(() => {
+            setStoast(true);
+            setSendMode(false);
             navigate('/dashboard');
         }).catch((error) => {
             console.log(error);
+            setSendMode(false);
+            setFtoast(true);
         })
+        setStoast(false);
+        setFtoast(false);
     };
 
 
@@ -77,72 +82,73 @@ function AddProject() {
             FetchData();
         }
     }, []);
-
-    let updateMode = id;
     return (
         <Box sx={{ margin: '3vh' }}>
+            {Stoast && (<Toastify message="Page Loaded Successfully" alertType="success"/>)}
+            {Ftoast && (<Toastify message="Loading Failed" alertType="error"/>)}
+
             {/* Form */}
             <Paper sx={{ padding: { xs: '2vh', sm: '10vh', md: '10vh' },marginBottom: { xs: '10vh', sm: '0vh', md: '0vh' } }}>
                 <Typography variant="h6" sx={{ marginBottom: '4vh' }}>{id ? 'Update Project' : 'New Project'}</Typography>
                 <form method="post" onSubmit={handleSubmit(submit)}>
                     <Box sx={{ display: 'flex', justifyContent: 'center', flexDirection: { xs: 'column', sm: 'row', md: 'row' }, gap: 4 }}>
-                        <TextField type="text" defaultValue={project.title} variant="standard" label="Title" {...register('title', updateMode ? '' : { required: 'Title is required !' })} />
+                        <TextField type="text" slotProps={{inputLabel:{shrink: true}}} defaultValue={project.title} variant="standard" label="Title" {...register('title', id ? '' : { required: 'Title is required !' })} />
                         {errors.title && (
-                            <small style={{ color: 'red' }}>{errors.title}</small>
+                            <small style={{ color: 'red' }}>{errors.title.message}</small>
                         )}
-                        <TextField type="text" defaultValue={project.subtitle} variant="standard" label="Subtitle" {...register('subtitle', updateMode ? '' : { required: 'Subtitle is required !' })} />
+                        <TextField type="text"slotProps={{inputLabel:{shrink: true}}} defaultValue={project.subtitle} variant="standard" label="Subtitle" {...register('subtitle', id ? '' : { required: 'Subtitle is required !' })} />
                         {errors.subtitle && (
-                            <small style={{ color: 'red' }}>{errors.subtitle}</small>
+                            <small style={{ color: 'red' }}>{errors.subtitle.message}</small>
                         )}
                     </Box>
                     <br />
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', flexDirection: 'column', gap: 4 }}>
-                        <TextField type="text" multiline rows={8} defaultValue={project.paragraph1} variant="outlined" label="Paragraph1" {...register('paragraph1', updateMode ? '' : { required: 'Paragraph1 is required !' })} />
+                        <TextField type="text"slotProps={{inputLabel:{shrink: true}}} multiline rows={8} defaultValue={project.paragraph1} variant="outlined" label="Paragraph1" {...register('paragraph1', id ? '' : { required: 'Paragraph1 is required !' })} />
                         {errors.paragraph1 && (
-                            <small style={{ color: 'red' }}>{errors.paragraph1}</small>
+                            <small style={{ color: 'red' }}>{errors.paragraph1.message}</small>
                         )}
-                        <TextField type="text" multiline rows={8} defaultValue={project.paragraph2} variant="outlined" label="Paragraph2" {...register('paragraph2', updateMode ? '' : { required: 'Paragraph2 is required !' })} />
+                        <TextField type="text"slotProps={{inputLabel:{shrink: true}}} multiline rows={8} defaultValue={project.paragraph2} variant="outlined" label="Paragraph2" {...register('paragraph2', id ? '' : { required: 'Paragraph2 is required !' })} />
                         {errors.paragraph2 && (
-                            <small style={{ color: 'red' }}>{errors.paragraph2}</small>
+                            <small style={{ color: 'red' }}>{errors.paragraph2.message}</small>
                         )}
                     </Box>
                     <br />
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', flexDirection: 'column', gap: 4 }}>
-                        <TextField type="text" multiline rows={8} defaultValue={project.paragraph3} variant="outlined" label="Paragraph3" {...register('paragraph3', updateMode ? '' : { required: 'Paragraph3 is required !' })} />
+                        <TextField type="text"slotProps={{inputLabel:{shrink: true}}} multiline rows={8} defaultValue={project.paragraph3} variant="outlined" label="Paragraph3" {...register('paragraph3', id ? '' : { required: 'Paragraph3 is required !' })} />
                         {errors.paragraph3 && (
-                            <small style={{ color: 'red' }}>{errors.paragraph3}</small>
+                            <small style={{ color: 'red' }}>{errors.paragraph3.message}</small>
                         )}
-                        <TextField type="text" multiline rows={8} defaultValue={project.paragraph4} variant="outlined" label="Paragraph4" {...register('paragraph4', updateMode ? '' : { required: 'Paragraph4 is required !' })} />
+                        <TextField type="text"slotProps={{inputLabel:{shrink: true}}} multiline rows={8} defaultValue={project.paragraph4} variant="outlined" label="Paragraph4" {...register('paragraph4', id ? '' : { required: 'Paragraph4 is required !' })} />
                         {errors.paragraph4 && (
-                            <small style={{ color: 'red' }}>{errors.paragraph4}</small>
+                            <small style={{ color: 'red' }}>{errors.paragraph4.message}</small>
                         )}
                     </Box>
                     <br />
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', flexDirection: { xs: 'column', sm: 'row', md: 'row' }, gap: 4 }}>
                         <TextField type="file" onChange={handleFileChange1} variant="standard" label='Photo1' />
-                        <input type="hidden" {...register('photo1', updateMode ? '' : {
+                        <input type="hidden" {...register('photo1', id ? '' : {
                             required: 'Photo is required',
                         })} />
                         <br />
                         {errors.photo1 &&
-                            <small style={{ color: 'red' }}>{errors.photo1.message}</small>
+                            <small style={{ color: 'red' }}>{errors.photo1?.message}</small>
                         }
                         <TextField type="file" onChange={handleFileChange2} variant="standard" label='Photo2' />
-                        <input type="hidden" {...register('photo2', updateMode ? '' : {
+                        <input type="hidden" {...register('photo2', id ? '' : {
                             required: 'Photo is required',
                         })} />
                         <br />
                         {errors.photo2 &&
-                            <small style={{ color: 'red' }}>{errors.photo2.message}</small>
+                            <small style={{ color: 'red' }}>{errors.photo2?.message}</small>
                         }
                     </Box>
                     <br />
-                    <TextField type="date" defaultValue={project.date} variant="standard" label="Date" {...register('date', updateMode ? '' : { required: 'Date is required !' })} />
+                    <TextField type="date" slotProps={{inputLabel:{shrink: true}}} defaultValue={project.date} variant="standard" label="Date" {...register('date', id ? '' : { required: 'Date is required !' })} />
                     {errors.date && (
-                        <small style={{ color: 'red' }}>{errors.date}</small>
+                        <small style={{ color: 'red' }}>{errors.date.message}</small>
                     )}
                     <br />
-                    <Button type="submit" variant="contained" color="success" sx={{ float: 'right', margin: '3vh' }}>{updateMode ? 'Update' : 'Save'}</Button>
+                    <Button type="submit" variant="contained" color="success" sx={{ float: 'right', margin: '3vh' }}>{sendMode ? "Submitting..." :(id ? 'Update' : 'Save')}</Button>
                     <br />
                     <br />
                 </form>
