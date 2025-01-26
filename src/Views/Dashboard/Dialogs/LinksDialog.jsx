@@ -6,6 +6,8 @@ import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form";
 import AxiosAPI from "../../Components/axios";
 import LazyLoading from "../../Components/LazyLoading";
+import Toastify from "../../Components/Toastify";
+import { useTranslation } from "react-i18next";
 
 function LinksDialog() {
     const [openDialog,setOpenDialog]=useState(false);
@@ -13,7 +15,10 @@ function LinksDialog() {
     const [loading, setLoading] = useState(true);
     const [links,setLinks]=useState([]);
     const {handleSubmit,register}=useForm();
-
+    const [Stoast,setStoast]=useState(false);
+    const [Ftoast,setFtoast]=useState(false);
+    const [sendMode,setSendMode]=useState(false);
+    const {t}=useTranslation();
 
 
 
@@ -38,16 +43,21 @@ function LinksDialog() {
     const submit=(Data)=>{
 
         console.log(Data);
-
+        setSendMode(true);
             AxiosAPI.post(`/links/${selectedItem.id}/update`,{...Data})
             .then((response)=>{
+            setStoast(true);
+            setSendMode(false);
             console.log(response);
             FetchData();
             setOpenDialog(false);
         }).catch((error)=>{
+            setSendMode(false);
+            setFtoast(true);
             console.log(error);
         })
-
+        setStoast(false);
+        setFtoast(false);
 
     }
 
@@ -71,22 +81,25 @@ function LinksDialog() {
             ) :
              (
                 <>
-    <Typography sx={{ textAlign: 'center', marginY: '5vh' }}>Links</Typography>
+    <Typography sx={{ textAlign: 'center', marginY: '5vh' }}>{t('links')}</Typography>
+    {Stoast && (<Toastify message="Successfully Done !" alertType="success"/>)}
+            {Ftoast && (<Toastify message="Failed !" alertType="error"/>)}
+
             <TableContainer component={Paper} sx={{ scrollbarWidth: 'thin' }}>
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell align='center'>FaceBook</TableCell>
-                            <TableCell align='center'>Instagram</TableCell>
-                            <TableCell align='center'>Telegram</TableCell>
-                            <TableCell align='center'>X</TableCell>
-                            <TableCell align='center'>LinkedIn</TableCell>
-                            <TableCell align='center'>Youtube</TableCell>
-                            <TableCell align='center'>Whatsapp</TableCell>
-                            <TableCell align='center'>Address</TableCell>
-                            <TableCell align='center'>Phone</TableCell>
-                            <TableCell align='center'>E-Mail</TableCell>
-                            <TableCell align='center'>Action</TableCell>
+                            <TableCell align='center'>{t('facebook')}</TableCell>
+                            <TableCell align='center'>{t('instagram')}</TableCell>
+                            <TableCell align='center'>{t('telegram')}</TableCell>
+                            <TableCell align='center'>{t('x')}</TableCell>
+                            <TableCell align='center'>{t('linkedin')}</TableCell>
+                            <TableCell align='center'>{t('youtube')}</TableCell>
+                            <TableCell align='center'>{t('whatsapp')}</TableCell>
+                            <TableCell align='center'>{t('address')}</TableCell>
+                            <TableCell align='center'>{t('phone')}</TableCell>
+                            <TableCell align='center'>{t('email')}</TableCell>
+                            <TableCell align='center'>{t('action')}</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -122,37 +135,37 @@ function LinksDialog() {
             </IconButton>
         </DialogContentText>
         <DialogTitle>
-            <Typography variant="h6" sx={{ textAlign:'center' }}>Video Form</Typography>
+            <Typography variant="h6" sx={{ textAlign:'center' }}>{t('links')}</Typography>
         </DialogTitle>
         <DialogContent >
             {/* Form */}
             <form method="post" onSubmit={handleSubmit(submit)}>
                 <Box sx={{display:'flex',justifyContent:'space-between', flexDirection: { xs: 'column', sm: 'row', md: 'row' },gap:4}}>
-                <TextField type="text" defaultValue={selectedItem.facebook} variant="standard" {...register('facebook')} label='Facebook'/>
-                <TextField type="text" defaultValue={selectedItem.instagram} variant="standard" {...register('instagram')} label='Instagram'/>
+                <TextField type="text" defaultValue={selectedItem.facebook} variant="standard" {...register('facebook')} label={t('facebook')}/>
+                <TextField type="text" defaultValue={selectedItem.instagram} variant="standard" {...register('instagram')} label={t('instagram')}/>
                 </Box>
                 <br/>
                 <Box sx={{display:'flex',justifyContent:'space-between', flexDirection: { xs: 'column', sm: 'row', md: 'row' },gap:4}}>
-                <TextField type="text" defaultValue={selectedItem.telegram} variant="standard"{...register('telegram')} label='Telegram'/>
-                <TextField type="text" defaultValue={selectedItem.x} variant="standard"{...register('x')} label='X'/>
+                <TextField type="text" defaultValue={selectedItem.telegram} variant="standard"{...register('telegram')} label={t('telegram')}/>
+                <TextField type="text" defaultValue={selectedItem.x} variant="standard"{...register('x')} label={t('x')}/>
                 </Box>
                 <br/>
                 <Box sx={{display:'flex',justifyContent:'space-between', flexDirection: { xs: 'column', sm: 'row', md: 'row' },gap:4}}>
-                <TextField type="text" defaultValue={selectedItem.linkedin} variant="standard"{...register('linkedin')} label='Linkedin'/>
-                <TextField type="text" defaultValue={selectedItem.youtube} variant="standard"{...register('youtube')} label='Youtube'/>
+                <TextField type="text" defaultValue={selectedItem.linkedin} variant="standard"{...register('linkedin')} label={t('linkedin')}/>
+                <TextField type="text" defaultValue={selectedItem.youtube} variant="standard"{...register('youtube')} label={t('youtube')}/>
                 </Box>
                 <br/>
                 <Box sx={{display:'flex',justifyContent:'space-between', flexDirection: { xs: 'column', sm: 'row', md: 'row' },gap:4}}>
-                <TextField type="text" defaultValue={selectedItem.whatsapp} variant="standard"{...register('whatsapp')} label='Whatsapp'/>
-                <TextField type="text" defaultValue={selectedItem.address} variant="standard"{...register('address')} label='Address'/>
+                <TextField type="text" defaultValue={selectedItem.whatsapp} variant="standard"{...register('whatsapp')} label={t('whatsapp')}/>
+                <TextField type="text" defaultValue={selectedItem.address} variant="standard"{...register('address')} label={t('address')}/>
                 </Box>
                 <br/>
                 <Box sx={{display:'flex',justifyContent:'space-between',gap:4}}>
-                <TextField type="text" defaultValue={selectedItem.phone} variant="standard"{...register('phone')} label='Phone'/>
-                <TextField type="text" defaultValue={selectedItem.email} variant="standard" {...register('email')}label='E-mail'/>
+                <TextField type="text" defaultValue={selectedItem.phone} variant="standard"{...register('phone')} label={t('phone')}/>
+                <TextField type="text" defaultValue={selectedItem.email} variant="standard" {...register('email')}label={t('email')}/>
                 </Box>
                 <Button type="submit" variant="contained" color="success" sx={{float:'right',margin:'3vh'}}>
-                    {(Object.keys(selectedItem).length>0 ? 'Update':'Save')}
+                    {sendMode ? "Submitting..." :(Object.keys(selectedItem).length>0 ? 'Update':'Save')}
                 </Button>
             </form>
         </DialogContent>

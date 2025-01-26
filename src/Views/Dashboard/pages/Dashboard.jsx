@@ -6,11 +6,12 @@ import AxiosAPI from "../../Components/axios";
 import { useEffect, useState } from "react";
 import ProjectImagesDailog from "../Dialogs/ProjectImagesDialog";
 import LazyLoading from "../../Components/LazyLoading";
+import { useTranslation } from 'react-i18next';
 
 function Dashboard() {
     const [projects, setProjects] = useState([]);
     const [loading, setLoading] = useState(true);
-
+    const {t}=useTranslation();
     const FetchData = () => {
         AxiosAPI.get('/projects/show').then((data) => {
             setProjects(data.data);
@@ -42,24 +43,24 @@ function Dashboard() {
                     <LazyLoading />
                 ) : (
         <Box sx={{ margin: '3vh' }}>
-            <Typography sx={{ textAlign: 'center', marginY: '5vh' }}>Projects</Typography>
+            <Typography sx={{ textAlign: 'center', marginY: '5vh' }}>{t('projects')}</Typography>
             <Link to='/dashboard/addProject'>
-                <Button variant='outlined' color='success' sx={{ float: 'right', marginX: '5vh' }} startIcon={<AddOutlined />}>Project</Button>
+                <Button variant='outlined' color='success' sx={{ float: 'right', marginX: '5vh' }} startIcon={<AddOutlined />}>{t('project')}</Button>
             </Link>
             <TableContainer component={Paper} sx={{ maxHeight: '60vh', overflowY: 'scroll', scrollbarWidth: 'thin' }}>
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell align="center">Title</TableCell>
-                            <TableCell align="center">Subtitle</TableCell>
-                            <TableCell align="center">Paragraph1</TableCell>
-                            <TableCell align="center">Paragraph2</TableCell>
-                            <TableCell align="center">Paragraph3</TableCell>
-                            <TableCell align="center">Paragraph4</TableCell>
-                            <TableCell align="center">Date</TableCell>
-                            <TableCell align="center">Photo1</TableCell>
-                            <TableCell align="center">Photo2</TableCell>
-                            <TableCell align="center">Action</TableCell>
+                            <TableCell align="center">{t('title')}</TableCell>
+                            <TableCell align="center">{t('subtitle')}</TableCell>
+                            <TableCell align="center">{t('paragraph1')}</TableCell>
+                            <TableCell align="center">{t('paragraph2')}</TableCell>
+                            <TableCell align="center">{t('paragraph3')}</TableCell>
+                            <TableCell align="center">{t('paragraph4')}</TableCell>
+                            <TableCell align="center">{t('date')}</TableCell>
+                            <TableCell align="center">{t('photo1')}</TableCell>
+                            <TableCell align="center">{t('photo2')}</TableCell>
+                            <TableCell align="center">{t('action')}</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -74,17 +75,22 @@ function Dashboard() {
                                 </TableCell>
                                 <TableCell align="center" >
                                 <Box sx={{backgroundColor:'',overflow:'hidden',maxHeight:'10vh'}}>
-                                    {project.paragraph1}
+                                    {project.paragraph2}
                                     </Box>
                                 </TableCell>
                                 <TableCell align="center" >
                                 <Box sx={{backgroundColor:'',overflow:'hidden',maxHeight:'10vh'}}>
-                                    {project.paragraph1}
+                                    {project.paragraph3}
                                     </Box>
                                 </TableCell>
                                 <TableCell align="center">
                                     <Box sx={{backgroundColor:'',overflow:'hidden',maxHeight:'10vh'}}>
-                                    {project.paragraph1}
+                                    {project.paragraph4}
+                                    </Box>
+                                </TableCell>
+                                <TableCell align="center">
+                                    <Box sx={{backgroundColor:'',overflow:'hidden',maxHeight:'10vh'}}>
+                                    {project.date}
                                     </Box>
                                 </TableCell>
 

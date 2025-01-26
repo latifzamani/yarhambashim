@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import AxiosAPI from '../Components/axios';
 import { useNavigate, useParams } from 'react-router-dom';
+import Toastify from '../Components/Toastify';
 
 
 function Register() {
@@ -12,6 +13,10 @@ function Register() {
     const [showPassword, setShowPassword] = useState(false);
     const { id } = useParams();
     const navigate=useNavigate();
+    const [Stoast,setStoast]=useState(false);
+    const [Ftoast,setFtoast]=useState(false);
+    const [sendMode,setSendMode]=useState(false);
+
 
     const handleShowPassword = () => {
         setShowPassword(!showPassword)
@@ -32,17 +37,25 @@ function Register() {
     const onSubmit = (data) => {
         let result = '';
         if (id) {
+            setSendMode(true);
             result = AxiosAPI.post(`/user/${id}/update`, { ...data });
         } else {
+            setSendMode(true);
             result = AxiosAPI.post('/user/register', { ...data });
 
         }
         result.then((response) => {
             console.log(response);
+            setStoast(true);
+            setSendMode(false);
             navigate('/dashboard/users');
         }).then((error) => {
+            setSendMode(false);
+            setFtoast(true);
             console.log(error);
         })
+        setStoast(false);
+        setFtoast(false);
     }
 
     useEffect(() => {
@@ -52,6 +65,9 @@ function Register() {
     }, [id, reset]);
     return (
         <Container sx={{ justifyItems: 'center', marginY: '10vh' }}>
+            {Stoast && (<Toastify message="Successfully Done !" alertType="success"/>)}
+            {Ftoast && (<Toastify message="Failed !" alertType="error"/>)}
+
             <Typography variant='h6'>User Register</Typography>
             <form onSubmit={handleSubmit(onSubmit)} style={{ display: 'flex', flexDirection: 'column', gap: 20, width: '50%', margin: '10px' }}>
                 <TextField type='text' slotProps={{inputLabel:{shrink: true}}} defaultValue={user.name} {...register('name', { required: 'Name is required' })} variant='outlined' label="Name" />
@@ -124,7 +140,7 @@ function Register() {
                 {errors.password_confirmation && (
                     <Typography variant='p' fontSize='12px' color='red'>{errors.password_confirmation.message}</Typography>
                 )}
-                <Button type='submit' variant='outlined' sx={{ marginLeft: '60%' }}>{id ? 'Update' : 'Register'}</Button>
+                <Button type='submit' variant='outlined' sx={{ marginLeft: '60%' }}>{sendMode ? "Submitting...":(id ? 'Update' : 'Register')}</Button>
             </form>
 
         </Container>

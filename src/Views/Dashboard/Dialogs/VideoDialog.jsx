@@ -4,6 +4,8 @@ import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form";
 import AxiosAPI from "../../Components/axios";
 import LazyLoading from "../../Components/LazyLoading";
+import Toastify from "../../Components/Toastify";
+import { useTranslation } from "react-i18next";
 
 function VideoDialog() {
     const [openDialog,setOpenDialog]=useState(false);
@@ -11,7 +13,10 @@ function VideoDialog() {
     const [videos,setVideos]=useState([]);
     const {handleSubmit,setValue}=useForm();
     const [loading, setLoading] = useState(true);
-
+    const [Stoast,setStoast]=useState(false);
+    const [Ftoast,setFtoast]=useState(false);
+    const [sendMode,setSendMode]=useState(false);
+    const {t}=useTranslation();
 
     const handleFileChange1= (e, field) => {
         const file = e.target.files[0];  // Get the first file from the FileList
@@ -51,7 +56,7 @@ function VideoDialog() {
         data.append('video3',Data.video3);
 
         console.log(data);
-
+            setSendMode(true);
             AxiosAPI.post(`/videos/${selectedItem.id}/update`,data,{
                 headers:{
                     'Content-Type': 'multipart/form-data',
@@ -59,11 +64,16 @@ function VideoDialog() {
             }).then((response)=>{
             console.log(response);
             FetchData();
+            setStoast(true);
+            setSendMode(false);
             setOpenDialog(false);
         }).catch((error)=>{
+            setSendMode(false);
+            setFtoast(true);
             console.log(error);
         })
-
+        setStoast(false);
+        setFtoast(false);
 
     }
 
@@ -87,16 +97,19 @@ function VideoDialog() {
             ) :
              (
                 <>
-    <Typography sx={{ textAlign: 'center', marginY: '5vh' }}>Videos</Typography>
+    <Typography sx={{ textAlign: 'center', marginY: '5vh' }}>{t('videos')}</Typography>
+            {Stoast && (<Toastify message="Successfully Done !" alertType="success"/>)}
+            {Ftoast && (<Toastify message="Failed !" alertType="error"/>)}
+
             <TableContainer component={Paper}>
                 {/* {JSON.stringify(selectedItem)} */}
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell align='center'>Home</TableCell>
-                            <TableCell align='center'>Know Us</TableCell>
-                            <TableCell align='center'>About Us</TableCell>
-                            <TableCell align='center'>Action</TableCell>
+                            <TableCell align='center'>{t('home')}</TableCell>
+                            <TableCell align='center'>{t('knowaboutus')}</TableCell>
+                            <TableCell align='center'>{t('aboutus')}</TableCell>
+                            <TableCell align='center'>{t('action')}</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -130,16 +143,16 @@ function VideoDialog() {
             </IconButton>
         </DialogContentText>
         <DialogTitle>
-            <Typography variant="h6" sx={{ textAlign:'center' }}>Video Form</Typography>
+            <Typography variant="h6" sx={{ textAlign:'center' }}>{t('videos')}</Typography>
         </DialogTitle>
         <DialogContent>
             {/* Form */}
             <form method="post" onSubmit={handleSubmit(submit)}>
-                <TextField type="file" variant="standard" onChange={(e)=>handleFileChange1(e,'video1')} label='Home'/>
-                <TextField type="file" variant="standard" onChange={(e)=>handleFileChange2(e,'video2')} label='Know Us'/>
-                <TextField type="file" variant="standard" onChange={(e)=>handleFileChange3(e,'video3')} label='About Us'/>
+                <TextField type="file" variant="standard" onChange={(e)=>handleFileChange1(e,'video1')} label={t('home')}/>
+                <TextField type="file" variant="standard" onChange={(e)=>handleFileChange2(e,'video2')} label={t('knowaboutus')}/>
+                <TextField type="file" variant="standard" onChange={(e)=>handleFileChange3(e,'video3')} label={t('aboutus')}/>
                 <Button type="submit" variant="contained" color="success" sx={{float:'right',margin:'3vh'}}>
-                    {(Object.keys(selectedItem).length>0 ? 'Update':'Save')}
+                    {sendMode ? "Submitting..." :(Object.keys(selectedItem).length>0 ? 'Update':'Save')}
                 </Button>
             </form>
         </DialogContent>

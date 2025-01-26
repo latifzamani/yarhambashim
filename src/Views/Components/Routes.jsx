@@ -69,7 +69,7 @@ const Router=createBrowserRouter([
     },
     {
         path:'/dashboard',
-        element: token ? <DashboardLayoutInt/> :<Navigate to='/login' replace/>,
+        element: token ? <DashboardLayoutInt/> :<NotFound/>,
         children:[
             {
                 path:'/dashboard',

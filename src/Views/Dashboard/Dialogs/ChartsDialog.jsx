@@ -5,6 +5,8 @@ import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form";
 import AxiosAPI from "../../Components/axios";
 import LazyLoading from "../../Components/LazyLoading";
+import Toastify from "../../Components/Toastify";
+import { useTranslation } from "react-i18next";
 
 function ChartsDialog() {
     const [openDialog, setOpenDialog] = useState(false);
@@ -12,6 +14,10 @@ function ChartsDialog() {
     const [loading, setLoading] = useState(true);
     const [chartData,setChartData]=useState([]);
     const {handleSubmit,register,formState:{errors}}=useForm();
+    const [Stoast,setStoast]=useState(false);
+    const [Ftoast,setFtoast]=useState(false);
+    const [sendMode,setSendMode]=useState(false);
+    const {t}=useTranslation();
 
     const FetchData=()=>{
         AxiosAPI.get('/chart/show').then((data)=>{
@@ -43,17 +49,25 @@ function ChartsDialog() {
         data.append('label',Data.label);
         let result='';
         if(Object.keys(selectedItem).length>0){
+            setSendMode(true);
             result=AxiosAPI.post(`/chart/${selectedItem?.id}/update`,data)
         }else{
+            setSendMode(true);
             result=AxiosAPI.post('/chart/store',data)
         }
 
         result.then(()=>{
             setOpenDialog(false);
             FetchData();
+            setStoast(true);
+            setSendMode(false);
         }).catch((error)=>{
+            setSendMode(false);
+            setFtoast(true);
             console.log(error);
-            })
+            });
+            setStoast(false);
+            setFtoast(false);
     };
 
     const handleDialog = () => {
@@ -76,15 +90,18 @@ function ChartsDialog() {
             ) :
              (
                 <>
-            <Typography sx={{ textAlign: 'center', marginY: '5vh' }}>Chart Percentages</Typography>
-            <Button variant='outlined' onClick={handleDialog} color='success' sx={{ float: 'right', marginX: '5vh' }} startIcon={<AddOutlined />}>Percentage</Button>
+            <Typography sx={{ textAlign: 'center', marginY: '5vh' }}>{t('chart')}/{t('percentage')}</Typography>
+            {Stoast && (<Toastify message="Successfully Done !" alertType="success"/>)}
+            {Ftoast && (<Toastify message="Failed !" alertType="error"/>)}
+
+            <Button variant='outlined' onClick={handleDialog} color='success' sx={{ float: 'right', marginX: '5vh' }} startIcon={<AddOutlined />}>{t('percentage')}</Button>
             <TableContainer component={Paper} sx={{ maxHeight: '60vh', overflowY: 'scroll', scrollbarWidth: 'thin' }}>
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell align="center">Value</TableCell>
-                            <TableCell align="center">Label</TableCell>
-                            <TableCell align="center">Action</TableCell>
+                            <TableCell align="center">{t('value')}</TableCell>
+                            <TableCell align="center">{t('label')}</TableCell>
+                            <TableCell align="center">{t('action')}</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -120,23 +137,23 @@ function ChartsDialog() {
                 </DialogContentText>
                 <DialogTitle>
                         {/* {JSON.stringify(selectedItem)} */}
-                    <Typography variant="h6" sx={{ textAlign: 'center' }}>Chart Percentage</Typography>
+                    <Typography variant="h6" sx={{ textAlign: 'center' }}>{t('chart')}/{t('percentage')}</Typography>
                 </DialogTitle>
                 <DialogContent>
                     {/* Form */}
                     <form method="post" onSubmit={handleSubmit(submit)}>
                         <Box sx={{ display:'flex',justifyContent:'space-between',gap:4 }}>
-                        <TextField type="text" defaultValue={selectedItem.value} variant="standard" label="Value" {...register('value',updateMode ?'':{required:'Value is required !'})}/>
+                        <TextField type="text" defaultValue={selectedItem.value} variant="standard" label={t('value')} {...register('value',updateMode ?'':{required:'Value is required !'})}/>
                         {errors.value && (
                             <small style={{ color:'red' }}>{errors.value.message}</small>
                         )}
-                        <TextField type="text" defaultValue={selectedItem.label} variant="standard" label="Label" {...register('label',updateMode ?'':{required:'Label is required !'})}/>
+                        <TextField type="text" defaultValue={selectedItem.label} variant="standard" label={t('label')} {...register('label',updateMode ?'':{required:'Label is required !'})}/>
                         {errors.label && (
                             <small style={{ color:'red' }}>{errors.label.message}</small>
                         )}
                         </Box>
 
-                        <Button type="submit" variant="contained" color="success" sx={{ float: 'right', margin: '3vh' }}>{updateMode ? 'Update':'Save'}</Button>
+                        <Button type="submit" variant="contained" color="success" sx={{ float: 'right', margin: '3vh' }}>{sendMode ? "Submitting...":(updateMode ? 'Update':'Save')}</Button>
                     </form>
                 </DialogContent>
             </Dialog>

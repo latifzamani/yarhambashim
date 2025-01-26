@@ -6,12 +6,16 @@ import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { useState } from "react";
 import { Close } from "@mui/icons-material";
 import SendMessage from "../Components/SendMessage";
+import { useTranslation } from "react-i18next";
 
 // import TabContext from '@mui/lab';
 function Donation() {
 
     const [tabValue, setTabValue] = useState(1);
     const [openDialog,setOpenDialog]=useState(false);
+    const {t}=useTranslation();
+
+
     const handleTabValue = (e, newValue) => {
         setTabValue(newValue);
     }
@@ -25,13 +29,13 @@ function Donation() {
                 <Box sx={{ display: 'flex', flexDirection:{xs:'column',sm:'row',md:'row'}, justifyContent: 'space-between', gap: 4, width: '100%', height: 'auto', backgroundColor: 'rgb(252,237,198)', position: '', padding: '5vh' }}>
                     <Box sx={{ width: {xs:'100%',sm:'60%',md:'60%'}, backgroundColor: '' }}>
                         <Typography variant="h6" sx={{ display: 'inline' }}>__________</Typography>
-                        <Typography variant="body1" sx={{ display: 'inline', marginX: '2vh', backgroundColor: '' }}> DONATE</Typography>
+                        <Typography variant="body1" sx={{ display: 'inline', marginX: '2vh', backgroundColor: '' }}>{t('donation')}</Typography>
                         <Box sx={{ marginLeft:{xs:'2vh',sm:'12vh',md:'12vh'} }}>
-                            <Typography variant="h6">Making a donation for our children</Typography>
-                            <Typography variant="body1">We provide a better place for children this is a descriptio  better place for children this is a descriptio We provide a better place for children this is a </Typography>
+                            <Typography variant="h6">{t('donationt')}</Typography>
+                            <Typography variant="body1">{t('donationdes')}</Typography>
                             {/* <Link to=''> */}
                                 <Button variant="contained" onClick={handleDailog} sx={{ backgroundColor: 'rgb(242,200,15)', textDecorationLine: 'none', color: 'black', marginTop: '5vh' }}>
-                                    Donate now
+                                {t('donatenow')}
                                 </Button>
                             {/* </Link> */}
 
@@ -45,30 +49,21 @@ function Donation() {
             <Box sx={{ padding: '5vh' }}>
                 <Box sx={{ display: 'flex',flexDirection:{xs:'column',sm:'row',md:'row'}, justifyContent: 'space-between', gap: 12,paddingX:{xs:'0vh',sm:'10vh',md:'10vh'} }}>
                     <Box sx={{ width: {xs:'100%',sm:'50%',md:'50%'} }}>
-                        <Typography variant="h6">How you can contribute to caring for our kids</Typography>
-                        <Typography variant="body1">This is a describtion on How you can contribute to caring for our kids describtion on How you describtion on How you can contribute to caring for our can contribute to caring for our</Typography>
+                        <Typography variant="h6">{t('section1t')}</Typography>
+                        <Typography variant="body1">{t('section1des')}</Typography>
                     </Box>
                     <Box sx={{ width: {xs:'100%',sm:'50%',md:'50%'} }}>
                         <TabContext value={tabValue}>
                             <Box >
                                 <TabList onChange={handleTabValue}>
-                                    <Tab label="Overview" value={1} />
-                                    <Tab label="Impact" value={2} />
-                                    <Tab label="What you get" value={3} />
+                                    <Tab label={t('overview')} value={1} />
+                                    <Tab label={t('impact')} value={2} />
+                                    <Tab label={t('whatyouget')} value={3} />
                                 </TabList>
                             </Box>
-                            <TabPanel value={1} sx={{backgroundColor:''}}>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in
-                                eros elemenstae tum tristique. Duierat.
-                            </TabPanel>
-                            <TabPanel value={2}>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in
-                            eros elementum tristique. Duis cursus, mi
-                            </TabPanel>
-                            <TabPanel value={3}>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in
-                            eros elementum tristique.
-                            </TabPanel>
+                            <TabPanel value={1} sx={{backgroundColor:''}}>{t('overviewdes')}</TabPanel>
+                            <TabPanel value={2}>{t('impactdes')}</TabPanel>
+                            <TabPanel value={3}>{t('whatyougetdes')}</TabPanel>
                         </TabContext>
                     </Box>
                 </Box>
@@ -76,9 +71,9 @@ function Donation() {
                 <hr />
                 <br />
                 <Box sx={{ display: 'flex',flexDirection:{xs:'column',sm:'row',md:'row'}, justifyContent: 'space-between', gap: 5,paddingX:{xs:'3vh',sm:'10vh',md:'10vh'} }}>
-                    <Typography variant="h6" sx={{ width: {xs:'100%',sm:'33%',md:'33%'} }}>How we use your donation</Typography>
-                    <Typography variant="body1" sx={{ width: {xs:'100%',sm:'33%',md:'33%'}}}>This is a describtion on how you use the donation describtion ondonation describtion on how you use thedescribtion how you use thedescribtion on how you use the</Typography>
-                    <Typography variant="body1" sx={{ width: {xs:'100%',sm:'33%',md:'33%'} }}>This is a describtion on how you use the donation describtion  how you use thedescribtion on how you use the</Typography>
+                    <Typography variant="h6" sx={{ width: {xs:'100%',sm:'33%',md:'33%'} }}>{t('section2t')}</Typography>
+                    <Typography variant="body1" sx={{ width: {xs:'100%',sm:'33%',md:'33%'}}}>{t('section2des1')}</Typography>
+                    <Typography variant="body1" sx={{ width: {xs:'100%',sm:'33%',md:'33%'} }}>{t('section2des2')}</Typography>
                 </Box>
                 <BigImage2 />
             </Box>
@@ -94,8 +89,8 @@ function Donation() {
           </IconButton>
         </DialogContentText>
         <DialogTitle>
-          <Typography variant="h6" sx={{textAlign:'center'}}>Help A Child With Donation</Typography>
-          <Typography variant="body1" sx={{textAlign:'center'}}>Please Send Us A Message For Donation</Typography>
+          <Typography variant="h6" sx={{textAlign:'center'}}>{t('donationmessaget')}</Typography>
+          <Typography variant="body1" sx={{textAlign:'center'}}>{t('donationmessagest')}</Typography>
         </DialogTitle>
         <DialogContent>
           {/* Sending Message Component */}

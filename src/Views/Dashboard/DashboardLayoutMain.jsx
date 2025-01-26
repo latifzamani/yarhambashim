@@ -9,6 +9,7 @@ import { Dashboard, Home, HomeOutlined, Info, InfoOutlined, Logout, MenuBook, Me
 import { icon } from 'leaflet';
 import AxiosAPI from '../Components/axios';
 import { useMainContext } from '../Components/ContextApi';
+import { useTranslation } from 'react-i18next';
 
 
 const drawerWidth = 240;
@@ -19,20 +20,21 @@ const createEmotionCache = (direction) =>
         stylisPlugins: direction === 'rtl' ? [rtlPlugin] : [],
     });
 
-const navitems = [
-    { url: '/', name: 'WebSite',icon:<HomeOutlined/>},
-    { url: '/dashboard', name: 'Projects',icon:<WorkOutline/> },
-    { url: '/dashboard/media', name: 'Media',icon:<PhotoCameraOutlined/> },
-    { url: '/dashboard/info', name: 'Info',icon:<InfoOutlined/> },
-    { url: '/dashboard/users', name: 'Users',icon:<PeopleOutline/> },
-]
 
-function DashboardLayoutMain({ children, window }) {
-    const [language, setLanguage] = useState('en');
-    const [openDrawer, setOpenDrawer] = useState(false);
-    const direction = language === 'en' ? 'ltr' : 'rtl';
-    const {setToken,setCurrentUser,currentUser}=useMainContext();
-    const navigate=useNavigate();
+    function DashboardLayoutMain({ children,window }) {
+        const [language, setLanguage] = useState('en');
+        const [openDrawer, setOpenDrawer] = useState(false);
+        const {t}=useTranslation();
+        const direction = language === 'en' ? 'ltr' : 'rtl';
+        const {setToken,setCurrentUser,currentUser}=useMainContext();
+        const navigate=useNavigate();
+        const navitems = [
+            { url: '/', name: `${t('website')}`,icon:<HomeOutlined/>},
+            { url: '/dashboard', name:`${t('dashboard')}`,icon:<WorkOutline/> },
+            { url: '/dashboard/media', name:`${t('media')}`,icon:<PhotoCameraOutlined/> },
+            { url: '/dashboard/info', name:`${t('info')}`,icon:<InfoOutlined/> },
+            { url: '/dashboard/users', name: `${t('users')}`,icon:<PeopleOutline/> },
+        ]
 
     const handleDrawerToggle = () => {
         setOpenDrawer(!openDrawer);
@@ -43,7 +45,7 @@ function DashboardLayoutMain({ children, window }) {
         }
         AxiosAPI.get('/logout').then((res)=>{
             console.log(res);
-            navigate('/login');
+            navigate('/');
             localStorage.removeItem('YHTOKEN');
             setCurrentUser(null);
             setToken(null);
@@ -71,6 +73,7 @@ function DashboardLayoutMain({ children, window }) {
         .then((data)=>{
             setCurrentUser(data.data);
             console.log(data);
+            window.location.reload();
 
         }).catch((error)=>{
             console.log(error);
@@ -98,8 +101,8 @@ function DashboardLayoutMain({ children, window }) {
                         {/* Language */}
                         <Select value={language} size='small' onChange={(e) => { setLanguage(e.target.value); i18n.changeLanguage(e.target.value) }}>
                             <MenuItem value='en'>English</MenuItem>
-                            <MenuItem value='fa'>Persian</MenuItem>
-                            <MenuItem value="pa">Pashto</MenuItem>
+                            <MenuItem value='fa'>فارسی</MenuItem>
+                            <MenuItem value="pa">پشتو</MenuItem>
                         </Select>
                         </Box>
                     </Toolbar>
@@ -123,9 +126,9 @@ function DashboardLayoutMain({ children, window }) {
                                     </RouterLink>
                                 ))}
                                 {!currentUser.email_verified_at &&(
-                                <Button variant="text" startIcon={<SecurityOutlined/>} onClick={handleEmailVerify} sx={{ width: '100%',justifyContent:'start' }}>VerifyEmail</Button>
+                                <Button variant="text" startIcon={<SecurityOutlined/>} onClick={handleEmailVerify} sx={{ width: '100%',justifyContent:'start' }}>{t('verifyemail')}</Button>
                                 )}
-                                <Button variant="text" startIcon={<Logout/>} onClick={handleLogout} sx={{ width: '100%',justifyContent:'start' }}>Logout</Button>
+                                <Button variant="text" startIcon={<Logout/>} onClick={handleLogout} sx={{ width: '100%',justifyContent:'start' }}>{t('logout')}</Button>
                             </Box>
                             </List>
                         </Box>

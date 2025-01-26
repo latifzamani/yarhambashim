@@ -9,6 +9,7 @@ import createCache from '@emotion/cache';
 import rtlPlugin from 'stylis-plugin-rtl';
 import { CacheProvider } from "@emotion/react";
 import ForgotPassword from "../ForgotPassword";
+import Toastify from "../Components/Toastify";
 
 
 // Emotion cache for RTL/LTR
@@ -27,20 +28,27 @@ function Login() {
     const [language, setLanguage] = useState('en');
     const direction = language === 'en' ? 'ltr' : 'rtl';
     const [showPassword,setShowPassword]=useState(false);
+    const [Stoast,setStoast]=useState(false);
+    const [Ftoast,setFtoast]=useState(false);
+    const [sendMode,setSendMode]=useState(false);
 
     const handleShowPassword=()=>{
         setShowPassword(!showPassword);
     }
     const onSubmit = (data) => {
-
+        setSendMode(true);
         AxiosAPI.post('/login', { ...data })
             .then((data) => {
                 console.log(data.data);
                 setCurrentUser(data.data.user);
                 setToken(data.data.token);
                 navigate('/dashboard');
+                setSendMode(false);
+                setStoast(true);
 
             }).catch((err) => {
+                setSendMode(false);
+                setFtoast(true);
                 // console.log(err);
                 if (err.status === 429) {
                     setError(err.message);
@@ -53,7 +61,9 @@ function Login() {
                 } else {
                     setError('An unexpected error occurred.');
                 }
-            })
+            });
+            setStoast(false);
+            setFtoast(false);
         console.log(error);
 
     }
@@ -78,6 +88,9 @@ function Login() {
     }, [direction]);
     return (
         <CacheProvider value={createEmotionCache(direction)}>
+            {Stoast && (<Toastify message="Login Successfully Done !" alertType="success"/>)}
+            {Ftoast && (<Toastify message="Login attempt Failed !" alertType="error"/>)}
+
             <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'column', md: 'row' } }}>
                 <Box sx={{ backgroundImage: 'url(../../src/assets/images/23.jpeg)', width: { xs: '100%', sm: '100%', md: '50%' }, height: { xs: '40vh', sm: '40vh', md: '100vh' }, backgroundRepeat: 'no-repeat', backgroundSize: "cover", backgroundPosition: 'center' }}>
                     <Typography variant="h4" sx={{ backgroundImage: 'linear-gradient(rgb(229,219,219,0.4),rgb(229,219,219,0.5))' }} align="center" marginTop={'50px'}>
@@ -96,6 +109,10 @@ function Login() {
                             <Person fontSize="large" sx={{ margin: '12px' }} />
                             User Login
                         </Typography>
+
+                        {error && <Typography sx={{ textAlign:'center',color:'red'}}>{error}</Typography>}
+                        {timer !== null && <Typography sx={{ textAlign:'center',color:'red'}}>Try again in <Typography sx={{ display:'inline',color:'black',fontSize:'1.2rem' }}>{timer}</Typography> seconds.</Typography>}
+
                         <form onSubmit={handleSubmit(onSubmit)} style={{ display: 'flex', flexDirection: 'column', padding: '10vh' }}>
                             <TextField type="email" label="E-Mail" variant="outlined" {...register('email', { required: 'E-Mail is required' })} sx={{ marginBottom: '10px' }} />
                             {errors.email && (
@@ -117,16 +134,14 @@ function Login() {
                             {errors.password && (
                                 <Typography variant="p" color="error" sx={{ fontSize: '10px', marginBottom: '10px' }}>{errors.password.message}</Typography>
                             )}
-                            <Button type="submit" disabled={timer != null} variant="contained" sx={{ width: '50%', marginLeft: '20%' }} color="success" startIcon={<LoginOutlined />}>Login</Button>
+                            <Button type="submit" disabled={timer != null} variant="contained" sx={{ width: '50%', marginLeft: '20%' }} color="success" startIcon={<LoginOutlined />}>{sendMode ? "Submitting..." :'Login'}</Button>
                         </form>
                         <Typography align="center">
                         <Button variant="text" onClick={()=>setOpenDialog(!openDialog)} sx={{ paddingBottom: '20px' }} align="center">
                             Forgot the password ?
                         </Button>
                         </Typography>
-                        {error && <div className="error">{error}</div>}
-                        {timer !== null && <div>Try again in {timer} seconds.</div>}
-                    </Paper>
+                        </Paper>
                 </Box>
 
                 {/* Dialog */}

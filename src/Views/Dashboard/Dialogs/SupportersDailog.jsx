@@ -4,6 +4,8 @@ import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form";
 import AxiosAPI from "../../Components/axios";
 import LazyLoading from "../../Components/LazyLoading";
+import Toastify from "../../Components/Toastify";
+import { useTranslation } from "react-i18next";
 
 function SupportersDailog() {
     const [openDialog, setOpenDialog] = useState(false);
@@ -11,6 +13,15 @@ function SupportersDailog() {
     const [supporters,setSupporters]=useState([]);
     const [loading, setLoading] = useState(true);
     const {handleSubmit,setValue,register,formState:{errors}}=useForm();
+    const [Stoast,setStoast]=useState(false);
+    const [Ftoast,setFtoast]=useState(false);
+    const [sendMode,setSendMode]=useState(false);
+    const {t}=useTranslation();
+
+
+
+
+
     const handleFileChange=(e)=>{
         setValue('logo',e.target.files[0]);
     }
@@ -46,12 +57,14 @@ function SupportersDailog() {
 
         let result='';
         if(Object.keys(selectedItem).length>0){
+            setSendMode(true);
             result=AxiosAPI.post(`/supporters/${selectedItem?.id}/update`,data,{
                 headers:{
                     'Content-Type':'multipart/form-data',
                 }
             })
         }else{
+            setSendMode(true);
             result=AxiosAPI.post('/supporters/store',data,{
                 headers:{
                     'Content-Type':'multipart/form-data',
@@ -62,9 +75,15 @@ function SupportersDailog() {
         result.then(()=>{
             setOpenDialog(false);
             FetchData();
+            setStoast(true);
+            setSendMode(false);
         }).catch((error)=>{
+            setSendMode(false);
+            setFtoast(true);
             console.log(error);
             })
+            setStoast(false);
+        setFtoast(false);
     };
 
     const handleDialog = () => {
@@ -85,13 +104,16 @@ function SupportersDailog() {
             ) :
              (
                 <>
-            <Typography sx={{ textAlign: 'center', marginY: '5vh' }}>Supporters</Typography>
-            <Button variant='outlined' onClick={handleDialog} color='success' sx={{ float: 'right', marginX: '5vh' }} startIcon={<AddOutlined />}>Supporter</Button>
+            <Typography sx={{ textAlign: 'center', marginY: '5vh' }}>{t('supporters')}</Typography>
+            {Stoast && (<Toastify message="Successfully Done !" alertType="success"/>)}
+            {Ftoast && (<Toastify message="Failed !" alertType="error"/>)}
+
+            <Button variant='outlined' onClick={handleDialog} color='success' sx={{ float: 'right', marginX: '5vh' }} startIcon={<AddOutlined />}>{t('supporter')}</Button>
             <TableContainer component={Paper} sx={{ maxHeight: '60vh', backgroundColor: '', overflowY: 'scroll', scrollbarWidth: 'thin' }}>
                 <TableHead>
                     <TableRow>
-                        <TableCell align='center'>Logo</TableCell>
-                        <TableCell align='center'>Action</TableCell>
+                        <TableCell align='center'>{t('logo')}</TableCell>
+                        <TableCell align='center'>{t('action')}</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -128,12 +150,12 @@ function SupportersDailog() {
                 </DialogContentText>
                 <DialogTitle>
                         {/* {JSON.stringify(Object.keys(selectedItem).length)} */}
-                    <Typography variant="h6" sx={{ textAlign: 'center' }}>New Supporter</Typography>
+                    <Typography variant="h6" sx={{ textAlign: 'center' }}>{t('supporters')}</Typography>
                 </DialogTitle>
                 <DialogContent>
                     {/* Form */}
                     <form method="post" onSubmit={handleSubmit(submit)}>
-                        <TextField type="file" onChange={handleFileChange} variant="standard" label='Logo' />
+                        <TextField type="file" onChange={handleFileChange} variant="standard" label={t('logo')} />
                         <input type="hidden" {...register('logo',{
                             required:'Logo is required',
                         })}/>
@@ -142,7 +164,7 @@ function SupportersDailog() {
                             <small style={{ color:'red' }}>{errors.logo.message}</small>
                         }
                         <br />
-                        <Button type="submit" variant="contained" color="success" sx={{ float: 'right', margin: '3vh' }}>{Object.keys(selectedItem).length>0 ? 'Update':'Save'}</Button>
+                        <Button type="submit" variant="contained" color="success" sx={{ float: 'right', margin: '3vh' }}>{sendMode ? "Submitting...":(Object.keys(selectedItem).length>0 ? 'Update':'Save')}</Button>
                     </form>
                 </DialogContent>
             </Dialog>

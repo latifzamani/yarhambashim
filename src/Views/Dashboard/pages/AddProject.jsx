@@ -84,8 +84,8 @@ function AddProject() {
     }, []);
     return (
         <Box sx={{ margin: '3vh' }}>
-            {Stoast && (<Toastify message="Page Loaded Successfully" alertType="success"/>)}
-            {Ftoast && (<Toastify message="Loading Failed" alertType="error"/>)}
+            {Stoast && (<Toastify message="Successfully Done !" alertType="success"/>)}
+            {Ftoast && (<Toastify message="Failed !" alertType="error"/>)}
 
             {/* Form */}
             <Paper sx={{ padding: { xs: '2vh', sm: '10vh', md: '10vh' },marginBottom: { xs: '10vh', sm: '0vh', md: '0vh' } }}>

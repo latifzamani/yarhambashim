@@ -5,11 +5,13 @@ import image1 from '../../assets/images/23.jpeg';
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import AxiosAPI from "../Components/axios";
+import { useTranslation } from "react-i18next";
 
 
 function Media() {
 
     const[projects,setProjects]=useState([]);
+    const {t}=useTranslation();
 
     const FetchData=()=>{
     AxiosAPI.get('/projects/show').then((data)=>{
@@ -31,13 +33,13 @@ function Media() {
       <Box sx={{ display: 'flex', flexDirection: {xs:'column',sm:'row',md:'row'}, justifyContent: 'space-between', gap: 4, width: '100%', height: 'auto', backgroundColor: 'rgb(252,237,198)', position: '', padding: '1vh' }}>
         <Box sx={{ width: {xs:'100%',sm:'60%',md:'60%'}, backgroundColor: '', padding: '4vh' }}>
           <Typography variant="h6" sx={{ display: 'inline' }}>__________</Typography>
-          <Typography variant="body1" sx={{ display: 'inline', marginX: '2vh', backgroundColor: '' }}>Top News</Typography>
+          <Typography variant="body1" sx={{ display: 'inline', marginX: '2vh', backgroundColor: '' }}>{t('topnews')}</Typography>
           <Box sx={{ marginLeft: {xs:'1vh',sm:'12vh',md:'12vh'} }}>
-            <Typography variant="h6">We provide a better place for children</Typography>
-            <Typography variant="body1">We provide a better place for children this is a descriptio We provide a better place for children this is a descriptio We provide a better place for children this is a descriptio We provide a better place for children this is a descriptio We provide a better place for children</Typography>
+            <Typography variant="h6">{t('topnewstitle')}</Typography>
+            <Typography variant="body1">{t('topnewsdes')}</Typography>
             <Button variant="contained" sx={{ backgroundColor: 'rgb(242,200,75)', marginY: '5vh' }}>
               <Link to='/' style={{ textDecorationLine: 'none', color: 'black' }}>
-                Read More
+              {t('readmore')}
               </Link>
             </Button>
 

@@ -5,6 +5,8 @@ import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form";
 import AxiosAPI from "../../Components/axios";
 import LazyLoading from "../../Components/LazyLoading";
+import Toastify from "../../Components/Toastify";
+import { useTranslation } from "react-i18next";
 
 function EventDialog() {
     const [openDialog, setOpenDialog] = useState(false);
@@ -12,6 +14,13 @@ function EventDialog() {
     const [events,setEvents]=useState([]);
     const [loading, setLoading] = useState(true);
     const {handleSubmit,setValue,register,formState:{errors}}=useForm();
+    const [Stoast,setStoast]=useState(false);
+    const [Ftoast,setFtoast]=useState(false);
+    const [sendMode,setSendMode]=useState(false);
+    const {t}=useTranslation();
+
+
+
     const handleFileChange=(e)=>{
         setValue('photo',e.target.files[0]);
     }
@@ -51,12 +60,14 @@ function EventDialog() {
 
         let result='';
         if(Object.keys(selectedItem).length>0){
+            setSendMode(true);
             result=AxiosAPI.post(`/events/${selectedItem?.id}/update`,data,{
                 headers:{
                     'Content-Type':'multipart/form-data',
                 }
             })
         }else{
+            setSendMode(true);
             result=AxiosAPI.post('/events/store',data,{
                 headers:{
                     'Content-Type':'multipart/form-data',
@@ -67,9 +78,15 @@ function EventDialog() {
         result.then(()=>{
             setOpenDialog(false);
             FetchData();
+            setStoast(true);
+            setSendMode(false);
         }).catch((error)=>{
             console.log(error);
-            })
+            setSendMode(false);
+            setFtoast(true);
+            });
+        setStoast(false);
+        setFtoast(false);
     };
 
     const handleDialog = () => {
@@ -92,19 +109,21 @@ function EventDialog() {
             ) :
              (
                 <>
-            <Typography sx={{ textAlign: 'center', marginY: '5vh' }}>Events</Typography>
-            <Button variant='outlined' onClick={handleDialog} color='success' sx={{ float: 'right', marginX: '5vh' }} startIcon={<AddOutlined />}>Event</Button>
+            <Typography sx={{ textAlign: 'center', marginY: '5vh' }}>{t('events')}</Typography>
+            {Stoast && (<Toastify message="Successfully Done !" alertType="success"/>)}
+            {Ftoast && (<Toastify message="Failed !" alertType="error"/>)}
+            <Button variant='outlined' onClick={handleDialog} color='success' sx={{ float: 'right', marginX: '5vh' }} startIcon={<AddOutlined />}>{t('event')}</Button>
             <TableContainer component={Paper} sx={{ maxHeight: '60vh', overflowY: 'scroll', scrollbarWidth: 'thin' }}>
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell align="center">Title</TableCell>
-                            <TableCell align="center">Description</TableCell>
-                            <TableCell align="center">Photo</TableCell>
-                            <TableCell align="center">Address</TableCell>
-                            <TableCell align="center">Date</TableCell>
-                            <TableCell align="center">Time</TableCell>
-                            <TableCell align="center">Action</TableCell>
+                            <TableCell align="center">{t('title')}</TableCell>
+                            <TableCell align="center">{t('description')}</TableCell>
+                            <TableCell align="center">{t('photo')}</TableCell>
+                            <TableCell align="center">{t('address')}</TableCell>
+                            <TableCell align="center">{t('date')}</TableCell>
+                            <TableCell align="center">{t('time')}</TableCell>
+                            <TableCell align="center">{t('action')}</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -146,40 +165,40 @@ function EventDialog() {
                 </DialogContentText>
                 <DialogTitle>
                         {/* {JSON.stringify(selectedItem)} */}
-                    <Typography variant="h6" sx={{ textAlign: 'center' }}>New Event</Typography>
+                    <Typography variant="h6" sx={{ textAlign: 'center' }}>{t('events')}</Typography>
                 </DialogTitle>
                 <DialogContent>
                     {/* Form */}
                     <form method="post" onSubmit={handleSubmit(submit)}>
                         <Box sx={{ display:'flex',justifyContent:'space-between',gap:4 }}>
-                        <TextField type="text" defaultValue={selectedItem.title} variant="standard" label="Title" {...register('title',updateMode ?'':{required:'Title is required !'})}/>
+                        <TextField type="text" defaultValue={selectedItem.title} variant="standard" label={t('title')} {...register('title',updateMode ?'':{required:'Title is required !'})}/>
                         {errors.title && (
-                            <small style={{ color:'red' }}>{errors.title}</small>
+                            <small style={{ color:'red' }}>{errors.title.message}</small>
                         )}
-                        <TextField type="text" defaultValue={selectedItem.description} variant="standard" label="Description" {...register('description',updateMode ?'':{required:'Description is required !'})}/>
+                        <TextField type="text" defaultValue={selectedItem.description} variant="standard" label={t('description')} {...register('description',updateMode ?'':{required:'Description is required !'})}/>
                         {errors.description && (
-                            <small style={{ color:'red' }}>{errors.description}</small>
+                            <small style={{ color:'red' }}>{errors.description.message}</small>
                         )}
                         </Box>
                         <br/>
                         <Box sx={{ display:'flex',justifyContent:'space-between',gap:4 }}>
-                        <TextField type="text" defaultValue={selectedItem.address} variant="standard" label="Address" {...register('address',updateMode ?'':{required:'Address is required !'})}/>
+                        <TextField type="text" defaultValue={selectedItem.address} variant="standard" label={t('address')} {...register('address',updateMode ?'':{required:'Address is required !'})}/>
                         {errors.address && (
-                            <small style={{ color:'red' }}>{errors.address}</small>
+                            <small style={{ color:'red' }}>{errors.address.message}</small>
                         )}
-                        <TextField type="date" defaultValue={selectedItem.date} variant="standard" label="Date" {...register('date',updateMode ?'':{required:'Date is required !'})}/>
+                        <TextField type="date" defaultValue={selectedItem.date} variant="standard" label={t('date')} {...register('date',updateMode ?'':{required:'Date is required !'})}/>
                         {errors.date && (
-                            <small style={{ color:'red' }}>{errors.date}</small>
+                            <small style={{ color:'red' }}>{errors.date.message}</small>
                         )}
                         </Box>
                         <br/>
                         <Box sx={{ display:'flex',justifyContent:'space-between',gap:4 }}>
-                        <TextField type="time" defaultValue={selectedItem.time} variant="standard" label="Time" {...register('time',updateMode ?'':{required:'Time is required !'})}/>
+                        <TextField type="time" defaultValue={selectedItem.time} variant="standard" label={t('time')} {...register('time',updateMode ?'':{required:'Time is required !'})}/>
                         {errors.time && (
-                            <small style={{ color:'red' }}>{errors.time}</small>
+                            <small style={{ color:'red' }}>{errors.time.message}</small>
                         )}
 
-                        <TextField type="file" onChange={handleFileChange} variant="standard" label='photo' />
+                        <TextField type="file" onChange={handleFileChange} variant="standard" label={t('photo')} />
                         <input type="hidden" {...register('photo',updateMode ? '':{
                             // required:'Photo is required',
                         })}/>
@@ -189,7 +208,7 @@ function EventDialog() {
                         }
                         </Box>
                         <br />
-                        <Button type="submit" variant="contained" color="success" sx={{ float: 'right', margin: '3vh' }}>{updateMode ? 'Update':'Save'}</Button>
+                        <Button type="submit" variant="contained" color="success" sx={{ float: 'right', margin: '3vh' }}>{sendMode ? "Submitting...":(updateMode ? 'Update':'Save')}</Button>
                     </form>
                 </DialogContent>
             </Dialog>

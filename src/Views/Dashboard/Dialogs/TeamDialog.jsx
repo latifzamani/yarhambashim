@@ -5,6 +5,8 @@ import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form";
 import AxiosAPI from "../../Components/axios";
 import LazyLoading from "../../Components/LazyLoading";
+import Toastify from "../../Components/Toastify";
+import { useTranslation } from "react-i18next";
 
 function TeamDialog() {
     const [openDialog, setOpenDialog] = useState(false);
@@ -12,6 +14,13 @@ function TeamDialog() {
     const [loading, setLoading] = useState(true);
     const [members,setMembers]=useState([]);
     const {handleSubmit,setValue,register,formState:{errors}}=useForm();
+    const [Stoast,setStoast]=useState(false);
+    const [Ftoast,setFtoast]=useState(false);
+    const [sendMode,setSendMode]=useState(false);
+    const {t}=useTranslation();
+
+
+
     const handleFileChange=(e)=>{
         setValue('photo',e.target.files[0]);
     }
@@ -52,12 +61,14 @@ function TeamDialog() {
 
         let result='';
         if(Object.keys(selectedItem).length>0){
+            setSendMode(true);
             result=AxiosAPI.post(`/members/${selectedItem?.id}/update`,data,{
                 headers:{
                     'Content-Type':'multipart/form-data',
                 }
             })
         }else{
+            setSendMode(true);
             result=AxiosAPI.post('/members/store',data,{
                 headers:{
                     'Content-Type':'multipart/form-data',
@@ -68,9 +79,15 @@ function TeamDialog() {
         result.then(()=>{
             setOpenDialog(false);
             FetchData();
+            setStoast(true);
+            setSendMode(false);
         }).catch((error)=>{
+            setSendMode(false);
+            setFtoast(true);
             console.log(error);
             })
+            setStoast(false);
+            setFtoast(false);
     };
 
     const handleDialog = () => {
@@ -93,19 +110,21 @@ function TeamDialog() {
             ) :
              (
                 <>
-            <Typography sx={{ textAlign: 'center', marginY: '5vh' }}>Team Members</Typography>
-            <Button variant='outlined' onClick={handleDialog} color='success' sx={{ float: 'right', marginX: '5vh' }} startIcon={<AddOutlined />}>Member</Button>
+            <Typography sx={{ textAlign: 'center', marginY: '5vh' }}>{t('team')} {t('members')}</Typography>
+            {Stoast && (<Toastify message="Successfully Done !" alertType="success"/>)}
+            {Ftoast && (<Toastify message="Failed !" alertType="error"/>)}
+            <Button variant='outlined' onClick={handleDialog} color='success' sx={{ float: 'right', marginX: '5vh' }} startIcon={<AddOutlined />}>{t('member')}</Button>
             <TableContainer component={Paper} sx={{ maxHeight: '60vh', overflowY: 'scroll', scrollbarWidth: 'thin' }}>
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell align="center">Full Name</TableCell>
-                            <TableCell align="center">Position</TableCell>
-                            <TableCell align="center">Photo</TableCell>
-                            <TableCell align="center">FB</TableCell>
-                            <TableCell align="center">Instagram</TableCell>
-                            <TableCell align="center">X</TableCell>
-                            <TableCell align="center">Action</TableCell>
+                            <TableCell align="center">{t('fullname')}</TableCell>
+                            <TableCell align="center">{t('position')}</TableCell>
+                            <TableCell align="center">{t('photo')}</TableCell>
+                            <TableCell align="center">{t('facebook')}</TableCell>
+                            <TableCell align="center">{t('instagram')}</TableCell>
+                            <TableCell align="center">{t('x')}</TableCell>
+                            <TableCell align="center">{t('action')}</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -147,38 +166,38 @@ function TeamDialog() {
                 </DialogContentText>
                 <DialogTitle>
                         {/* {JSON.stringify(selectedItem)} */}
-                    <Typography variant="h6" sx={{ textAlign: 'center' }}>New Team Member</Typography>
+                    <Typography variant="h6" sx={{ textAlign: 'center' }}>{t('team')} {t('member')}</Typography>
                 </DialogTitle>
                 <DialogContent>
                     {/* Form */}
                     <form method="post" onSubmit={handleSubmit(submit)}>
                         <Box sx={{ display:'flex',justifyContent:'space-between',gap:4 }}>
-                        <TextField type="text" defaultValue={selectedItem.fullName} variant="standard" label="Full Name" {...register('fullName',updateMode ?'':{required:'Full Name is required !'})}/>
+                        <TextField type="text" defaultValue={selectedItem.fullName} variant="standard" label={t('fullname')} {...register('fullName',updateMode ?'':{required:'Full Name is required !'})}/>
                         {errors.fullName && (
-                            <small style={{ color:'red' }}>{errors.fullName}</small>
+                            <small style={{ color:'red' }}>{errors.fullName.message}</small>
                         )}
-                        <TextField type="text" defaultValue={selectedItem.position} variant="standard" label="Position" {...register('position',updateMode ?'':{required:'Position is required !'})}/>
+                        <TextField type="text" defaultValue={selectedItem.position} variant="standard" label={t('position')} {...register('position',updateMode ?'':{required:'Position is required !'})}/>
                         {errors.position && (
-                            <small style={{ color:'red' }}>{errors.position}</small>
+                            <small style={{ color:'red' }}>{errors.position.message}</small>
                         )}
                         </Box>
                         <Box sx={{ display:'flex',justifyContent:'space-between',gap:4 }}>
-                        <TextField type="text" defaultValue={selectedItem.facebook} variant="standard" label="Facebook" {...register('facebook')}/>
+                        <TextField type="text" defaultValue={selectedItem.facebook} variant="standard" label={t('facebook')} {...register('facebook')}/>
                         {errors.facebook && (
-                            <small style={{ color:'red' }}>{errors.facebook}</small>
+                            <small style={{ color:'red' }}>{errors.facebook.message}</small>
                         )}
-                        <TextField type="text" defaultValue={selectedItem.instagram} variant="standard" label="Instagram" {...register('instagram')}/>
+                        <TextField type="text" defaultValue={selectedItem.instagram} variant="standard" label={t('instagram')} {...register('instagram')}/>
                         {errors.instagram && (
-                            <small style={{ color:'red' }}>{errors.instagram}</small>
+                            <small style={{ color:'red' }}>{errors.instagram.message}</small>
                         )}
                         </Box>
                         <Box sx={{ display:'flex',justifyContent:'space-between',gap:4 }}>
-                        <TextField type="text" defaultValue={selectedItem.x} variant="standard" label="X" {...register('x')}/>
+                        <TextField type="text" defaultValue={selectedItem.x} variant="standard" label={t('x')} {...register('x')}/>
                         {errors.x && (
-                            <small style={{ color:'red' }}>{errors.x}</small>
+                            <small style={{ color:'red' }}>{errors.x.message}</small>
                         )}
 
-                        <TextField type="file" onChange={handleFileChange} variant="standard" label='photo' />
+                        <TextField type="file" onChange={handleFileChange} variant="standard" label={t('photo')} />
                         <input type="hidden" {...register('photo',updateMode ? '':{
                             // required:'Photo is required',
                         })}/>
@@ -188,7 +207,7 @@ function TeamDialog() {
                         }
                         </Box>
                         <br />
-                        <Button type="submit" variant="contained" color="success" sx={{ float: 'right', margin: '3vh' }}>{updateMode ? 'Update':'Save'}</Button>
+                        <Button type="submit" variant="contained" color="success" sx={{ float: 'right', margin: '3vh' }}>{sendMode ? "Submitting...":(updateMode ? 'Update':'Save')}</Button>
                     </form>
                 </DialogContent>
             </Dialog>

@@ -7,15 +7,19 @@ import AxiosAPI from "../Components/axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ProjectImages from "../Components/ProjectImages";
+import LazyLoading from "../Components/LazyLoading";
+import { useTranslation } from "react-i18next";
 
 function ProjectReadMore() {
     const[project,setProject]=useState([]);
+    const [loading, setLoading] = useState(true);
+    const {t}=useTranslation();
     const {id}=useParams();
     const FetchData=()=>{
     AxiosAPI.get(`/projects/${id}/show`).then((data)=>{
         setProject(data.data);
         console.log(data.data);
-
+        setLoading(false);
     }).catch((error)=>{
         console.log(error);
 
@@ -27,10 +31,16 @@ function ProjectReadMore() {
     },[])
     return (
         <>
+            {loading ?
+            (
+                <LazyLoading />
+            ) :
+             (
+            <>
             <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 4, width: '100%', height: 'auto', backgroundColor: '', position: '', paddingX: { xs: '5vh', sm: '10vh', md: '40vh' }, paddingY: '5vh' }}>
                 <Box sx={{ width: '100%', backgroundColor: '' }}>
                     <Typography variant="h6" sx={{ display: 'inline' }}>__________</Typography>
-                    <Typography variant="body1" sx={{ display: 'inline', marginX: '2vh', backgroundColor: '' }}> OUR PROJECTS</Typography>
+                    <Typography variant="body1" sx={{ display: 'inline', marginX: '2vh', backgroundColor: '' }}>{t('ourprojects')}</Typography>
                     <Box sx={{ marginLeft: '12vh' }}>
                         <Typography variant="h6">{project.title}</Typography>
                         <br/>
@@ -61,34 +71,26 @@ function ProjectReadMore() {
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 5 }}>
                     <Box sx={{ width: '50%' }}>
                         <PendingActions />
-                        <Typography variant="h6" sx={{ display: 'inline', marginX: '2vh' }}>20+ orphanage visit in 2 months</Typography>
-                        <Typography sx={{ marginX: '6vh' }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                            Suspendisse varius enim in eros elementum tristique.
-                        </Typography>
+                        <Typography variant="h6" sx={{ display: 'inline', marginX: '2vh' }}>{t('projectt1')}</Typography>
+                        <Typography sx={{ marginX: '6vh' }}>{t('projectdes1')}</Typography>
                     </Box>
                     <Box sx={{ width: '50%' }}>
                         <MonetizationOnOutlined />
-                        <Typography variant="h6" sx={{ display: 'inline', marginX: '2vh' }}>230 People Have donated</Typography>
-                        <Typography sx={{ marginX: '6vh' }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                            Suspendisse varius enim in eros elementum tristique.
-                        </Typography>
+                        <Typography variant="h6" sx={{ display: 'inline', marginX: '2vh' }}>{t('projectt1')}</Typography>
+                        <Typography sx={{ marginX: '6vh' }}>{t('projectdes1')}</Typography>
                     </Box>
                 </Box>
                 <br/>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 5 }}>
                     <Box sx={{ width: '50%' }}>
                         <PeopleAltOutlined />
-                        <Typography variant="h6" sx={{ display: 'inline', marginX: '2vh' }}>30+ people joined </Typography>
-                        <Typography sx={{ marginX: '6vh' }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                            Suspendisse varius enim in eros elementum tristique.
-                        </Typography>
+                        <Typography variant="h6" sx={{ display: 'inline', marginX: '2vh' }}>{t('projectt1')}</Typography>
+                        <Typography sx={{ marginX: '6vh' }}>{t('projectdes1')}</Typography>
                     </Box>
                     <Box sx={{ width: '50%' }}>
                         <GraphicEqOutlined />
-                        <Typography variant="h6" sx={{ display: 'inline', marginX: '2vh' }}>1.2m Raised for this initiate</Typography>
-                        <Typography sx={{ marginX: '6vh' }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                            Suspendisse varius enim in eros elementum tristique.
-                        </Typography>
+                        <Typography variant="h6" sx={{ display: 'inline', marginX: '2vh' }}>{t('projectt1')}</Typography>
+                        <Typography sx={{ marginX: '6vh' }}>{t('projectdes1')}</Typography>
                     </Box>
                 </Box>
             </Box>
@@ -100,6 +102,8 @@ function ProjectReadMore() {
             <Box sx={{marginX:'10vh',marginBottom:'5vh'}}>
             <BigImage2/>
             </Box>
+            </>
+             )}
         </>
     )
 }

@@ -5,15 +5,20 @@ import Events from "../Components/Events";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import AxiosAPI from "../Components/axios";
+import LazyLoading from "../Components/LazyLoading";
+import { useTranslation } from "react-i18next";
 
 function EventReadMore() {
     const [event,setEvent]=useState([]);
+    const [loading, setLoading] = useState(true);
     const {id}=useParams();
+    const {t}=useTranslation();
+
     const FetchData=()=>{
         AxiosAPI.get(`/events/${id}/show`).then((data)=>{
             setEvent(data.data);
             console.log(data.data);
-
+            setLoading(false);
         }).catch((error)=>{
             console.log(error);
 
@@ -25,6 +30,13 @@ function EventReadMore() {
     },[id]);
     return (
         <>
+        {loading ?
+            (
+                <LazyLoading />
+            ) :
+             (
+
+            <>
             <Box sx={{ backgroundColor: 'rgb(252,237,198)', paddingX: '5vh', paddingY: '10vh' }}>
                 <Typography variant="h6" sx={{ textAlign: 'center', marginBottom: '3vh' }}>{event.title}</Typography>
                 <Box sx={{ display: 'flex', justifyContent: 'center', gap: 3 }}>
@@ -38,7 +50,7 @@ function EventReadMore() {
 
             </Box>
             <Box sx={{ paddingX: '20vh', paddingY: '10vh' }}>
-                <Typography variant="h6">About</Typography>
+                <Typography variant="h6">{t('about')}</Typography>
                 <Typography variant="body1">
                 {event.description}
                 </Typography>
@@ -48,6 +60,8 @@ function EventReadMore() {
                 {/* Events */}
                 <Events/>
             </Box>
+            </>
+             )}
         </>
     )
 }

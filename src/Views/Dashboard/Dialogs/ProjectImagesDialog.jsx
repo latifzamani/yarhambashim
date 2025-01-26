@@ -3,6 +3,8 @@ import { Button, Dialog, DialogContent, DialogContentText, DialogTitle, IconButt
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form";
 import AxiosAPI from "../../Components/axios";
+import Toastify from "../../Components/Toastify";
+import { useTranslation } from "react-i18next";
 
 function ProjectImagesDailog() {
     const [openDialog, setOpenDialog] = useState(false);
@@ -10,21 +12,32 @@ function ProjectImagesDailog() {
     const [projectImages,setProjectImages]=useState([]);
     const [projectTitle,setProjectTitle]=useState("Project");
     const [projects,setProjects]=useState([]);
+    const [Stoast,setStoast]=useState(false);
+    const [Ftoast,setFtoast]=useState(false);
+    const [sendMode,setSendMode]=useState(false);
+    const {t}=useTranslation();
+
     const {handleSubmit,setValue,register,formState:{errors}}=useForm();
     const handleFileChange=(e)=>{
         setValue('photo',e.target.files[0]);
     }
 
     const FetchData=()=>{
+        setSendMode(true);
         AxiosAPI.get('/projectImages/show').then((data)=>{
             setProjectImages(data.data);
             setProjects(data.data);
+            setStoast(true);
+            setSendMode(false);
             console.log(data.data);
 
         }).catch((error)=>{
             console.log(error);
-
+            setSendMode(false);
+            setFtoast(true);
         })
+        setStoast(false);
+        setFtoast(false);
     }
     const FetchDataProjects=()=>{
         AxiosAPI.get('/projects/show').then((data)=>{
@@ -94,14 +107,17 @@ function ProjectImagesDailog() {
     let UpdateMode=Object.keys(selectedItem).length>0;
     return (
         <>
-            <Typography sx={{ textAlign: 'center', marginY: '5vh' }}>Projects Images</Typography>
-            <Button variant='outlined' onClick={handleDialog} color='success' sx={{ float: 'right', marginX: '5vh' }} startIcon={<AddOutlined />}>Image</Button>
+            {Stoast && (<Toastify message="Successfully Done !" alertType="success"/>)}
+            {Ftoast && (<Toastify message="Failed !" alertType="error"/>)}
+
+            <Typography sx={{ textAlign: 'center', marginY: '5vh' }}>{t('projectimages')}</Typography>
+            <Button variant='outlined' onClick={handleDialog} color='success' sx={{ float: 'right', marginX: '5vh' }} startIcon={<AddOutlined />}>{t('photo')}</Button>
             <TableContainer component={Paper} sx={{ maxHeight: '60vh', backgroundColor: '', overflowY: 'scroll', scrollbarWidth: 'thin' }}>
                 <TableHead>
                     <TableRow>
-                        <TableCell align='center'>Project</TableCell>
-                        <TableCell align='center'>Photo</TableCell>
-                        <TableCell align='center'>Action</TableCell>
+                        <TableCell align='center'>{t('project')}</TableCell>
+                        <TableCell align='center'>{t('photo')}</TableCell>
+                        <TableCell align='center'>{t('action')}</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -155,7 +171,7 @@ function ProjectImagesDailog() {
                         ))}
                         </Select>
                         <br/>
-                        <TextField type="file" onChange={handleFileChange} variant="standard" label='Photo' />
+                        <TextField type="file" onChange={handleFileChange} variant="standard" label={t('photo')} />
                         <input type="hidden" {...register('photo',{
                             required:'Photo is required',
                         })}/>
@@ -164,7 +180,7 @@ function ProjectImagesDailog() {
                             <small style={{ color:'red' }}>{errors.photo.message}</small>
                         }
                         <br />
-                        <Button type="submit" variant="contained" color="success" sx={{ float: 'right', margin: '3vh' }}>{Object.keys(selectedItem).length>0 ? 'Update':'Save'}</Button>
+                        <Button type="submit" variant="contained" color="success" sx={{ float: 'right', margin: '3vh' }}>{sendMode ? "Submitting...":(Object.keys(selectedItem).length>0 ? 'Update':'Save')}</Button>
                     </form>
                 </DialogContent>
             </Dialog>

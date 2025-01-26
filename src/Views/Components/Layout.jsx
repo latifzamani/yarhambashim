@@ -9,25 +9,29 @@ import rtlPlugin from 'stylis-plugin-rtl';
 import i18n from '../../i18n';
 import Footer from './Footer';
 import { useMainContext } from './ContextApi';
+import { useTranslation } from 'react-i18next';
 
 const drawerWidth = 240;
 // Emotion cache for RTL or LTR
 const createEmotionCache = (direction) =>
-  createCache({
-    key: direction === 'rtl' ? 'muirtl' : 'mui',
-    stylisPlugins: direction === 'rtl' ? [rtlPlugin] : [],
-  });
-
-const navItems = [
-  { url: '/', name: 'Home',icon:<Home/> },
-  { url: '/aboutUs', name: 'About Us',icon:<InfoOutlined/> },
-  { url: '/whatwd', name: 'What We Do',icon:<People/> },
-  { url: '/media', name: 'Media',icon:<PhotoAlbumOutlined/> },
-  { url: '/contact', name: 'Contact',icon:<MessageOutlined/> },
-]
+    createCache({
+        key: direction === 'rtl' ? 'muirtl' : 'mui',
+        stylisPlugins: direction === 'rtl' ? [rtlPlugin] : [],
+    });
 
 
-function Layout({ children, window }) {
+    function Layout({ children, window }) {
+        const {t}=useTranslation();
+
+
+        const navItems = [
+            { url: '/', name: `${t('home')}`,icon:<Home/> },
+            { url: '/aboutUs', name: `${t('aboutus')}`,icon:<InfoOutlined/> },
+            { url: '/whatwd', name: `${t('whatwedo')}`,icon:<People/> },
+            { url: '/media', name: `${t('home')}`,icon:<PhotoAlbumOutlined/> },
+            { url: '/contact', name: `${t('contact')}`,icon:<MessageOutlined/> },
+        ]
+
   const [language, setLanguage] = useState('en');
   const [openDrawer, setOpenDrawer] = useState(false);
   const direction = language === 'en' ? 'ltr' : 'rtl';
@@ -79,7 +83,7 @@ function Layout({ children, window }) {
                 ))}
                 {token && (
                 <RouterLink to='/dashboard' style={{}}>
-                    <Tab sx={{ color: 'black', textTransform: 'none' }} label='Dashboard' />
+                    <Tab sx={{ color: 'black', textTransform: 'none' }} label={t('dashboard')} />
                 </RouterLink>
                 )}
               </Tabs>
@@ -88,14 +92,14 @@ function Layout({ children, window }) {
             <Box sx={{ display: 'flex', gap: 3 }}>
               <Link to='/donation'>
                 <Button variant='contained' sx={{ backgroundColor: 'green' }}>
-                  Donat
+                  {t('donation')}
                 </Button>
               </Link>
               {/* Language */}
               <Select value={language} size='small' onChange={(e) => { setLanguage(e.target.value); i18n.changeLanguage(e.target.value) }}>
                 <MenuItem value='en'>English</MenuItem>
-                <MenuItem value='fa'>Persian</MenuItem>
-                <MenuItem value="pa">Pashto</MenuItem>
+                <MenuItem value='fa'>فارسی</MenuItem>
+                <MenuItem value="pa">پښتو</MenuItem>
               </Select>
             </Box>
           </Toolbar>
@@ -120,7 +124,7 @@ function Layout({ children, window }) {
                 ))}
                 {token && (
                   <RouterLink  to='/dashboard'>
-                    <Button variant='text' startIcon={<MenuOutlined/>} sx={{ width: '100%', }}>Dashboard</Button>
+                    <Button variant='text' startIcon={<MenuOutlined/>} sx={{ width: '100%', }}>{t('dashboard')}</Button>
                   </RouterLink>
                 )}
                 </Box>

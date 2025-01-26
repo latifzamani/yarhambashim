@@ -2,9 +2,12 @@ import { Box, Typography } from "@mui/material"
 import { PieChart } from "@mui/x-charts";
 import AxiosAPI from "./axios";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 function Chart() {
     const [percentage,setPercentage]=useState([]);
+    const {t}=useTranslation();
+
     const FetchData=()=>{
         AxiosAPI.get('/chart/show').then((data)=>{
             setPercentage(data.data);
@@ -28,8 +31,8 @@ function Chart() {
   return (
     <Box sx={{ backgroundColor: 'black', display: 'flex',flexDirection:{ xs:'column',sm:'row',md:'row'}, justifyContent: 'space-between', gap: 4, height: '50vh', paddingX: { xs:'2vh',sm:'10vh',md:'10vh'}, paddingY: '4vh', marginTop: '7vh' }}>
     <Box>
-      <Typography sx={{ color: 'white', fontSize: '20px' }}>How we spend your donation</Typography>
-      <Typography sx={{ color: 'white', fontSize: '14px' }}>This description about How we spend your donation and how to solve it ...</Typography>
+      <Typography sx={{ color: 'white', fontSize: '20px' }}>{t('charttitle')}</Typography>
+      <Typography sx={{ color: 'white', fontSize: '14px' }}>{t('chartdes')}</Typography>
     </Box>
     <Box sx={{ backgroundColor: '', }}>
       <PieChart
