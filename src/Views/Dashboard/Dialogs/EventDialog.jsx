@@ -43,11 +43,14 @@ function EventDialog() {
         AxiosAPI.delete(`/events/${id}/delete`)
         .then((response)=>{
             console.log(response);
+            setStoast(true);
             FetchData();
         }).catch((error)=>{
             console.log(error);
-
+            setFtoast(true);
         });
+        setStoast(false);
+        setFtoast(false);
     }
     const submit=(Data)=>{
         const data=new FormData();
@@ -110,8 +113,8 @@ function EventDialog() {
              (
                 <>
             <Typography sx={{ textAlign: 'center', marginY: '5vh' }}>{t('events')}</Typography>
-            {Stoast && (<Toastify message="Successfully Done !" alertType="success"/>)}
-            {Ftoast && (<Toastify message="Failed !" alertType="error"/>)}
+            {Stoast && (<Toastify message={t('successfullydone')} alertType="success"/>)}
+            {Ftoast && (<Toastify message={t('Failed')} alertType="error"/>)}
             <Button variant='outlined' onClick={handleDialog} color='success' sx={{ float: 'right', marginX: '5vh' }} startIcon={<AddOutlined />}>{t('event')}</Button>
             <TableContainer component={Paper} sx={{ maxHeight: '60vh', overflowY: 'scroll', scrollbarWidth: 'thin' }}>
                 <Table>
@@ -171,36 +174,36 @@ function EventDialog() {
                     {/* Form */}
                     <form method="post" onSubmit={handleSubmit(submit)}>
                         <Box sx={{ display:'flex',justifyContent:'space-between',gap:4 }}>
-                        <TextField type="text" defaultValue={selectedItem.title} variant="standard" label={t('title')} {...register('title',updateMode ?'':{required:'Title is required !'})}/>
+                        <TextField type="text" defaultValue={selectedItem.title} variant="standard" label={t('title')} {...register('title',updateMode ?'':{required:t('thisisrequired')})}/>
                         {errors.title && (
                             <small style={{ color:'red' }}>{errors.title.message}</small>
                         )}
-                        <TextField type="text" defaultValue={selectedItem.description} variant="standard" label={t('description')} {...register('description',updateMode ?'':{required:'Description is required !'})}/>
+                        <TextField type="text" defaultValue={selectedItem.description} variant="standard" label={t('description')} {...register('description',updateMode ?'':{required:t('thisisrequired')})}/>
                         {errors.description && (
                             <small style={{ color:'red' }}>{errors.description.message}</small>
                         )}
                         </Box>
                         <br/>
                         <Box sx={{ display:'flex',justifyContent:'space-between',gap:4 }}>
-                        <TextField type="text" defaultValue={selectedItem.address} variant="standard" label={t('address')} {...register('address',updateMode ?'':{required:'Address is required !'})}/>
+                        <TextField type="text" defaultValue={selectedItem.address} variant="standard" label={t('address')} {...register('address',updateMode ?'':{required:t('thisisrequired')})}/>
                         {errors.address && (
                             <small style={{ color:'red' }}>{errors.address.message}</small>
                         )}
-                        <TextField type="date" defaultValue={selectedItem.date} variant="standard" label={t('date')} {...register('date',updateMode ?'':{required:'Date is required !'})}/>
+                        <TextField type="date"slotProps={{inputLabel:{shrink: true}}} defaultValue={selectedItem.date} variant="standard" label={t('date')} {...register('date',updateMode ?'':{required:t('thisisrequired')})}/>
                         {errors.date && (
                             <small style={{ color:'red' }}>{errors.date.message}</small>
                         )}
                         </Box>
                         <br/>
                         <Box sx={{ display:'flex',justifyContent:'space-between',gap:4 }}>
-                        <TextField type="time" defaultValue={selectedItem.time} variant="standard" label={t('time')} {...register('time',updateMode ?'':{required:'Time is required !'})}/>
+                        <TextField type="time"slotProps={{inputLabel:{shrink: true}}} defaultValue={selectedItem.time} variant="standard" label={t('time')} {...register('time',updateMode ?'':{required:t('thisisrequired')})}/>
                         {errors.time && (
                             <small style={{ color:'red' }}>{errors.time.message}</small>
                         )}
 
                         <TextField type="file" onChange={handleFileChange} variant="standard" label={t('photo')} />
                         <input type="hidden" {...register('photo',updateMode ? '':{
-                            // required:'Photo is required',
+                            required:t('thisisrequired'),
                         })}/>
                         <br/>
                         {errors.photo &&
@@ -208,7 +211,7 @@ function EventDialog() {
                         }
                         </Box>
                         <br />
-                        <Button type="submit" variant="contained" color="success" sx={{ float: 'right', margin: '3vh' }}>{sendMode ? "Submitting...":(updateMode ? 'Update':'Save')}</Button>
+                        <Button type="submit" variant="contained" color="success" sx={{ float: 'right', margin: '3vh' }}>{sendMode ? t('submitting'):(updateMode ? t('update') : t('save'))}</Button>
                     </form>
                 </DialogContent>
             </Dialog>

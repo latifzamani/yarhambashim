@@ -82,8 +82,8 @@ function LinksDialog() {
              (
                 <>
     <Typography sx={{ textAlign: 'center', marginY: '5vh' }}>{t('links')}</Typography>
-    {Stoast && (<Toastify message="Successfully Done !" alertType="success"/>)}
-            {Ftoast && (<Toastify message="Failed !" alertType="error"/>)}
+            {Stoast && (<Toastify message={t('successfullydone')} alertType="success"/>)}
+            {Ftoast && (<Toastify message={t('Failed')} alertType="error"/>)}
 
             <TableContainer component={Paper} sx={{ scrollbarWidth: 'thin' }}>
                 <Table>
@@ -165,7 +165,7 @@ function LinksDialog() {
                 <TextField type="text" defaultValue={selectedItem.email} variant="standard" {...register('email')}label={t('email')}/>
                 </Box>
                 <Button type="submit" variant="contained" color="success" sx={{float:'right',margin:'3vh'}}>
-                    {sendMode ? "Submitting..." :(Object.keys(selectedItem).length>0 ? 'Update':'Save')}
+                    {sendMode ? t('submitting') :(Object.keys(selectedItem).length>0 ? t('update') : t('save'))}
                 </Button>
             </form>
         </DialogContent>

@@ -69,7 +69,7 @@ function ContactUs() {
                     </Box>
                 </Box>
                 {/* Send Message */}
-                <Box sx={{ padding: '5vh'}}>
+                <Box sx={{ paddingX: '5vh',marginBottom:'0vh',backgroundColor:''}}>
                 <SendMessage />
                 </Box>
                 {/* Map View */}

@@ -45,11 +45,14 @@ function SupportersDailog() {
         AxiosAPI.delete(`/supporters/${id}/delete`)
         .then((response)=>{
             console.log(response);
+            setStoast(true);
             FetchData();
         }).catch((error)=>{
             console.log(error);
-
+            setFtoast(true);
         });
+        setStoast(false);
+        setFtoast(false);
     }
     const submit=(Data)=>{
         const data=new FormData();
@@ -83,7 +86,7 @@ function SupportersDailog() {
             console.log(error);
             })
             setStoast(false);
-        setFtoast(false);
+            setFtoast(false);
     };
 
     const handleDialog = () => {
@@ -105,8 +108,8 @@ function SupportersDailog() {
              (
                 <>
             <Typography sx={{ textAlign: 'center', marginY: '5vh' }}>{t('supporters')}</Typography>
-            {Stoast && (<Toastify message="Successfully Done !" alertType="success"/>)}
-            {Ftoast && (<Toastify message="Failed !" alertType="error"/>)}
+            {Stoast && (<Toastify message={t('successfullydone')} alertType="success"/>)}
+            {Ftoast && (<Toastify message={t('Failed')} alertType="error"/>)}
 
             <Button variant='outlined' onClick={handleDialog} color='success' sx={{ float: 'right', marginX: '5vh' }} startIcon={<AddOutlined />}>{t('supporter')}</Button>
             <TableContainer component={Paper} sx={{ maxHeight: '60vh', backgroundColor: '', overflowY: 'scroll', scrollbarWidth: 'thin' }}>
@@ -164,7 +167,7 @@ function SupportersDailog() {
                             <small style={{ color:'red' }}>{errors.logo.message}</small>
                         }
                         <br />
-                        <Button type="submit" variant="contained" color="success" sx={{ float: 'right', margin: '3vh' }}>{sendMode ? "Submitting...":(Object.keys(selectedItem).length>0 ? 'Update':'Save')}</Button>
+                        <Button type="submit" variant="contained" color="success" sx={{ float: 'right', margin: '3vh' }}>{sendMode ? t('submitting'):(Object.keys(selectedItem).length>0 ? t('update') : t('save'))}</Button>
                     </form>
                 </DialogContent>
             </Dialog>

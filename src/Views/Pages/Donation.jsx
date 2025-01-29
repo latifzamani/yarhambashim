@@ -33,11 +33,14 @@ function Donation() {
                         <Box sx={{ marginLeft:{xs:'2vh',sm:'12vh',md:'12vh'} }}>
                             <Typography variant="h6">{t('donationt')}</Typography>
                             <Typography variant="body1">{t('donationdes')}</Typography>
-                            {/* <Link to=''> */}
-                                <Button variant="contained" onClick={handleDailog} sx={{ backgroundColor: 'rgb(242,200,15)', textDecorationLine: 'none', color: 'black', marginTop: '5vh' }}>
+                            <Link to='https://gofund.me/247bb294' target="_blank">
+                                <Button variant="contained"  sx={{ backgroundColor: 'rgb(242,200,15)', textDecorationLine: 'none', color: 'black', marginTop: '5vh' }}>
                                 {t('donatenow')}
                                 </Button>
-                            {/* </Link> */}
+                            </Link>
+                                <Button variant="contained" onClick={handleDailog} sx={{ backgroundColor: 'rgb(242,200,15)', textDecorationLine: 'none', color: 'black', marginTop: '5vh',marginX:'1vh' }}>
+                                {t('sendmessage')}
+                                </Button>
 
                         </Box>
                     </Box>

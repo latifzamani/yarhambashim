@@ -156,5 +156,24 @@
     "role": "نقش",
     "emailverified": "برېښنالیک تایید شوی",
     "user": "کاروونکی",
-    "accounts": "حسابونه"
+    "accounts": "حسابونه",
+
+        "different": "مختلف---------------------",
+        "successfullydone": "په بریالیتوب ترسره شو",
+        "Failed": "ناکام",
+        "updateproject": "د پروژې تازه کول",
+        "newproject": "نوې پروژه",
+        "thisisrequired": "دا اړین دی",
+        "submitting": "لیږدول...",
+        "update": "تازه کول",
+        "save": "ذخیره کول",
+        "new": "نوی",
+        "projectTitle": "د پروژې عنوان",
+        "reenterpassword": "خپله رمز بیا دننه کړئ",
+        "passwordcheck": "رمز باید لږترلږه ۶ کرکټرونه ولري",
+        "passwordmatch": "رمزونه سره برابر نه دي",
+        "passwordconfirmation": "د رمز تصدیق",
+        "userregister": "د کارونکي راجستر"
+
+
 }

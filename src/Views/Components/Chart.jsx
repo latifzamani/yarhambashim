@@ -45,7 +45,7 @@ function Chart() {
             valueFormatter,
           }
         ]}
-        width={400} height={300}
+        width={300} height={200}
         slotProps={{
           legend: {
             hidden: false, position: { vertical: 'middle', horizontal: 'left' },

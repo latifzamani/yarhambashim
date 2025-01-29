@@ -7,10 +7,13 @@ import { useEffect, useState } from "react";
 import ProjectImagesDailog from "../Dialogs/ProjectImagesDialog";
 import LazyLoading from "../../Components/LazyLoading";
 import { useTranslation } from 'react-i18next';
+import Toastify from "../../Components/Toastify";
 
 function Dashboard() {
     const [projects, setProjects] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [Stoast,setStoast]=useState(false);
+    const [Ftoast,setFtoast]=useState(false);
     const {t}=useTranslation();
     const FetchData = () => {
         AxiosAPI.get('/projects/show').then((data) => {
@@ -26,11 +29,14 @@ function Dashboard() {
         AxiosAPI.delete(`/projects/${id}/delete`)
             .then((response) => {
                 console.log(response);
+                setStoast(true);
                 FetchData();
             }).catch((error) => {
                 console.log(error);
-
+                setFtoast(true);
             });
+            setStoast(false);
+            setFtoast(false);
     }
 
     useEffect(() => {
@@ -38,10 +44,14 @@ function Dashboard() {
     }, []);
     return (
         <>
+            {Stoast && (<Toastify message={t('successfullydone')} alertType="success"/>)}
+            {Ftoast && (<Toastify message={t('Failed')} alertType="error"/>)}
+
             {loading ?
                 (
                     <LazyLoading />
                 ) : (
+
         <Box sx={{ margin: '3vh' }}>
             <Typography sx={{ textAlign: 'center', marginY: '5vh' }}>{t('projects')}</Typography>
             <Link to='/dashboard/addProject'>

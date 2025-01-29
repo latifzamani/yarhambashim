@@ -98,8 +98,8 @@ function VideoDialog() {
              (
                 <>
     <Typography sx={{ textAlign: 'center', marginY: '5vh' }}>{t('videos')}</Typography>
-            {Stoast && (<Toastify message="Successfully Done !" alertType="success"/>)}
-            {Ftoast && (<Toastify message="Failed !" alertType="error"/>)}
+            {Stoast && (<Toastify message={t('successfullydone')} alertType="success"/>)}
+            {Ftoast && (<Toastify message={t('Failed')} alertType="error"/>)}
 
             <TableContainer component={Paper}>
                 {/* {JSON.stringify(selectedItem)} */}
@@ -152,7 +152,7 @@ function VideoDialog() {
                 <TextField type="file" variant="standard" onChange={(e)=>handleFileChange2(e,'video2')} label={t('knowaboutus')}/>
                 <TextField type="file" variant="standard" onChange={(e)=>handleFileChange3(e,'video3')} label={t('aboutus')}/>
                 <Button type="submit" variant="contained" color="success" sx={{float:'right',margin:'3vh'}}>
-                    {sendMode ? "Submitting..." :(Object.keys(selectedItem).length>0 ? 'Update':'Save')}
+                    {sendMode ? t('submitting') :(Object.keys(selectedItem).length>0 ? t('update') : t('save'))}
                 </Button>
             </form>
         </DialogContent>

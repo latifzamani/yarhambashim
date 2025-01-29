@@ -5,12 +5,16 @@ import { Link } from "react-router-dom"
 import AxiosAPI from "../../Components/axios";
 import { useMainContext } from "../../Components/ContextApi";
 import LazyLoading from "../../Components/LazyLoading";
+import { useTranslation } from "react-i18next";
+import Toastify from "../../Components/Toastify";
 
 function Users() {
     const [users, setUsers] = useState([]);
     const { currentUser } = useMainContext();
     const [loading, setLoading] = useState(true);
-
+    const {t}=useTranslation();
+    const [Stoast,setStoast]=useState(false);
+    const [Ftoast,setFtoast]=useState(false);
 
     const FetchData = () => {
         AxiosAPI.get('/user/show')
@@ -28,11 +32,14 @@ function Users() {
         AxiosAPI.get(`/user/${id}/delete`)
             .then((response) => {
                 console.log(response);
+                setStoast(true);
                 FetchData();
             }).catch((error) => {
                 console.log(error);
-
+                setFtoast(true);
             });
+            setStoast(false);
+            setFtoast(false);
     }
 
     useEffect(() => {
@@ -44,28 +51,31 @@ function Users() {
 
     return (
         <>
+            {Stoast && (<Toastify message={t('successfullydone')} alertType="success"/>)}
+            {Ftoast && (<Toastify message={t('Failed')} alertType="error"/>)}
+
             {loading ?
                 (
                     <LazyLoading />
                 ) : (
 
                     <Box sx={{ margin: '3vh' }}>
-                        <Typography sx={{ textAlign: 'center', marginY: '5vh' }}>User Accounts</Typography>
+                        <Typography sx={{ textAlign: 'center', marginY: '5vh' }}>{t('users')}/{t('accounts')}</Typography>
                         {currentUser.role === 'admin' && (
                             <Link to='/dashboard/register'>
-                                <Button variant="outlined" color='success' sx={{ float: 'right', marginX: '5vh' }} startIcon={<AddOutlined />}>User</Button>
+                                <Button variant="outlined" color='success' sx={{ float: 'right', marginX: '5vh' }} startIcon={<AddOutlined />}>{t('user')}</Button>
                             </Link>
                         )}
                         <TableContainer component={Paper} sx={{ maxHeight: '60vh', overflowY: 'scroll', scrollbarWidth: 'thin' }}>
                             <Table>
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell align="center">Name</TableCell>
-                                        <TableCell align="center">Last Name</TableCell>
-                                        <TableCell align="center">E-Mail</TableCell>
-                                        <TableCell align="center">Role</TableCell>
-                                        <TableCell align="center">E-Mail Verified</TableCell>
-                                        <TableCell align="center">Action</TableCell>
+                                        <TableCell align="center">{t('name')}</TableCell>
+                                        <TableCell align="center">{t('lastname')}</TableCell>
+                                        <TableCell align="center">{t('email')}</TableCell>
+                                        <TableCell align="center">{t('role')}</TableCell>
+                                        <TableCell align="center">{t('emailverified')}</TableCell>
+                                        <TableCell align="center">{t('action')}</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>

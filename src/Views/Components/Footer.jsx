@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import {Link as RouterLink } from 'react-router-dom';
 import AxiosAPI from "./axios";
 import { useTranslation } from "react-i18next";
+import logo from '../../assets/images/logo.png';
+
 
 function Footer() {
     const [links,setLinks]=useState([]);
@@ -22,9 +24,12 @@ function Footer() {
         FetchData();
     },[]);
   return (
-    <Box component="footer" sx={{ backgroundColor: 'black', color: 'white', py: 2, mt: 'auto', marginBottom: { xs: '20vh', sm: '0', md: '0' } }}>
+    <Box component="footer" sx={{ backgroundColor: 'black', color: 'white', py: 2, mt: 'auto', marginBottom: { xs: '0vh', sm: '0', md: '0' } }}>
           <Container maxWidth='lg' sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', flexDirection: 'row', paddingTop: '16px' }}>
             <Box>
+              <Typography variant='h5' sx={{ fontSize: { xs: '1rem', sm: '2rem', md: '2rem' } }}>
+                <img src={logo} style={{ width:'20vh' }}/>
+              </Typography>
               <Typography variant='h5' sx={{ fontSize: { xs: '1rem', sm: '2rem', md: '2rem' } }}>{t('letsbefriend')}</Typography>
             </Box>
             <Box >

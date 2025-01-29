@@ -1,6 +1,6 @@
 {
     "Tabs": "تب‌ها-----------------------",
-    "letsbefriend": "بیایید دوست شویم",
+    "letsbefriend": "یارهم باشیم",
     "dashboard": "داشبورد",
     "home": "خانه",
     "aboutus": "درباره ما",
@@ -43,7 +43,7 @@
     "nextevent": "رویداد بعدی",
     "team": "تیم",
     "more": "بیشتر",
-    "events": "بیشتر",
+    "events": "رویداد ها",
     "connect": "ارتباط",
     "facebook": "فیسبوک",
     "instagram": "اینستاگرام",
@@ -156,5 +156,22 @@
     "role": "نقش",
     "emailverified": "ایمیل تأیید شد",
     "user": "کاربر",
-    "accounts": "حساب‌ها"
+    "accounts": "حساب‌ها",
+        "different": "متفاوت---------------------",
+        "successfullydone": "با موفقیت انجام شد",
+        "Failed": "ناموفق",
+        "updateproject": "به‌روزرسانی پروژه",
+        "newproject": "پروژه جدید",
+        "thisisrequired": "این مورد الزامی است",
+        "submitting": "در حال ارسال...",
+        "update": "به‌روزرسانی",
+        "save": "ذخیره",
+        "new": "جدید",
+        "projectTitle": "عنوان پروژه",
+        "reenterpassword": "رمز عبور خود را دوباره وارد کنید",
+        "passwordcheck": "رمز عبور باید حداقل ۶ کاراکتر باشد",
+        "passwordmatch": "رمز عبور مطابقت ندارد",
+        "passwordconfirmation": "تأیید رمز عبور",
+        "userregister": "ثبت نام کاربر"
+
 }

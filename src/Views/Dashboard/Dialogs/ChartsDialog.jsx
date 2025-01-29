@@ -37,11 +37,14 @@ function ChartsDialog() {
         AxiosAPI.delete(`/chart/${id}/delete`)
         .then((response)=>{
             console.log(response);
+            setStoast(true);
             FetchData();
         }).catch((error)=>{
             console.log(error);
-
+            setFtoast(true);
         });
+        setStoast(false);
+        setFtoast(false);
     }
     const submit=(Data)=>{
         const data=new FormData();
@@ -91,8 +94,8 @@ function ChartsDialog() {
              (
                 <>
             <Typography sx={{ textAlign: 'center', marginY: '5vh' }}>{t('chart')}/{t('percentage')}</Typography>
-            {Stoast && (<Toastify message="Successfully Done !" alertType="success"/>)}
-            {Ftoast && (<Toastify message="Failed !" alertType="error"/>)}
+            {Stoast && (<Toastify message={t('successfullydone')} alertType="success"/>)}
+            {Ftoast && (<Toastify message={t('Failed')} alertType="error"/>)}
 
             <Button variant='outlined' onClick={handleDialog} color='success' sx={{ float: 'right', marginX: '5vh' }} startIcon={<AddOutlined />}>{t('percentage')}</Button>
             <TableContainer component={Paper} sx={{ maxHeight: '60vh', overflowY: 'scroll', scrollbarWidth: 'thin' }}>
@@ -143,17 +146,17 @@ function ChartsDialog() {
                     {/* Form */}
                     <form method="post" onSubmit={handleSubmit(submit)}>
                         <Box sx={{ display:'flex',justifyContent:'space-between',gap:4 }}>
-                        <TextField type="text" defaultValue={selectedItem.value} variant="standard" label={t('value')} {...register('value',updateMode ?'':{required:'Value is required !'})}/>
+                        <TextField type="text" defaultValue={selectedItem.value} variant="standard" label={t('value')} {...register('value',updateMode ?'':{required:t('thisisrequired')})}/>
                         {errors.value && (
                             <small style={{ color:'red' }}>{errors.value.message}</small>
                         )}
-                        <TextField type="text" defaultValue={selectedItem.label} variant="standard" label={t('label')} {...register('label',updateMode ?'':{required:'Label is required !'})}/>
+                        <TextField type="text" defaultValue={selectedItem.label} variant="standard" label={t('label')} {...register('label',updateMode ?'':{required:t('thisisrequired')})}/>
                         {errors.label && (
                             <small style={{ color:'red' }}>{errors.label.message}</small>
                         )}
                         </Box>
 
-                        <Button type="submit" variant="contained" color="success" sx={{ float: 'right', margin: '3vh' }}>{sendMode ? "Submitting...":(updateMode ? 'Update':'Save')}</Button>
+                        <Button type="submit" variant="contained" color="success" sx={{ float: 'right', margin: '3vh' }}>{sendMode ? t('submitting'):(updateMode ? t('update') : t('save'))}</Button>
                     </form>
                 </DialogContent>
             </Dialog>

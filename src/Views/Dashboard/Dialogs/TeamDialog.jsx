@@ -44,11 +44,14 @@ function TeamDialog() {
         AxiosAPI.delete(`/members/${id}/delete`)
         .then((response)=>{
             console.log(response);
+            setStoast(true);
             FetchData();
         }).catch((error)=>{
             console.log(error);
-
+            setFtoast(true);
         });
+        setStoast(false);
+        setFtoast(false);
     }
     const submit=(Data)=>{
         const data=new FormData();
@@ -110,9 +113,9 @@ function TeamDialog() {
             ) :
              (
                 <>
-            <Typography sx={{ textAlign: 'center', marginY: '5vh' }}>{t('team')} {t('members')}</Typography>
-            {Stoast && (<Toastify message="Successfully Done !" alertType="success"/>)}
-            {Ftoast && (<Toastify message="Failed !" alertType="error"/>)}
+            <Typography sx={{ textAlign: 'center', marginY: '5vh' }}>{t('team')}/{t('members')}</Typography>
+            {Stoast && (<Toastify message={t('successfullydone')} alertType="success"/>)}
+            {Ftoast && (<Toastify message={t('Failed')} alertType="error"/>)}
             <Button variant='outlined' onClick={handleDialog} color='success' sx={{ float: 'right', marginX: '5vh' }} startIcon={<AddOutlined />}>{t('member')}</Button>
             <TableContainer component={Paper} sx={{ maxHeight: '60vh', overflowY: 'scroll', scrollbarWidth: 'thin' }}>
                 <Table>
@@ -172,11 +175,11 @@ function TeamDialog() {
                     {/* Form */}
                     <form method="post" onSubmit={handleSubmit(submit)}>
                         <Box sx={{ display:'flex',justifyContent:'space-between',gap:4 }}>
-                        <TextField type="text" defaultValue={selectedItem.fullName} variant="standard" label={t('fullname')} {...register('fullName',updateMode ?'':{required:'Full Name is required !'})}/>
+                        <TextField type="text" defaultValue={selectedItem.fullName} variant="standard" label={t('fullname')} {...register('fullName',updateMode ?'':{required:t('thisisrequired')})}/>
                         {errors.fullName && (
                             <small style={{ color:'red' }}>{errors.fullName.message}</small>
                         )}
-                        <TextField type="text" defaultValue={selectedItem.position} variant="standard" label={t('position')} {...register('position',updateMode ?'':{required:'Position is required !'})}/>
+                        <TextField type="text" defaultValue={selectedItem.position} variant="standard" label={t('position')} {...register('position',updateMode ?'':{required:t('thisisrequired')})}/>
                         {errors.position && (
                             <small style={{ color:'red' }}>{errors.position.message}</small>
                         )}
@@ -199,7 +202,7 @@ function TeamDialog() {
 
                         <TextField type="file" onChange={handleFileChange} variant="standard" label={t('photo')} />
                         <input type="hidden" {...register('photo',updateMode ? '':{
-                            // required:'Photo is required',
+                            required:t('thisisrequired'),
                         })}/>
                         <br/>
                         {errors.photo &&
@@ -207,7 +210,7 @@ function TeamDialog() {
                         }
                         </Box>
                         <br />
-                        <Button type="submit" variant="contained" color="success" sx={{ float: 'right', margin: '3vh' }}>{sendMode ? "Submitting...":(updateMode ? 'Update':'Save')}</Button>
+                        <Button type="submit" variant="contained" color="success" sx={{ float: 'right', margin: '3vh' }}>{sendMode ? t('submitting'):(updateMode ? t('update') : t('save'))}</Button>
                     </form>
                 </DialogContent>
             </Dialog>

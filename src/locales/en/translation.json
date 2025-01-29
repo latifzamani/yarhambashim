@@ -1,7 +1,7 @@
 {
 
     "Tabs":"Tabs-----------------------",
-    "letsbefriend":"let's Be Friends",
+    "letsbefriend":"Let's Be Friends",
     "dashboard":"Dashboard",
     "home":"Home",
     "aboutus":"About Us",
@@ -157,5 +157,21 @@
     "role":"Role",
     "emailverified":"E-mail Verified",
     "user":"User",
-    "accounts":"Accounts"
+    "accounts":"Accounts",
+    "different":"different---------------------",
+    "successfullydone":"Successfully Done !",
+    "Failed":"Failed !",
+    "updateproject":"",
+    "newproject":"",
+    "thisisrequired":"This is required",
+    "submitting":"Submitting...",
+    "update":"Update",
+    "save":"Save",
+    "new":"New",
+    "projectTitle":"ProjectTitle",
+    "reenterpassword":"Re-Enter your password",
+    "passwordcheck":"Password must be at least 6 characters",
+    "passwordmatch":"Password don't match",
+    "passwordconfirmation":"Confirm Password",
+    "userregister":"User Register"
 }
