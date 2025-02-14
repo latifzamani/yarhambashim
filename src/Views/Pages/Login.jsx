@@ -69,20 +69,39 @@ function Login() {
     }
 
 
-    const startTimer = () => {
-        let timeLeft = 60; // 1 minute
-        setTimer(timeLeft);
+
+
+    const startTimer = (duration = 60) => {
+        const endTime = Date.now();
+        localStorage.setItem("loginBanTime", endTime);
+        setTimer(duration);
 
         const interval = setInterval(() => {
-            timeLeft -= 1;
+            const timeElapsed = Math.floor((Date.now() - endTime) / 1000);
+            const timeLeft = Math.max(0, duration - timeElapsed);
             setTimer(timeLeft);
 
             if (timeLeft <= 0) {
                 clearInterval(interval);
-                setTimer(null); // Reset timer
+                localStorage.removeItem("loginBanTime"); // Remove ban
+                setTimer(null);
             }
         }, 1000);
     };
+
+
+    useEffect(() => {
+        const storedTime = localStorage.getItem("loginBanTime");
+        if (storedTime) {
+            const timeRemaining = Math.max(0, 60 - Math.floor((Date.now() - storedTime) / 1000));
+            if (timeRemaining > 0) {
+                startTimer(timeRemaining);
+            } else {
+                localStorage.removeItem("loginBanTime"); // Remove expired ban
+            }
+        }
+    }, []);
+
     useEffect(() => {
         document.body.setAttribute('dir', direction); // Update body dir attribute
     }, [direction]);
@@ -134,7 +153,11 @@ function Login() {
                             {errors.password && (
                                 <Typography variant="p" color="error" sx={{ fontSize: '10px', marginBottom: '10px' }}>{errors.password.message}</Typography>
                             )}
+                            {timer != null ?(
+                            <Button type="button" variant="contained" sx={{ width: '50%', marginLeft: '20%' }} color="success" startIcon={<LoginOutlined />}>{'Wait 1 Minute'}</Button>
+                            ):(
                             <Button type="submit" disabled={timer != null} variant="contained" sx={{ width: '50%', marginLeft: '20%' }} color="success" startIcon={<LoginOutlined />}>{sendMode ? "Submitting..." :'Login'}</Button>
+                            )}
                         </form>
                         <Typography align="center">
                         <Button variant="text" onClick={()=>setOpenDialog(!openDialog)} sx={{ paddingBottom: '20px' }} align="center">

@@ -69,6 +69,7 @@ function DashboardLayoutMain({ children, window }) {
         document.body.setAttribute('dir', direction); // Update body dir attribute
     }, [direction]);
     useEffect(() => {
+        // navigate(0);
         if (!localStorage.getItem('YHTOKEN')) {
             navigate('/login');
         }
@@ -76,13 +77,22 @@ function DashboardLayoutMain({ children, window }) {
             .then((data) => {
                 setCurrentUser(data.data);
                 console.log(data);
-                location.reload();
+                // navigate(0);
 
             }).catch((error) => {
                 console.log(error);
 
             })
     }, []);
+    useEffect(() => {
+        const hasRefreshed = sessionStorage.getItem("hasRefreshed");
+
+        if (!hasRefreshed) {
+          sessionStorage.setItem("hasRefreshed", "true");
+          navigate(0); // Refresh the page once
+        }
+      }, [navigate]);
+
     const container = window !== undefined ? () => window().document.body : undefined;
     return (
         <CacheProvider value={createEmotionCache(direction)}>

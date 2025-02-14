@@ -7,6 +7,8 @@ import { useState } from "react";
 import { Close } from "@mui/icons-material";
 import SendMessage from "../Components/SendMessage";
 import { useTranslation } from "react-i18next";
+import {motion} from 'framer-motion';
+import {fadeIn} from '../Components/variants';
 
 // import TabContext from '@mui/lab';
 function Donation() {
@@ -22,12 +24,19 @@ function Donation() {
     const handleDailog=()=>{
         setOpenDialog(!openDialog);
     }
+    const MotionBox= motion(Box);
 
     return (
         <>
             <Box sx={{ padding: '0vh' }}>
                 <Box sx={{ display: 'flex', flexDirection:{xs:'column',sm:'row',md:'row'}, justifyContent: 'space-between', gap: 4, width: '100%', height: 'auto', backgroundColor: 'rgb(252,237,198)', position: '', padding: '5vh' }}>
-                    <Box sx={{ width: {xs:'100%',sm:'60%',md:'60%'}, backgroundColor: '' }}>
+                    <MotionBox
+                    variants={fadeIn('right',0.5)}
+                    initial='hidden'
+                    whileInView={"show"}
+                    viewport={{once:true,amount:0.7}}
+
+                     sx={{ width: {xs:'100%',sm:'60%',md:'60%'}, backgroundColor: '' }}>
                         <Typography variant="h6" sx={{ display: 'inline' }}>__________</Typography>
                         <Typography variant="body1" sx={{ display: 'inline', marginX: '2vh', backgroundColor: '' }}>{t('donation')}</Typography>
                         <Box sx={{ marginLeft:{xs:'2vh',sm:'12vh',md:'12vh'} }}>
@@ -43,14 +52,26 @@ function Donation() {
                                 </Button>
 
                         </Box>
-                    </Box>
-                    <Box sx={{ backgroundColor: '', width: {xs:'100%',sm:'40%',md:'40%'}, height: {xs:'30vh',sm:'60vh',md:'60vh'},backgroundImage:`url(${image1})`,backgroundSize:'cover',backgroundRepeat:'no-repeat' }}>
+                    </MotionBox>
+                    <MotionBox
+                    variants={fadeIn('left',0.5)}
+                    initial='hidden'
+                    whileInView={"show"}
+                    viewport={{once:true,amount:0.7}}
+
+                     sx={{ backgroundColor: '', width: {xs:'100%',sm:'40%',md:'40%'}, height: {xs:'30vh',sm:'60vh',md:'60vh'},backgroundImage:`url(${image1})`,backgroundSize:'cover',backgroundRepeat:'no-repeat' }}>
                         {/* <img src={image1} style={{ width: '100%', height: '100%', borderRadius: '2%' }} /> */}
-                    </Box>
+                    </MotionBox>
                 </Box>
             </Box>
             <Box sx={{ padding: '5vh' }}>
-                <Box sx={{ display: 'flex',flexDirection:{xs:'column',sm:'row',md:'row'}, justifyContent: 'space-between', gap: 12,paddingX:{xs:'0vh',sm:'10vh',md:'10vh'} }}>
+                <MotionBox
+                variants={fadeIn('up',0.5)}
+                initial='hidden'
+                whileInView={"show"}
+                viewport={{once:true,amount:0.7}}
+
+                 sx={{ display: 'flex',flexDirection:{xs:'column',sm:'row',md:'row'}, justifyContent: 'space-between', gap: 12,paddingX:{xs:'0vh',sm:'10vh',md:'10vh'} }}>
                     <Box sx={{ width: {xs:'100%',sm:'50%',md:'50%'} }}>
                         <Typography variant="h6">{t('section1t')}</Typography>
                         <Typography variant="body1">{t('section1des')}</Typography>
@@ -69,15 +90,21 @@ function Donation() {
                             <TabPanel value={3}>{t('whatyougetdes')}</TabPanel>
                         </TabContext>
                     </Box>
-                </Box>
+                </MotionBox>
                 <br />
                 <hr />
                 <br />
-                <Box sx={{ display: 'flex',flexDirection:{xs:'column',sm:'row',md:'row'}, justifyContent: 'space-between', gap: 5,paddingX:{xs:'3vh',sm:'10vh',md:'10vh'} }}>
+                <MotionBox
+                variants={fadeIn('up',0.5)}
+                initial='hidden'
+                whileInView={"show"}
+                viewport={{once:true,amount:0.7}}
+
+                sx={{ display: 'flex',flexDirection:{xs:'column',sm:'row',md:'row'}, justifyContent: 'space-between', gap: 5,paddingX:{xs:'3vh',sm:'10vh',md:'10vh'} }}>
                     <Typography variant="h6" sx={{ width: {xs:'100%',sm:'33%',md:'33%'} }}>{t('section2t')}</Typography>
                     <Typography variant="body1" sx={{ width: {xs:'100%',sm:'33%',md:'33%'}}}>{t('section2des1')}</Typography>
                     <Typography variant="body1" sx={{ width: {xs:'100%',sm:'33%',md:'33%'} }}>{t('section2des2')}</Typography>
-                </Box>
+                </MotionBox>
                 <BigImage2 />
             </Box>
             {/* Dialog */}

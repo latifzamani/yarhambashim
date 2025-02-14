@@ -22,7 +22,7 @@ AxiosAPI.interceptors.response.use(
         if (error.response && error.response.status === 429) {
             return Promise.reject({
                 status: 429,
-                message: 'Too many login attempts. Please try again later.'
+                message: 'Too many login attempts.'
             });
         } else if (error.response && error.response.status === 401 || error.response.status === 422) {
             localStorage.removeItem('YHTOKEN');

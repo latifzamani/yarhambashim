@@ -1,13 +1,35 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
+<head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Test</title>
-  </head>
-  <body>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Support children in need! Our charity works to provide education, food, and healthcare for children in poor countries. Donate today to make a difference!" />
+    <meta name="keywords" content="charity, donate, children, help, poverty, education, healthcare, support, non-profit" />
+    <meta name="author" content="Let's Be Friends" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph (OG) Meta Tags for Social Media Sharing -->
+    <meta property="og:title" content="Help Children in Need - Donate Today!" />
+    <meta property="og:description" content="Join our mission to support children in poor countries with food, education, and healthcare. Your donation can change lives!" />
+    <meta property="og:image" content={import.meta.env.VITE_API_FRONT_URL/assets/images/logo.png} />
+    <meta property="og:url" content={import.meta.env.VITE_API_FRONT_URL} />
+    <meta property="og:type" content="website" />
+
+    <!-- Twitter Meta Tags -->
+    <!-- <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Help Children in Need - Donate Today!" />
+    <meta name="twitter:description" content="Your donation helps provide food, education, and healthcare for children in need. Make a difference now!" />
+    <meta name="twitter:image" content="https://yourcharitywebsite.com/assets/images/charity-preview.png" /> -->
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="./src/assets/images/logo.png" />
+
+    <title>Let's Be Friends|Help Children in Need|Charity|Donations</title>
+</head>
+<body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
-  </body>
+</body>
 </html>

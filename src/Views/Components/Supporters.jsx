@@ -54,16 +54,16 @@ function Supporters() {
     }, [])
     return (
         <>
-            {loading ?
-                (
-                    <LazyLoading />
-                ) :
-                (
                     <>
                         <Box sx={{ display: 'flex', justifyContent: 'start' }}>
                             <Typography variant="p" sx={{ display: 'inline' }}>{t('oursupporters')}</Typography>
                             <Box sx={{ display: '', width: '80%', height: '0.5vh', marginTop: '3vh', marginLeft: '3vh', backgroundColor: 'black' }}></Box>
                         </Box>
+            {loading ?
+                (
+                    <LazyLoading />
+                ) :
+                (
                         <Box className="slider-container" sx={{ display: '', position: 'relative', marginTop: '3vh', justifyContent: 'space-around' }}>
                             <Slider {...settings}>
                                 {supporters.map((item, index) => (
@@ -75,8 +75,8 @@ function Supporters() {
                                 }
                             </Slider>
                         </Box>
-                    </>
                 )}
+                    </>
         </>
     )
 }

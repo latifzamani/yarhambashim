@@ -49,11 +49,6 @@ function ProjectsDone() {
   },[]);
   return (
     <>
-        {loading ?
-            (
-                <LazyLoading />
-            ) :
-             (
 
     <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 4, width: '100%', height: 'auto', backgroundColor: '', position: '', marginTop: '5vh', padding: '5vh' }}>
       <Box sx={{ width: { xs:'100%',sm:'60%',md:'60%'}, backgroundColor: '' }}>
@@ -63,6 +58,11 @@ function ProjectsDone() {
           <Typography variant="h6">{t('projectswehavedonetitle')}</Typography>
         </Box>
       </Box>
+        {loading ?
+            (
+                <LazyLoading />
+            ) :
+             (
       <Box className="slider-container" sx={{ position: 'relative', display: '', gap: 3, justifyContent: 'space-around' }}>
         <Slider {...setting}>
           {projects.map((item, index) => (
@@ -81,8 +81,8 @@ function ProjectsDone() {
           ))}
         </Slider>
       </Box>
-    </Box>
     )}
+    </Box>
     </>
   )
 }

@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import AxiosAPI from "../Components/axios";
 import { useTranslation } from "react-i18next";
+import {motion} from 'framer-motion';
+import {fadeIn} from '../Components/variants';
 
 
 function Media() {
@@ -27,11 +29,17 @@ function Media() {
     useEffect(()=>{
         FetchData();
     },[]);
+    const MotionBox= motion(Box);
 
   return (
     <Box sx={{ padding: {xs:'1vh',sm:'5vh',md:'5vh'} }}>
       <Box sx={{ display: 'flex', flexDirection: {xs:'column',sm:'row',md:'row'}, justifyContent: 'space-between', gap: 4, width: '100%', height: 'auto', backgroundColor: 'rgb(252,237,198)', position: '', padding: '1vh' }}>
-        <Box sx={{ width: {xs:'100%',sm:'60%',md:'60%'}, backgroundColor: '', padding: '4vh' }}>
+        <MotionBox
+        variants={fadeIn('right',0.5)}
+        initial='hidden'
+        whileInView={"show"}
+        viewport={{once:false,amount:0.7}}
+         sx={{ width: {xs:'100%',sm:'60%',md:'60%'}, backgroundColor: '', padding: '4vh' }}>
           <Typography variant="h6" sx={{ display: 'inline' }}>__________</Typography>
           <Typography variant="body1" sx={{ display: 'inline', marginX: '2vh', backgroundColor: '' }}>{t('topnews')}</Typography>
           <Box sx={{ marginLeft: {xs:'1vh',sm:'12vh',md:'12vh'} }}>
@@ -44,7 +52,7 @@ function Media() {
             </Button>
 
           </Box>
-        </Box>
+        </MotionBox>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3, padding: '2vh', backgroundColor: 'white', width: {xs:'100%',sm:'20%',md:'20%'}, height: {xs:'45vh',sm:'60vh',md:'60vh'}, overflowY: 'scroll', scrollbarWidth: 'none' }}>
           {projects.map((item, index) => (
             <Box key={index} sx={{ display: 'flex', justifyContent: 'space-arround' ,gap:1}}>
@@ -63,9 +71,14 @@ function Media() {
       <BigImage2 />
       </Box>
       {/* Events */}
-      <Box sx={{padding:'3vh'}}>
+      <MotionBox
+      variants={fadeIn('up',0.5)}
+      initial='hidden'
+      whileInView={"show"}
+      viewport={{once:false,amount:0.7}}
+       sx={{padding:'3vh'}}>
       <Events />
-      </Box>
+      </MotionBox>
     </Box>
   )
 }
